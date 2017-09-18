@@ -17,8 +17,11 @@ Matthew Jacome:
 Research the Mean Stack (Mongo Express Angular Nodejs)
 
 [Mongodb](https://www.mongodb.com/) is a noSql database items are stored in JSON and querys are really easy.
+
 [Express](https://expressjs.com/) is a Web Framework that makes creating Web Apps and Apis 
+
 [Angular JS](https://angularjs.org/) is a Web Framework used for creating dynamic web Apps
+
 [Node JS](https://nodejs.org/en/) is a Javascript runtime, it essentially lets you write Javascript but server side. 
 
 It should speed up development and simplify the project since we are using the same languages for front end and back end. 
