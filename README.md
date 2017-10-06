@@ -28,3 +28,12 @@ It should speed up development and simplify the project since we are using the s
 Prototyping is quick since we can make changes right in the browser.
 Express has alot of features that should make this project easy Such as middlewear in order to make sure any requests to the service are authenticated first, before the request proceeds.
 
+
+[create-react-app](https://github.com/facebookincubator/create-react-app) the github repo for the create-react-app pacakge that setsup our react environment
+[connection between nodejs and react](https://scotch.io/tutorials/react-on-the-server-for-beginners-build-a-universal-react-and-node-app) an article that talks about how we can connect node js and react app 
+
+[styled-components](https://www.styled-components.com/) this is how we are going to style our react components instead of css.
+
+
+
+
