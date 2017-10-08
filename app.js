@@ -4,18 +4,29 @@
 // BASE SETUP
 // ================================================
 // Dependencies
+try{
 var express = require('express'); // Call express
 var mongoose = require('mongoose'); // Interface for mongodb
 var bodyParser = require('body-parser');
 var hat = require('hat'); // Library for generating random ids
+require('dotenv').config();
 
 // Winston Logger
 var logger = require('./utils/logger.js');
 
+}catch(error){
+  console.error("ERROR are all the Dependencies installed?");
+  console.log(error);
+  process.exit(1);
+}
+
+// Config
+var port = 3001;
+
 
 // Mongodb Config
 mongoose.connect(process.env.DB_URL,{useMongoClient:true}); // Connect to database on Server
-
+console.log("Connecting too " + process.env.DB_URL)
 var db = mongoose.connection;
 
 db.once('open', function() {
@@ -44,7 +55,6 @@ process.on('SIGINT', function() {
 
 logger.log('info', "Server Starting");
 
-var port = 3000;
 
 var app = express(); // Define our app
 
@@ -62,5 +72,6 @@ var apiRouter = require('./routes/api');      // Get an instance of the express 
 // All api routes will be prefixed with /api
 app.use('/api', apiRouter);
 
-
 app.listen(port);
+
+console.log("Server Started on PORT " + port);
