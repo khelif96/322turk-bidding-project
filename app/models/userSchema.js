@@ -11,6 +11,7 @@ var userSchema = new Schema({
   email: String,
   userId: String,
   passwordHash: String,
+  api_token: String,
   profileImage : String,
   resume : String,
   interests: String,
