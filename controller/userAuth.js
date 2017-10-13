@@ -31,7 +31,7 @@ exports.loginUser = (req,res) => {
       }else{
         console.log("Somehow got here");
         // TODO check password hash if matches stored password if so return an api_token
-          bcrypt.compare(req.body.password,docs[0].password_Hash, function(err, valid){
+          bcrypt.compare(req.body.password,docs[0].password_hash, function(err, valid){
             if(valid){
 
               res.status(201);
@@ -59,7 +59,7 @@ exports.registerUser = (req,res) => {
         tempUser.email = req.body.email;
         tempUser.api_token = rack();
         bcrypt.hash(req.body.password, saltRounds, function(err,hash){
-          tempUser.password_Hash = hash;
+          tempUser.password_hash = hash;
           tempUser.save(function(err){
             if(err){
             // console.log("ERROR");
