@@ -18,7 +18,10 @@ var userSchema = new Schema({
   sampleWork: String,
   projects: [],
   accountBalance: String,
-  accountApproved: {type: Boolean, default: false}
+  accountApproved: {type: Boolean, default: false},
+  rating: Number,
+  warningCount : Number,
+  userType: {type: String, required: true} // 3 types Client, Developer, Super User
 
 });
 
