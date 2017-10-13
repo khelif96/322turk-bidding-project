@@ -7,9 +7,9 @@
 try{
 var express = require('express'); // Call express
 var mongoose = require('mongoose'); // Interface for mongodb
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser'); // Middle wear to parse Request Bodies
 var hat = require('hat'); // Library for generating random ids
-require('dotenv').config();
+require('dotenv').config(); // Library to allow the importing of  enviromental variables in .env files
 
 // Winston Logger
 var logger = require('./utils/logger.js');
