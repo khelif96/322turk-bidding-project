@@ -26,13 +26,13 @@ Research the Mean Stack (Mongo Express Angular Nodejs)
 [React js With Node](https://daveceddia.com/create-react-app-express-backend/)
 
 
-## install
+## Install
 ```
 npm install
 
 ```
 
-## start
+## Start
 ```
 npm start
 ```
