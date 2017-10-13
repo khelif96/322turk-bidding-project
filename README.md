@@ -24,3 +24,15 @@ Research the Mean Stack (Mongo Express Angular Nodejs)
 [Node JS](https://nodejs.org/en/) is a Javascript runtime, it essentially lets you write Javascript but server side.
 
 [React js With Node](https://daveceddia.com/create-react-app-express-backend/)
+
+
+## install
+```
+npm install
+
+```
+
+## start
+```
+npm start
+```
