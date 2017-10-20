@@ -30,15 +30,16 @@ exports.loginUser = (req,res) => {
         res.json({error: "Could not find account"});
 
       }else{
+        console.log("Somehow got here");
         // TODO check password hash if matches stored password if so return an api_token
           bcrypt.compare(req.body.password,docs[0].password_hash, function(err, valid){
             if(valid){
-              console.log("Successfull login");
+
               res.status(201);
               res.json({"api_token":docs[0].api_token });
               // res.json({api_token: docs[0].api_token});
             }else{
-              console.log("INvalid password");
+
               res.status(401);
               res.json({error:"Invalid Password"});
             }
@@ -58,6 +59,7 @@ exports.registerUser = (req,res) => {
         var tempUser = new User();
         tempUser.email = req.body.email;
         tempUser.api_token = rack();
+        tempUser.userType = "Client"; // By Default everyone starts off as a client
         bcrypt.hash(req.body.password, saltRounds, function(err,hash){
           tempUser.password_hash = hash;
           tempUser.save(function(err){
