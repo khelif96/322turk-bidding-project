@@ -4,3 +4,4 @@ all-logs.log
 .DS_Store*
 logs/
 .env*
+package-lock.json
