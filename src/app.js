@@ -10,7 +10,7 @@ var mongoose = require('mongoose'); // Interface for mongodb
 var bodyParser = require('body-parser'); // Middle wear to parse Request Bodies
 var hat = require('hat'); // Library for generating random ids
 require('dotenv').config(); // Library to allow the importing of  enviromental variables in .env files
-
+var cors = require('cors');
 // Winston Logger
 var logger = require('./utils/logger.js');
 
@@ -58,7 +58,7 @@ logger.log('info', "Server Starting");
 
 var app = express(); // Define our app
 
-
+app.use(cors());
 // Configure app to use bodyParser()
 // This will let us get data from a POST
 app.use(bodyParser.urlencoded({extended:true}));
