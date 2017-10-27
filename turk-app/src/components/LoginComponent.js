@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
+import {login} from '../utils/auth.js';
 // import logo from '../logo.svg';
 import './styles/loginComponent.css';
 
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
+    /*props.userName = "";
+    props.password = "";*/
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  postLogin(email,password) {
+    login(email,password).then((api_token) => {
+      this.setState({ "api_token" : api_token.data.api_token });
+      console.log("postLogin " + this.state.api_token);
+    });
   }
 
   handleChange(event) {
@@ -16,32 +25,18 @@ class LoginComponent extends Component {
   }
 
   handleSubmit(event) {
+    /*props.userName = this.state.email;
+    props.Password = this.state.password;
+    */
     const userName = this.state.email;
     const Password = this.state.password;
-
     if(userName === "" || Password === ""){
       alert("Please Enter a username/password");
     }else{
       console.log("Your username is "+ userName + " Password" + Password);
     }
 
-    fetch('http://localhost:3001/api/loginUser', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: userName,
-        password: Password
-      })
-    }.then((response) => response.json())
-      .then((responseJson) => {
-        console.log( responseJson.api_token);
-      })
-      .catch((error) => {
-        console.error(error);
-      }));
+    login(userName,Password);
     event.preventDefault();
   }
 
