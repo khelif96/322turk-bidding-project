@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import $ from 'jquery';
 import './App.css';
+import { BrowserRouter } from 'react-router-dom'
+
 
 class App extends Component {
-
-
 
   constructor(props){
       super(props);
@@ -26,8 +26,6 @@ class App extends Component {
   handleSubmit() {
   	const Username = this.state.user;
     const Password = this.state.password;
-    //alert(" Username : " + this.state.user + " password : " + this.state.password);
-    //event.preventDefault();
     if(Username === "" || Password === ""){
       alert("Please Enter a username/password");
     }
@@ -54,7 +52,7 @@ class App extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <h1>
-          Username: 
+          Username:
           <input type="text" value={this.state.value} name = "user" onChange={this.handleChange} />
         </h1>
 
