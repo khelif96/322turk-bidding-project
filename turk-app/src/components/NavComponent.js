@@ -12,7 +12,7 @@ class NavComponent extends Component {
         </div>
         <ul className="nav navbar-nav">
           <li>
-            <Link to="/">Profile</Link>
+            <Link to="/minComponent">Profile</Link>
           </li>
           <li>
            <Link to="/Tasks">Tasks</Link>

@@ -25,6 +25,7 @@ class ProjectDescriptionMinComponent extends Component {
     return (
       <div className="ProjectDescriptionMin">
         <h1>Title</h1>
+        <i>Description</i>
       </div>
 
     );
