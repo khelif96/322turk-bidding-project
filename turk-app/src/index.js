@@ -1,8 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import LoginComponent from './components/LoginComponent';
+import NavComponent from './components/NavComponent';
+import ProjectDescriptionMinComponent from './components/ProjectDescriptionMinComponent';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import registerServiceWorker from './registerServiceWorker';
+import { Router, Route } from 'react-router-dom';
+import history from './utils/history'
+function Page()  {
+  return (
+    <div className="container">
+
+    <Router history={history}>
+    <div>
+      <Route path="/" component = {NavComponent}/><br/>
+      <Route path="/minComponent" component = {ProjectDescriptionMinComponent}/>
+      <Route path="/Login" component = {LoginComponent}/>
+      </div>
+    </Router>
+    </div>
+  );
+}
+ReactDOM.render(<Page />, document.getElementById('root'));
 registerServiceWorker();

@@ -23,7 +23,20 @@ Research the Mean Stack (Mongo Express Angular Nodejs)
 
 [Node JS](https://nodejs.org/en/) is a Javascript runtime, it essentially lets you write Javascript but server side.
 
-<<<<<<< HEAD
+[React js With Node](https://daveceddia.com/create-react-app-express-backend/)
+
+
+## Install
+```
+npm install
+
+```
+
+## Start
+```
+npm start
+```
+=======
 
 [create-react-app](https://github.com/facebookincubator/create-react-app) the github repo for the create-react-app pacakge that setsup our react environment
 [connection between nodejs and react](https://scotch.io/tutorials/react-on-the-server-for-beginners-build-a-universal-react-and-node-app) an article that talks about how we can connect node js and react app 
@@ -31,8 +44,4 @@ Research the Mean Stack (Mongo Express Angular Nodejs)
 [styled-components](https://www.styled-components.com/) this is how we are going to style our react components instead of css.
 
 
-
-
-=======
 [React js With Node](https://daveceddia.com/create-react-app-express-backend/)
->>>>>>> 3b5ff04d658d41b58bbe5c19b6bcb3239d1bd9ad
