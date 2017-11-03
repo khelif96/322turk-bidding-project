@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { Nav,Navbar,NavDropdown,MenuItem} from 'react-bootstrap';
 import { NavLink,BrowserRouter,Route } from 'react-router-dom'
+import {NavBarLink} from './navBar.style'
 import Login from './Login';
 import CreateAccount from './CreateAccount';
 
@@ -11,21 +12,21 @@ class NavBar extends Component {
     return (
       <BrowserRouter>
       <div>
-        <Navbar inverse collapseOnSelect>
+        <Navbar inverse >
         <Navbar.Header>
           <Navbar.Brand>
             <a href="/home">AMM Turk System</a>
           </Navbar.Brand>
-          <Navbar.Toggle />
         </Navbar.Header>
-        <Navbar.Collapse>
+
+
           <Nav pullRight>
-              <NavDropdown eventKey="1" title="" id="nav-dropdown">
+              <NavDropdown pullRight eventKey="1" title="" id="nav-dropdown">
                 <MenuItem eventKey="1.1">
-                <NavLink to ="/CreateAccount">CreateAccount</NavLink>
+                <NavBarLink to ="/CreateAccount">Create an Account</NavBarLink>
                 </MenuItem>
                 <MenuItem eventKey="1.2">
-                <NavLink to = "/login">Login</NavLink>
+                <NavBarLink to = "/login">Login</NavBarLink>
                 </MenuItem>
                 <MenuItem divider />
                 <MenuItem eventKey="1.3">
@@ -33,7 +34,7 @@ class NavBar extends Component {
                 </MenuItem>
               </NavDropdown>
           </Nav>
-          </Navbar.Collapse>
+
         </Navbar>
 
         <Route path = "/CreateAccount" component = {CreateAccount}/>

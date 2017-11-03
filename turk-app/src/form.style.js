@@ -1,13 +1,12 @@
 import styled from 'styled-components';
-import { FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import { FormControl} from 'react-bootstrap';
 
 
 export const FormContainer = styled.div`
     text-align : center;
     position: relative;
     margin: 3rem auto;
-    maxWidth : 600;
-    padding-bottom: 20 px;
+    padding: 0 200px 0 150px;
 `;
 export const inputBox = styled(FormControl)`
     text-align : center;
