@@ -1,4 +1,3 @@
-import { browserHistory } from 'react-router';
 import axios from 'axios';
 const baseUrl = "http://localhost:3001/api";
 

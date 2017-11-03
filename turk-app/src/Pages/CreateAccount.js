@@ -1,17 +1,22 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 //import logo from './logo.svg';
 import $ from 'jquery';
 import './App.css';
 import { Form,Button, FormGroup, FormControl, ControlLabel,Col} from 'react-bootstrap';
-import {FormContainer} from './form.style'
+import { FormContainer } from '../styles/form.style'
 
-class Login extends Component {
+class CreateAccount extends Component {
 
   constructor(props){
       super(props);
       this.state = {
+        firstName: "",
+        lastName: "",
+        phone : "",
         email : "",
-        password : ""
+        password : "",
+        userName : ""
+
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,7 +34,12 @@ class Login extends Component {
 
   handleSubmit() {
   	const Email = this.state.email;
+    const UserName = this.state.firstName;
     const Password = this.state.password;
+    const FirstName = this.state.firstName;
+    const LastName = this.state.lastName;
+    const Phone = this.state.phone;
+
     //alert(" Username : " + this.state.email + " password : " + this.state.password);
     //event.preventDefault();
     if(Email === "" || Password === ""){
@@ -41,6 +51,10 @@ class Login extends Component {
           type:'POST',
           data:
           {
+              userName : UserName,
+              firstName : FirstName ,
+              lastName : LastName ,
+              phone : Phone ,
               email : Email,
               password : Password
           },
@@ -59,12 +73,52 @@ class Login extends Component {
       <FormContainer>
           <form onSubmit ={this.handleSubmit}>
 
+          <FormGroup controlId="firstName" bsSize = "large">
+            <ControlLabel>First Name</ControlLabel>
+            <FormControl
+                  autoFocus
+                  type="firstName"
+                  value={this.state.firstName}
+                  onChange={this.handleChange}
+                />
+          </FormGroup>
+
+          <FormGroup controlId="lastName" bsSize = "large">
+            <ControlLabel>Last Name</ControlLabel>
+            <FormControl
+                  autoFocus
+                  type="lastName"
+                  value={this.state.lastName}
+                  onChange={this.handleChange}
+                />
+          </FormGroup>
+
+          <FormGroup controlId="phone" bsSize = "large">
+            <ControlLabel>Phone Number</ControlLabel>
+            <FormControl
+                  autoFocus
+                  type="phone"
+                  value={this.state.phone}
+                  onChange={this.handleChange}
+                />
+          </FormGroup>
+
           <FormGroup controlId="email" bsSize = "large">
             <ControlLabel>Email</ControlLabel>
             <FormControl
                   autoFocus
                   type="email"
                   value={this.state.email}
+                  onChange={this.handleChange}
+                />
+          </FormGroup>
+
+          <FormGroup controlId="userName" bsSize = "large">
+            <ControlLabel>Username</ControlLabel>
+            <FormControl
+                  autoFocus
+                  type="userName"
+                  value={this.state.lastName}
                   onChange={this.handleChange}
                 />
           </FormGroup>
@@ -85,7 +139,7 @@ class Login extends Component {
             disabled={!this.validateForm()}
             type="submit"
           >
-            Login
+            Create Account
           </Button>
 
         </form>
@@ -94,4 +148,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default CreateAccount;*/

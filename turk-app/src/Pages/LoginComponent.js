@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import {login} from '../utils/auth.js';
 // import logo from '../logo.svg';
 import './styles/loginComponent.css';
@@ -6,8 +6,7 @@ import './styles/loginComponent.css';
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
-    /*props.userName = "";
-    props.password = "";*/
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -25,9 +24,7 @@ class LoginComponent extends Component {
   }
 
   handleSubmit(event) {
-    /*props.userName = this.state.email;
-    props.Password = this.state.password;
-    */
+
     const userName = this.state.email;
     const Password = this.state.password;
     if(userName === "" || Password === ""){
@@ -59,3 +56,4 @@ class LoginComponent extends Component {
 }
 
 export default LoginComponent;
+*/

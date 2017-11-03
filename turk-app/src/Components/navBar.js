@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import './App.css';
 import { Nav,Navbar,NavDropdown,MenuItem} from 'react-bootstrap';
-import { NavLink,BrowserRouter,Route } from 'react-router-dom'
-import {NavBarLink} from './navBar.style'
-import Login from './Login';
-import CreateAccount from './CreateAccount';
+import {Route,Router } from 'react-router-dom'
+import {NavBarLink} from '../Styles/navBar.style'
+import Login from '../Pages/Login';
+import history from '../utils/history'
+
+//import CreateAccount from '../Pages/CreateAccount';
 
 class NavBar extends Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <Router history={history}>
       <div>
         <Navbar inverse >
         <Navbar.Header>
@@ -22,9 +23,9 @@ class NavBar extends Component {
 
           <Nav pullRight>
               <NavDropdown pullRight eventKey="1" title="" id="nav-dropdown">
-                <MenuItem eventKey="1.1">
+                /*<MenuItem eventKey="1.1">
                 <NavBarLink to ="/CreateAccount">Create an Account</NavBarLink>
-                </MenuItem>
+                </MenuItem>*/
                 <MenuItem eventKey="1.2">
                 <NavBarLink to = "/login">Login</NavBarLink>
                 </MenuItem>
@@ -37,11 +38,10 @@ class NavBar extends Component {
 
         </Navbar>
 
-        <Route path = "/CreateAccount" component = {CreateAccount}/>
         <Route path = "/Login" component = {Login}/>
       </div>
 
-    </BrowserRouter>
+    </Router>
     );
   }
 

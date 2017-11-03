@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 // import logo from '../logo.svg';
 import './styles/loginComponent.css';
 
@@ -33,3 +33,4 @@ class ProjectDescriptionMinComponent extends Component {
 }
 
 export default ProjectDescriptionMinComponent;
+*/
