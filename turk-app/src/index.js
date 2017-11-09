@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import NavBar from './Components/navBar';
+import App from './Scenes/App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<NavBar />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 
 registerServiceWorker();
