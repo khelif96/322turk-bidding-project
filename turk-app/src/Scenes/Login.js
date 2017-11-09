@@ -12,10 +12,13 @@ class Login extends Component {
       super(props);
       this.state = {
         username : "",
-        password : ""
+        password : "",
+        api_token : "",
+        events : []
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.login = login.bind(this);
   }
 
   validateForm() {
@@ -28,19 +31,30 @@ class Login extends Component {
     );
   }
 
+//records our username and react and calls the login authentication
+//if passed we do another promise call to say that when we find our response
+//we will set the response's api token into our current state
   handleSubmit(event) {
       const Username = this.state.username;
       const Password = this.state.password;
       if(Username === "" || Password === "") alert("Please Enter a username/password");
       else console.log("Your username is "+ Username + " Password" + Password);
 
-      login(Username,Password);
+
+      this.login(Username,Password)
+          .then( api_token => {this.setState({api_token : api_token});
+                                console.log("api token from handle submit is : " + this.state.api_token );} )
+          .catch( (error) => {
+            console.log(error)
+            alert("Error " + error);
+          });
+
+
       event.preventDefault();
   }
 
-
-
   render() {
+
     return (
       <FormContainer>
           <form onSubmit ={this.handleSubmit}>

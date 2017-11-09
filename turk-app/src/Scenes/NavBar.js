@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { Nav,Navbar,NavDropdown,MenuItem} from 'react-bootstrap';
-import {Route,Router } from 'react-router-dom'
 import {NavBarLink} from '../Styles/navBar.style'
-import Login from '../Scenes/Login';
-import history from '../utils/history'
-
 //import CreateAccount from '../Pages/CreateAccount';
 
 class NavBar extends Component {

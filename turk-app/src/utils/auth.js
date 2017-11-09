@@ -5,16 +5,17 @@ export {login};
 function login(userName,Password) {
   console.log("Logging in");
   // alert("logging in ");
-  axios.post(baseUrl+"/loginUser", {
+
+  return axios.post(baseUrl+"/loginUser", {
       email: userName,
       password: Password
     })
-    .then(function (response) {
-      console.log("Response " + response.data.api_token);
-      alert("REsponse " + response.data.api_token);
-    })
-    .catch(function (error) {
+    .then((response) => response.data.api_token )
+    .catch( (error) => {
       console.log(error);
       alert("Error " + error);
     });
+
+
+
 }
