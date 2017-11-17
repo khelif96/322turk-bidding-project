@@ -7,7 +7,7 @@ exports.createDemand = (req,res) => {
   if(req.body.api_token === undefined){
     res.status(400).json({error: "Missing api_token in request"});
   }else if(req.body.title  === undefined || req.body.content === undefined){
-    res.status(201).json({erro: "Incomplete Request"})
+    res.status(201).json({error: "Incomplete Request"})
   }else{
     User.findOne({api_token: req.body.api_token},function(err,doc){
       if(!doc || err){
@@ -17,7 +17,13 @@ exports.createDemand = (req,res) => {
         tempDemand.title = req.body.title;
         tempDemand.content = req.body.content;
         tempDemand.ownerId = doc._id;
-        doc.projects.push(tempDemand);
+        tempDemand.save(function(err){
+          if(err){
+            res.send(err);
+          }
+        });
+        doc.projects.push(tempDemand._id);
+
         doc.save(function(err){
           if(err){
           // console.log("ERROR");
@@ -33,51 +39,83 @@ exports.createDemand = (req,res) => {
 
 exports.editDemand = (req,res) => {
   console.log("Connection Made");
-  if(req.body.api_token === undefined){
-    res.status(400).json({error: "Missing api_token in request"});
+  if(req.body.api_token === undefined || req.body.demandId === undefined){
+    res.status(400).json({error: "INVALID Request"});
   }else{
-    console.log(new mongoose.Types.ObjectId(req.body.demandId));
-    Demand.find({_id : new mongoose.Types.ObjectId(req.body.demandId)},function(err,doc){
-      if(!doc || err){
+    // console.log(new mongoose.Types.ObjectId(req.body.demandId));
+    Demand.find({_id : req.body.demandId},function(err,demandDoc){
+      if(!demandDoc || err){
         res.json({error: "invalid demand id", expanded: err});
-      }
-      console.log(doc);
-      res.send(doc);
-    })
-  }
-};
-
-exports.registerUser = (req,res) => {
-  if(req.body.email === undefined || req.body.password === undefined){
-    res.status(400);
-    res.json({error: "Missing email or password in request"});
-  }else{
-    User.find({email: new RegExp(req.body.email, 'i')}, function (err,docs){
-      if(!docs.length){
-        var tempUser = new User();
-        tempUser.email = req.body.email;
-        tempUser.api_token = rack();
-        tempUser.userType = "Client"; // By Default everyone starts off as a client
-        bcrypt.hash(req.body.password, saltRounds, function(err,hash){
-          tempUser.password_hash = hash;
-          tempUser.save(function(err){
-            if(err){
-            // console.log("ERROR");
-              res.send(err);
+      }else{
+      User.find({_id: demandDoc.ownerId},function(err,userDoc){
+        if(!userDoc || err){
+          res.status(400).json({error: "Could not find internal userId Report error to ADMIN"});
+        }else{
+        if(req.body.api_token === userDoc.api_token){
+          if(req.body.hasOwnProperty(title)){
+            demandDoc.title = req.body.title;
           }
 
-          res.status(201);
-          res.json({"api_token":tempUser.api_token} );
-          // res.status(201);
-          // res.json({api_token: tempUser.api_token, status: "Successfully Created User"});
-        });
+          demandDoc.save(function(err){
+            if(err){
+              res.send(err);
+            }
+          });
+          res.send(demandDoc);
+        }else{
+          res.status(400).json({error : "Invalid Api Request"});
+        }
 
-      });
-      }else{
-
-        res.status(400);
-        res.json({error:"Email belongs to another user"});
-      }
-    });
+      // console.log(doc);
+    }
+  }
+    );
+  }
+});
   }
 };
+
+exports.getAllDemands = (req,res) => {
+    Demand.find({}, function (err,docs){
+      if(!docs.length || err){
+        res.status(404);
+        res.json({error: "Could not find any thing"})
+      }else{
+          res.status(200);
+          res.send(docs);
+          // res.status(201);
+          // res.json({api_token: tempUser.api_token, status: "Successfully Created User"});
+        }
+        });
+  };
+
+exports.bidOnDemand = (req,res) => {
+  User.findOne({api_token: req.body.api_token},function(err,userDoc){
+      if(!userDoc || err){
+        res.status(401).json({error: "Invalid api_token"});
+      }else{
+        Demand.findById(req.body.demandId,function(err, demand){
+          if(!demand || err){
+            res.status(404).json({error: "Can not find Demand"});
+          }else{
+          var bid = {
+            "bidAmount" : req.body.bidAmount,
+            "devId" : userDoc._id
+          }
+          console.log(demand);
+          demand.totalBids.push(bid);
+
+          demand.save(function(err){
+            if(err){
+            console.log("user Save Error");
+            res.status(500).json({error: "Error Bidding on this demand"});
+          }
+          });
+          console.log("Sending Response");
+          res.status(201).json({message: "Successfully Bid on Demand"});
+        }
+        });
+
+  }
+  });
+}

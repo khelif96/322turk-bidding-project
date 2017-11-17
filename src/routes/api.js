@@ -20,8 +20,17 @@ router.post('/loginUser', userAuth.loginUser);
 // Register User Route
 router.post('/registerUser', userAuth.registerUser);
 
+router.get('/getAllDemands', demandModification.getAllDemands);
+
+
+router.use(userAuth.checkAuth); // Routes that require and api_token after this
+
+
 // Post Modification Routes //
 router.post('/createDemand', demandModification.createDemand);
 router.post('/editDemand', demandModification.editDemand);
+
+router.post('/bidOnDemand', demandModification.bidOnDemand);
+
 // Return Router
 module.exports = router;

@@ -10,6 +10,15 @@ const saltRounds = 10; // How many times to salt the password
 // Configure Hat for generating api tokens
 var rack = hat.rack(64,16);
 
+// Middle wear to check if api_token is in request
+exports.checkAuth = (req,res,next) => {
+  if(req.body.api_token === undefined){
+    res.status(400).json({"error": "Missing api_token in request"});
+  }else{
+    console.log("Auth Passed");
+  next();
+}
+}
 
 exports.getLoginUser = (req,res) => {
   res.json({message: "/loginUser Route"});
