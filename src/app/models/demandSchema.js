@@ -8,9 +8,8 @@ var demandSchema = new Schema({
   title : String,
   content: String,
   ownerId : String,
-  bidderIds: [],
   winningDevId : String,
-  totalBids: [{bidAmmount : Number, devId: String}] ,
+  totalBids: [{bidAmount : Number, devId: String}] ,
   expDate: Date
 });
 
