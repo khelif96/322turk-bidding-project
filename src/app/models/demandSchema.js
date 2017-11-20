@@ -10,6 +10,7 @@ var demandSchema = new Schema({
   ownerId : String,
   winningDevId : String,
   totalBids: [{bidAmount : Number, devId: String}] ,
+  isActive: {type: Boolean, default:true},
   expDate: Date
 });
 
