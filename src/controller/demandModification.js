@@ -39,55 +39,48 @@ exports.createDemand = (req,res) => {
 
 exports.editDemand = (req,res) => {
   console.log("Connection Made");
-  if(req.body.api_token === undefined || req.body.demandId === undefined){
+  if(req.body.api_token === undefined || req.params.demandId === undefined){
     res.status(400).json({error: "INVALID Request"});
   }else{
     // console.log(new mongoose.Types.ObjectId(req.body.demandId));
-    Demand.find({_id : req.body.demandId},function(err,demandDoc){
+    Demand.findById(req.params.demandId,function(err,demandDoc){
       if(!demandDoc || err){
         res.json({error: "invalid demand id", expanded: err});
       }else{
-      User.find({_id: demandDoc.ownerId},function(err,userDoc){
-        if(!userDoc || err){
-          res.status(400).json({error: "Could not find internal userId Report error to ADMIN"});
-        }else{
-        if(req.body.api_token === userDoc.api_token){
-          if(req.body.hasOwnProperty(title)){
-            demandDoc.title = req.body.title;
-          }
+        User.findById(demandDoc.ownerId,function(err,userDoc){
+          if(!userDoc || err){
+            res.status(400).json({error: "Could not find internal userId Report error to ADMIN"});
+          }else{
+            if(req.body.api_token === userDoc.api_token){
 
-          demandDoc.save(function(err){
-            if(err){
-              res.send(err);
+              if(req.body.hasOwnProperty("title")){
+                demandDoc.title = req.body.title;
+              }
+              if(req.body.hasOwnProperty("content")){
+                demandDoc.content = req.body.content;
+              }
+              if(req.body.hasOwnProperty("isActive")){
+                demandDoc.isActive = req.body.isActive;
+              }
+
+              demandDoc.save(function(err){
+                if(err){
+                  res.send(err);
+                }
+              });
+              res.send(demandDoc);
+            }else{
+              res.status(400).json({error : "Invalid Api Request, You do not have access to this function"});
             }
-          });
-          res.send(demandDoc);
-        }else{
-          res.status(400).json({error : "Invalid Api Request"});
-        }
 
-      // console.log(doc);
+            // console.log(doc);
+          }
+        }
+      );
     }
-  }
-    );
-  }
-});
-  }
+  });
+}
 };
-
-exports.getAllDemands = (req,res) => {
-    Demand.find({}, function (err,docs){
-      if(!docs.length || err){
-        res.status(404);
-        res.json({error: "Could not find any thing"})
-      }else{
-          res.status(200);
-          res.send(docs);
-          // res.status(201);
-          // res.json({api_token: tempUser.api_token, status: "Successfully Created User"});
-        }
-        });
-  };
 
 exports.bidOnDemand = (req,res) => {
   User.findOne({api_token: req.body.api_token},function(err,userDoc){
