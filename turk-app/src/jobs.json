@@ -1,0 +1,41 @@
+[
+    {
+       "_id": "5a072fdb0d8c753fb55aa30b",
+       "posterId": "5a071d128a534c32f85504d6",
+       "opportunityDate": "2017-11-11T16:00:00.000Z",
+       "description": "Come help water the plants at the park",
+       "title": "Water The plants",
+       "__v": 6,
+       "volunteerIds": [
+           "5a071d128a534c32f85504d6",
+           "5a071d128a534c32f85504d6"
+       ],
+       "createdDate": "2017-11-11T17:14:03.508Z"
+   },
+   {
+      "_id": "5a072fdb0d8c753fb55aa30b",
+      "posterId": "5a071d128a534c32f85504d6",
+      "opportunityDate": "2017-11-11T16:00:00.000Z",
+      "description": "Come help water the plants at the park",
+      "title": "Clean the pool",
+      "__v": 6,
+      "volunteerIds": [
+          "5a071d128a534c32f85504d6",
+          "5a071d128a534c32f85504d6"
+      ],
+      "createdDate": "2017-11-11T17:14:03.508Z"
+  },
+  {
+     "_id": "5a072fdb0d8c753fb55aa30b",
+     "posterId": "5a071d128a534c32f85504d6",
+     "opportunityDate": "2017-11-11T16:00:00.000Z",
+     "description": "Come help water the plants at the park",
+     "title": "Walk the Dog",
+     "__v": 6,
+     "volunteerIds": [
+         "5a071d128a534c32f85504d6",
+         "5a071d128a534c32f85504d6"
+     ],
+     "createdDate": "2017-11-11T17:14:03.508Z"
+ }
+  ]

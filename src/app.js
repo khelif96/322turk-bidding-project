@@ -1,20 +1,14 @@
-// app.js
-// Turk Main Server Code
-
 // BASE SETUP
-// ================================================
-// Dependencies
-try{
-var express = require('express'); // Call express
-var mongoose = require('mongoose'); // Interface for mongodb
-var bodyParser = require('body-parser'); // Middle wear to parse Request Bodies
-var hat = require('hat'); // Library for generating random ids
-require('dotenv').config(); // Library to allow the importing of  enviromental variables in .env files
-var cors = require('cors');
-// Winston Logger
-var logger = require('./utils/logger.js');
 
-}catch(error){
+// dependencies
+try{
+  var express = require('express'); // Call express
+  var mongoose = require('mongoose'); // Interface for mongodb
+  var bodyParser = require('body-parser'); // Middle wear to parse Request Bodies
+  require('dotenv').config(); // Library to allow the importing of  enviromental variables in .env files
+
+  var cors = require('cors');
+}catch(err){
   console.error("ERROR are all the Dependencies installed?");
   console.log(error);
   process.exit(1);
@@ -31,29 +25,26 @@ var db = mongoose.connection;
 
 db.once('open', function() {
   // we're connected!
-  logger.log("info", "Status Code " + mongoose.connection.readyState + " Connected");
+console.log("info", "Status Code " + mongoose.connection.readyState + " Connected");
 
 });
 
 // When the connection is disconnected
 db.on('disconnected', function () {
-  logger.log("info", 'Mongoose default connection disconnected');
+  console.log("info", 'Mongoose default connection disconnected');
 });
 
 db.on('error', function(){
-  logger.log("error", "ERROR Status Code " + mongoose.connection.readyState);
+  console.log("error", "ERROR Status Code " + mongoose.connection.readyState);
 });
 
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', function() {
   db.close(function () {
-    logger.log('info', 'Mongoose default connection disconnected through app termination');
+    console.log('info', 'Mongoose default connection disconnected through app termination');
     process.exit(0);
   });
 });
-
-
-logger.log('info', "Server Starting");
 
 
 var app = express(); // Define our app

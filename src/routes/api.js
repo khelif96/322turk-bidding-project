@@ -4,36 +4,28 @@
 const express = require('express');
 const router = express.Router();
 
-const apiHome = require('../controller/apiHome');
-const userAuth = require('../controller/userAuth');
+const authRoute = require('../controller/auth');
+const userInfo = require('../controller/user');
+const opportunityRoute = require('../controller/getOpportunities');
+const opportunityModification = require('../controller/opportunityModification');
 
-const demands = require('../controller/demand')
-const demandModification = require('../controller/demandModification');
-// API
-// Base API Route
-router.get('/', apiHome.getApi);
-router.post('/', apiHome.postApi);
+router.post('/registerUser', authRoute.registerUser);
+router.post('/loginUser', authRoute.loginUser);
 
-// Auth Routes //
-// Login Route
-router.get('/loginUser', userAuth.getLoginUser);
-router.post('/loginUser', userAuth.loginUser);
+router.post('/userInfobyEmail', userInfo.getUserbyEmail);
+router.post('/userInfobyID', userInfo.getUserbyID);
 
-// Register User Route
-router.post('/registerUser', userAuth.registerUser);
+router.get('/getOpportunities', opportunityRoute.getOpportunities);
 
-router.get('/demands', demands.getAllDemands);
+router.post('/getOpportunitybyID', opportunityRoute.getOpportunitybyID);
+router.post('/getOpportunitiesbyVolunteer', opportunityRoute.getOpportunitiesbyVolunteer);
+// Routes that require an api_token after this
 
-router.get('/demands/:demandId', demands.getDemand);
+router.use(authRoute.checkAuth);
 
-router.use(userAuth.checkAuth); // Routes that require and api_token after this
-
-
-// Post Modification Routes //
-router.post('/createDemand', demandModification.createDemand);
-router.put('/editDemand/:demandId', demandModification.editDemand);
-
-router.post('/bidOnDemand', demandModification.bidOnDemand);
+router.post('/userInfobyAPI', userInfo.getUserbyAPI);
+router.post('/createOpportunity', opportunityModification.createOpportunity);
+router.post('/registerForOpportunity', opportunityModification.registerForOpportunity);
 
 // Return Router
 module.exports = router;

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import '../Styles/App.css';
-import Feed from './Feed/Feed'
 
-
-class Home extends Component {
+class Post extends Component {
 
   constructor(props){
       super(props);
@@ -12,18 +10,16 @@ class Home extends Component {
 
   render() {
     var style =  {
-        color : 'gray',
+        color : 'orange',
         fontSize : 100,
         textAlign : 'center'
     }
     return (
-
-          <div >
-            <div style = {style}> HOME </div>
-            <Feed />
+          <div style = {style}>
+            <div> SOME POST </div>
           </div>
     );
   }
 }
 
-export default Home;
+export default Post;

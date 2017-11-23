@@ -3,25 +3,28 @@ import React, { Component } from 'react';
 import '../Styles/App.css';
 import { Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {FormContainer} from '../Styles/form.style'
-import {login} from '../Utils/auth.js';
+import {register} from '../Utils/auth.js';
 
 
-class Login extends Component {
+class RegisterVolunteer extends Component {
 
   constructor(props){
       super(props);
       this.state = {
         username : "",
+        firstName : "",
+        lastName : "",
         password : "",
-        api_token : "",
+        api_token : ""
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
-      this.login = login.bind(this);
+      this.register = register.bind(this);
   }
 
   validateForm() {
-     return this.state.username.length > 0 && this.state.password.length > 0;
+     return (this.state.username.length > 0 && this.state.password.length > 0
+            && this.state.firstName.length > 0 && this.state.lastName.length > 0);
    }
 
   handleChange(event) {
@@ -37,17 +40,21 @@ class Login extends Component {
   handleSubmit(event) {
       const Username = this.state.username;
       const Password = this.state.password;
-      if(Username === "" || Password === "") alert("Please Enter a username/password");
-      else console.log("Your username is "+ Username + " Password" + Password);
+      const FirstName = this.state.firstName;
+      const LastName = this.state.lastName;
+
+      const currentState = this.state;
+
+      alert("Your username is "+ Username + "\nPassword : " + Password +
+            "\nYour First Name is "+ FirstName + "\nLast Name : " + LastName + "\n"
+            );
 
       //call our axios promise, then retrieve the token from axios
-      this.login(Username,Password)
+      this.register(Username,Password,FirstName,LastName)
           .then( api_token => {localStorage.setItem('api_token',api_token);
                                 alert("Api Token " + api_token);
           })
-          .catch( (error) => { localStorage.setItem('api_token',"");
-            this.setState({ api_token : ""});
-            alert("Error " + error);
+          .catch( (error) => { console.log(error);
           });
 
       event.preventDefault();
@@ -60,8 +67,28 @@ class Login extends Component {
       <FormContainer>
           <form onSubmit ={this.handleSubmit}>
 
+          <FormGroup controlId="firstName" bsSize = "large">
+            <ControlLabel>What is your first name?</ControlLabel>
+            <FormControl
+                  autoFocus
+                  type="firstName"
+                  value={this.state.firstName}
+                  onChange={this.handleChange}
+                />
+          </FormGroup>
+
+          <FormGroup controlId="lastName" bsSize = "large">
+            <ControlLabel>What is your last name?</ControlLabel>
+            <FormControl
+                  autoFocus
+                  type="lastName"
+                  value={this.state.lastName}
+                  onChange={this.handleChange}
+                />
+          </FormGroup>
+
           <FormGroup controlId="username" bsSize = "large">
-            <ControlLabel>Username</ControlLabel>
+            <ControlLabel>enter in your email</ControlLabel>
             <FormControl
                   autoFocus
                   type="username"
@@ -71,7 +98,7 @@ class Login extends Component {
           </FormGroup>
 
           <FormGroup controlId="password" bsSize = "large">
-            <ControlLabel>Password</ControlLabel>
+            <ControlLabel>create your password</ControlLabel>
             <FormControl
                   autoFocus
                   type="password"
@@ -95,4 +122,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default RegisterVolunteer;
