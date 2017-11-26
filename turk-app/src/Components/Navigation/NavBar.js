@@ -30,7 +30,7 @@ class NavBar extends Component {
         <Nav pullRight>
           <NavDropdown pullRight eventKey="1" title="" id="nav-dropdown">
             <MenuItem eventKey="1.2">
-              <NavBarLink to = "/RegisterVolunteer">
+              <NavBarLink to = "/RegisterUser">
                 Register
               </NavBarLink>
             </MenuItem>

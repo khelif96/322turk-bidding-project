@@ -7,9 +7,9 @@ import Home from './Home';
 
 import Login from './Login';
 import PostList from './PostList';
-import DemandPage from './DemandPage';
+import Demand from './Demand';
 import Feed from './Feed/Feed'
-import RegisterVolunteer from './RegisterVolunteer';
+import RegisterUser from './RegisterUser';
 import MyAccount from './myAccount';
 import RegisterDemand from './RegisterDemand';
 
@@ -24,11 +24,11 @@ class App extends Component {
           <Route exact path = "/" component = {Home}/>
 
           <Route  path = "/Login" component = {Login}/>
-          <Route  path = "/RegisterVolunteer" component = {RegisterVolunteer}/>
+          <Route  path = "/RegisterUser" component = {RegisterUser}/>
           <Route  path = "/RegisterDemand" component = {RegisterDemand}/>
-          <Route  path = "/DemandPage" component = {DemandPage}/>
+          <Route  path = "/demands" component = {Demand}/>
           <Route  path = "/myAccount" component = {MyAccount}/>
-          <Route  path = "/Demand/:id" component = {DemandPage}/>
+          <Route  path = "/demands/:id" component = {Demand}/>
 
         </div>
 

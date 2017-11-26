@@ -15,12 +15,9 @@ function login(userName,Password) {
       console.log(error);
       alert("Error " + error);
     });
-
-
-
 }
-export {register};
-function register(Username,Password,FirstName,LastName){
+export {registerUser};
+function registerUser(Username,Password,FirstName,LastName){
   return axios.post(baseUrl+"/registerUser",{
       email: Username,
       password: Password,
@@ -45,12 +42,11 @@ function retrieveDemands(){
 }
 
 export {registerDemand};
-function registerDemand(Title,Description,DateOfEvent,API_token){
-  return axios.post(baseUrl+"/createOpportunity",{
+function registerDemand(Title,Content,API_token){
+  return axios.post(baseUrl+"/createDemand",{
       title: Title,
-      description: Description,
+      content: Content,
       api_token: API_token,
-      opportunityDate : DateOfEvent
     })
     .then((response) => alert( "success : " + response.message) )
     .catch( (error) => {

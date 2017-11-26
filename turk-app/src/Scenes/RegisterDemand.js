@@ -10,8 +10,7 @@ class RegisterDemand extends Component {
   constructor(props){
       super(props);
       this.state = {
-        description : "",
-        dateOfEvent : "",
+        content : "",
         titleOfEvent : "",
         api_token : localStorage.getItem("api_token")
       }
@@ -21,9 +20,7 @@ class RegisterDemand extends Component {
   }
 
   validateForm() {
-     return (this.state.dateOfEvent.length > 0 && this.state.description.length > 0
-           && this.state.titleOfEvent.length > 0
-            );
+     return (this.state.content.length > 0  && this.state.titleOfEvent.length > 0 );
    }
 
   handleChange(event) {
@@ -37,17 +34,16 @@ class RegisterDemand extends Component {
 // we will set the response's api token into our current state and localStorage
 //local storage will keep our token even after a refresh
   handleSubmit(event) {
-      const Description = this.state.description;
-      const DateOfEvent = this.state.dateOfEvent;
+      const Content = this.state.content;
       const TitleOfEvent = this.state.titleOfEvent;
       const API_token = this.state.api_token;
 
-      alert( "\ndescription : " + Description + "\n The date of event: " + DateOfEvent
-            + "\nThe name of Event : " + TitleOfEvent +  "\nAPI TOKEN : " + API_token +"\n"
+      alert( "\nContent : " + Content + "\nThe name of Event : "
+             + TitleOfEvent +  "\nAPI TOKEN : " + API_token +"\n"
             );
 
       //call our axios promise, then retrieve the token from axios
-      this.registerDemand(TitleOfEvent,Description,DateOfEvent,API_token)
+      this.registerDemand(TitleOfEvent,Content,API_token)
           .then( response => { alert("Success ");
           })
           .catch( (error) => { console.log(error);
@@ -73,22 +69,11 @@ class RegisterDemand extends Component {
                 />
           </FormGroup>
 
-          <FormGroup controlId="dateOfEvent" bsSize = "large">
-            <ControlLabel>When is the Event</ControlLabel>
-            <FormControl
-                  autoFocus
-                  type="dateOfEvent"
-                  value={this.state.dateOfEvent}
-                  onChange={this.handleChange}
-                />
-          </FormGroup>
-
-
-          <FormGroup controlId="description" bsSize = "large">
+          <FormGroup controlId="content" bsSize = "large">
             <ControlLabel>Create your description</ControlLabel>
             <FormControl
                   componentClass="textarea"
-                  value={this.state.description}
+                  value={this.state.content}
                   onChange={this.handleChange}
                 />
           </FormGroup>

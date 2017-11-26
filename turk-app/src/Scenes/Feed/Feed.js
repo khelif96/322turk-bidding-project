@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import '../../Styles/App.css';
 import {PanelGroup ,Panel} from 'react-bootstrap';
 import { FeedContainer } from '../../Styles/feed.style';
-import JobPanel from './JobPanel';
-import data from '../../jobs.json';
+import DemandPanel from './DemandPanel';
 import {retrieveDemands} from '../../Utils/auth.js';
 
 
@@ -12,7 +11,7 @@ class Feed extends Component {
   constructor(props){
       super(props);
       this.state = {
-        jobs : []
+        demands : []
       }
 
       this.getDemands = this.getDemands.bind(this)
@@ -20,16 +19,17 @@ class Feed extends Component {
 
   }
 
-  createPanel(job){
-      return  (<JobPanel title = {job.title} posterID = {job.posterId} createdDate = {job.createdDate} description = {job.description}/>);
+//takes a demand and creates a DemandPanel and passes the demands title, demandID and description
+  createPanel(demand){
+      return  (<DemandPanel title = {demand.title} demandID = {demand._id} description = {demand.description}/>);
   }
 
   getDemands(){
     this.retrieveDemands()
-        .then( arrayOfJobs => {
+        .then( arrayOfdemands => {
           let tempArray = []
-          for(var i = 0; i < arrayOfJobs.length; i++)  tempArray.push(this.createPanel(arrayOfJobs[i]));
-          this.setState({jobs : tempArray})
+          for(var i = 0; i < arrayOfdemands.length; i++)  tempArray.push(this.createPanel(arrayOfdemands[i]));
+          this.setState({demands : tempArray})
         })
         .catch( (error) => {  alert("Error " + error);
         });
@@ -39,7 +39,7 @@ class Feed extends Component {
     return (
       <FeedContainer>
           <PanelGroup>
-          {this.state.jobs}
+          {this.state.demands}
           </PanelGroup>
 
       </FeedContainer>

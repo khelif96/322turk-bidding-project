@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import '../Styles/App.css';
 import { Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {FormContainer} from '../Styles/form.style'
-import {register} from '../Utils/auth.js';
+import {registerUser} from '../Utils/auth.js';
 
 
-class RegisterVolunteer extends Component {
+class RegisterUser extends Component {
 
   constructor(props){
       super(props);
@@ -19,7 +19,7 @@ class RegisterVolunteer extends Component {
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
-      this.register = register.bind(this);
+      this.registerUser = registerUser.bind(this);
   }
 
   validateForm() {
@@ -50,7 +50,7 @@ class RegisterVolunteer extends Component {
             );
 
       //call our axios promise, then retrieve the token from axios
-      this.register(Username,Password,FirstName,LastName)
+      this.registerUser(Username,Password,FirstName,LastName)
           .then( api_token => {localStorage.setItem('api_token',api_token);
                                 alert("Api Token " + api_token);
           })
@@ -122,4 +122,4 @@ class RegisterVolunteer extends Component {
   }
 }
 
-export default RegisterVolunteer;
+export default RegisterUser;
