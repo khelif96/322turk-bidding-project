@@ -35,17 +35,17 @@ function register(Username,Password,FirstName,LastName){
     });
 }
 
-export {retrieveJobs};
-function retrieveJobs(){
-  return axios.get(baseUrl+"/getOpportunities")
+export {retrieveDemands};
+function retrieveDemands(){
+  return axios.get(baseUrl+"/demands")
     .then((response) => response.data )
     .catch( (error) => {
         alert( "this is an error from auth " + error.message);
     });
 }
 
-export {registerJobs};
-function registerJobs(Title,Description,DateOfEvent,API_token){
+export {registerDemand};
+function registerDemand(Title,Description,DateOfEvent,API_token){
   return axios.post(baseUrl+"/createOpportunity",{
       title: Title,
       description: Description,

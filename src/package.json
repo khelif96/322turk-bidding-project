@@ -1,30 +1,37 @@
 {
-  "name": "commu_nyc",
+  "name": "322turk-bidding-project",
   "version": "1.0.0",
-  "description": "Web App connecting volunteers to thier communities",
+  "description": "turk bidding system",
   "main": "app.js",
   "scripts": {
+    "install": "mkdir logs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/khelif96/Commu_NYC.git"
+    "url": "git+https://github.com/khelif96/322turk-bidding-project.git"
   },
-  "author": "Mohamed Khelif",
+  "keywords": [
+    "Turk",
+    "nodejs",
+    "bidding-project"
+  ],
+  "author": "Mohamed Khelif, Bruce Villaroman, Matthew Jacome",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/khelif96/Commu_NYC/issues"
+    "url": "https://github.com/khelif96/322turk-bidding-project/issues"
   },
-  "homepage": "https://github.com/khelif96/Commu_NYC#readme",
+  "homepage": "https://github.com/khelif96/322turk-bidding-project#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "express": "^4.16.2",
+    "express": "^4.16.1",
     "hat": "0.0.3",
-    "mongoose": "^4.13.1",
-    "nodejs": "0.0.0"
+    "mongoose": "^4.12.0",
+    "react": "^16.0.0",
+    "winston": "^2.4.0"
   }
 }

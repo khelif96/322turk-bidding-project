@@ -9,12 +9,19 @@ var userSchema = new Schema({
   },
   createdDate : {type : Date, default:Date.now},
   email: String,
+  userId: String,
   password_hash: String,
   api_token: String,
   profileImage : String,
-  eventsHelped: [],
-  eventsCreated: [],
-  userType: {type: String, required: true} // 2 types Volunteer, Organizer
+  resume : String,
+  interests: String,
+  sampleWork: String,
+  projects: [],
+  accountBalance: String,
+  accountApproved: {type: Boolean, default: false},
+  rating: Number,
+  warningCount : Number,
+  userType: {type: String, required: true} // 3 types Client, Developer, Super User
 
 });
 

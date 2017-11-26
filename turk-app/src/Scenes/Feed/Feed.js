@@ -5,7 +5,7 @@ import {PanelGroup ,Panel} from 'react-bootstrap';
 import { FeedContainer } from '../../Styles/feed.style';
 import JobPanel from './JobPanel';
 import data from '../../jobs.json';
-import {retrieveJobs} from '../../Utils/auth.js';
+import {retrieveDemands} from '../../Utils/auth.js';
 
 
 class Feed extends Component {
@@ -15,8 +15,8 @@ class Feed extends Component {
         jobs : []
       }
 
-      this.getJobs = this.getJobs.bind(this)
-      this.retrieveJobs = retrieveJobs.bind(this);
+      this.getDemands = this.getDemands.bind(this)
+      this.retrieveDemands = retrieveDemands.bind(this);
 
   }
 
@@ -24,8 +24,8 @@ class Feed extends Component {
       return  (<JobPanel title = {job.title} posterID = {job.posterId} createdDate = {job.createdDate} description = {job.description}/>);
   }
 
-  getJobs(){
-    this.retrieveJobs()
+  getDemands(){
+    this.retrieveDemands()
         .then( arrayOfJobs => {
           let tempArray = []
           for(var i = 0; i < arrayOfJobs.length; i++)  tempArray.push(this.createPanel(arrayOfJobs[i]));
@@ -35,7 +35,7 @@ class Feed extends Component {
         });
   }
   render() {
-    this.getJobs();
+    this.getDemands();
     return (
       <FeedContainer>
           <PanelGroup>

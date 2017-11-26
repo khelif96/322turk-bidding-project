@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import '../Styles/App.css';
 import { Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {FormContainer} from '../Styles/form.style'
-import {registerJobs} from '../Utils/auth.js';
+import {registerDemand} from '../Utils/auth.js';
 
-class RegisterJob extends Component {
+class RegisterDemand extends Component {
 
   constructor(props){
       super(props);
@@ -17,7 +17,7 @@ class RegisterJob extends Component {
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
-      this.registerJobs = registerJobs.bind(this);
+      this.registerDemand = registerDemand.bind(this);
   }
 
   validateForm() {
@@ -47,7 +47,7 @@ class RegisterJob extends Component {
             );
 
       //call our axios promise, then retrieve the token from axios
-      this.registerJobs(TitleOfEvent,Description,DateOfEvent,API_token)
+      this.registerDemand(TitleOfEvent,Description,DateOfEvent,API_token)
           .then( response => { alert("Success ");
           })
           .catch( (error) => { console.log(error);
@@ -108,4 +108,4 @@ class RegisterJob extends Component {
   }
 }
 
-export default RegisterJob;
+export default RegisterDemand;

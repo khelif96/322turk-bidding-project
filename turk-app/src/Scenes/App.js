@@ -7,11 +7,11 @@ import Home from './Home';
 
 import Login from './Login';
 import PostList from './PostList';
-import PostPage from './PostPage';
+import DemandPage from './DemandPage';
 import Feed from './Feed/Feed'
 import RegisterVolunteer from './RegisterVolunteer';
 import MyAccount from './myAccount';
-import RegisterJob from './RegisterJob';
+import RegisterDemand from './RegisterDemand';
 
 class App extends Component {
   render() {
@@ -25,10 +25,10 @@ class App extends Component {
 
           <Route  path = "/Login" component = {Login}/>
           <Route  path = "/RegisterVolunteer" component = {RegisterVolunteer}/>
-          <Route  path = "/RegisterJob" component = {RegisterJob}/>
-          <Route  path = "/PostPage" component = {PostPage}/>
+          <Route  path = "/RegisterDemand" component = {RegisterDemand}/>
+          <Route  path = "/DemandPage" component = {DemandPage}/>
           <Route  path = "/myAccount" component = {MyAccount}/>
-          <Route  path = "/getPost/:id" component = {PostPage}/>
+          <Route  path = "/Demand/:id" component = {DemandPage}/>
 
         </div>
 

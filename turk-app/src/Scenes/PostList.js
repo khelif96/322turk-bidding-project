@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../Styles/App.css';
-import {retrieveJobs} from '../Utils/auth.js';
+import {retrieveDemands} from '../Utils/auth.js';
 import JobTitle from './Feed/JobTitle';
 import data from '../jobs.json';
 
@@ -11,8 +11,8 @@ class PostList extends Component {
       jobs : []
     }
 
-    this.getJobs = this.getJobs.bind(this)
-    this.retrieveJobs = retrieveJobs.bind(this);
+    this.getDemands = this.getDemands.bind(this)
+    this.retrieveDemands = retrieveDemands.bind(this);
 
 }
 
@@ -20,8 +20,8 @@ createPanel(job){
     return  (<JobTitle title = {job.title} posterID = {job.posterId} createdDate = {job.createdDate} description = {job.description}/>);
 }
 
-getJobs(){
-  this.retrieveJobs()
+getDemands(){
+  this.retrieveDemands()
       .then( arrayOfJobs => {
         let tempArray = []
         for(var i = 0; i < arrayOfJobs.length; i++)  tempArray.push(this.createPanel(arrayOfJobs[i]));
@@ -31,10 +31,10 @@ getJobs(){
       });
 }
 render() {
-  this.getJobs();
+  this.getDemands();
   return (
-   
-    <a href = "/PostPage"> 
+
+    <a href = "/PostPage">
         {this.state.jobs}
     </a>
     );

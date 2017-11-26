@@ -3,7 +3,7 @@ import {getOpportunitybyID} from '../Utils/Opportunity.js';
 
 import '../Styles/App.css';
 
-class PostPage extends Component {
+class DemandPage extends Component {
 
   constructor(props){
       super(props);
@@ -150,4 +150,4 @@ class PostPage extends Component {
   }
 }
 
-export default PostPage;
+export default DemandPage;

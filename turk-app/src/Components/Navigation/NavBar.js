@@ -50,8 +50,8 @@ class NavBar extends Component {
               </NavBarLink>
             </MenuItem>
             <MenuItem eventKey="1.6">
-              <NavBarLink to = "/RegisterJob">
-                Register Job
+              <NavBarLink to = "/RegisterDemand">
+                Register Demand
               </NavBarLink>
             </MenuItem>
           </NavDropdown>
