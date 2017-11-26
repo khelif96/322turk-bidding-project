@@ -1,42 +1,39 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
-import './App.css';
-import {Route,Router } from 'react-router-dom'
-import history from '../utils/history'
-import Login from './Login';
+import '../Styles/App.css';
+import {Route,Router} from 'react-router-dom'
+import history from '../Utils/history'
+import NavBar from '../Components/Navigation/NavBar';
 import Home from './Home';
-import NavBar from './NavBar';
+
+import Login from './Login';
+import PostList from './PostList';
+import Demand from './Demand';
+import Feed from './Feed/Feed'
+import RegisterUser from './RegisterUser';
+import MyAccount from './myAccount';
+import RegisterDemand from './RegisterDemand';
 
 class App extends Component {
-
-  constructor(props){
-      super(props);
-      this.state = {
-          api_token : " "
-      }
-
-
-      this.myCallback = this.myCallback.bind(this);
-  }
-
-  //retrieves our api token from login
-  myCallback = (child_api) => {
-      this.setState( { api_token : child_api });
-  }
-
   render() {
     return (
+      <Router history = {history}>
+        <div >
+          <NavBar/>
+        <div>
 
-       <Router history={history}>
-          <div>
-          <NavBar />
-            <div>
-              <Route exact path = "/" component = {Home}/>
-              <Route path = "/Login" component = {Login}/>
-            </div>
-          </div>
-       </Router>
+          <Route exact path = "/" component = {Home}/>
 
+          <Route  path = "/Login" component = {Login}/>
+          <Route  path = "/RegisterUser" component = {RegisterUser}/>
+          <Route  path = "/RegisterDemand" component = {RegisterDemand}/>
+          <Route  path = "/demands" component = {Demand}/>
+          <Route  path = "/myAccount" component = {MyAccount}/>
+          <Route  path = "/demands/:id" component = {Demand}/>
+
+        </div>
+
+        </div>
+      </Router>
     );
   }
 }

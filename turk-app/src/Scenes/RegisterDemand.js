@@ -3,25 +3,24 @@ import React, { Component } from 'react';
 import '../Styles/App.css';
 import { Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {FormContainer} from '../Styles/form.style'
-import {login} from '../Utils/auth.js';
+import {registerDemand} from '../Utils/auth.js';
 
-
-class Login extends Component {
+class RegisterDemand extends Component {
 
   constructor(props){
       super(props);
       this.state = {
-        username : "",
-        password : "",
-        api_token : "",
+        content : "",
+        titleOfEvent : "",
+        api_token : localStorage.getItem("api_token")
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
-      this.login = login.bind(this);
+      this.registerDemand = registerDemand.bind(this);
   }
 
   validateForm() {
-     return this.state.username.length > 0 && this.state.password.length > 0;
+     return (this.state.content.length > 0  && this.state.titleOfEvent.length > 0 );
    }
 
   handleChange(event) {
@@ -30,24 +29,24 @@ class Login extends Component {
     );
   }
 
-//records our username and password and calls the login authentication
+//records our organization and description and calls the login authentication
 //if passed we do another promise call to say that when we find our response
 // we will set the response's api token into our current state and localStorage
 //local storage will keep our token even after a refresh
   handleSubmit(event) {
-      const Username = this.state.username;
-      const Password = this.state.password;
-      if(Username === "" || Password === "") alert("Please Enter a username/password");
-      else console.log("Your username is "+ Username + " Password" + Password);
+      const Content = this.state.content;
+      const TitleOfEvent = this.state.titleOfEvent;
+      const API_token = this.state.api_token;
+
+      alert( "\nContent : " + Content + "\nThe name of Event : "
+             + TitleOfEvent +  "\nAPI TOKEN : " + API_token +"\n"
+            );
 
       //call our axios promise, then retrieve the token from axios
-      this.login(Username,Password)
-          .then( api_token => {localStorage.setItem('api_token',api_token);
-                                alert("Api Token " + api_token);
+      this.registerDemand(TitleOfEvent,Content,API_token)
+          .then( response => { alert("Success ");
           })
-          .catch( (error) => { localStorage.setItem('api_token',"");
-            this.setState({ api_token : ""});
-            alert("Error " + error);
+          .catch( (error) => { console.log(error);
           });
 
       event.preventDefault();
@@ -60,22 +59,21 @@ class Login extends Component {
       <FormContainer>
           <form onSubmit ={this.handleSubmit}>
 
-          <FormGroup controlId="username" bsSize = "large">
-            <ControlLabel>Username</ControlLabel>
+          <FormGroup controlId="titleOfEvent" bsSize = "large">
+            <ControlLabel>Title of the Job</ControlLabel>
             <FormControl
                   autoFocus
-                  type="username"
-                  value={this.state.username}
+                  type="titleOfEvent"
+                  value={this.state.titleOfEvent}
                   onChange={this.handleChange}
                 />
           </FormGroup>
 
-          <FormGroup controlId="password" bsSize = "large">
-            <ControlLabel>Password</ControlLabel>
+          <FormGroup controlId="content" bsSize = "large">
+            <ControlLabel>Create your description</ControlLabel>
             <FormControl
-                  autoFocus
-                  type="password"
-                  value={this.state.password}
+                  componentClass="textarea"
+                  value={this.state.content}
                   onChange={this.handleChange}
                 />
           </FormGroup>
@@ -86,7 +84,7 @@ class Login extends Component {
             disabled={!this.validateForm()}
             type="submit"
           >
-            Login
+            Create Job
           </Button>
 
         </form>
@@ -95,4 +93,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default RegisterDemand;

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
-import './App.css';
+import '../Styles/App.css';
+import Feed from './Feed/Feed'
+
+
 class Home extends Component {
 
   constructor(props){
@@ -8,9 +11,16 @@ class Home extends Component {
   }
 
   render() {
+    var style =  {
+        color : 'gray',
+        fontSize : 100,
+        textAlign : 'center'
+    }
     return (
-          <div>
-            <h1> home page </h1>
+
+          <div >
+            <div style = {style}> HOME </div>
+            <Feed />
           </div>
     );
   }
