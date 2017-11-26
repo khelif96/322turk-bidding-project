@@ -8,11 +8,12 @@ class PostPage extends Component {
   constructor(props){
       super(props);
       this.state = {
-        title : "",
-        description : "",
-        opportunity_id :"",
-        requirements : "",
-        dataPosted : "",
+        title : "Sample Title",
+        description : "No Description",
+        opportunity_id :this.props.match.params.id
+
+
+
       }
       this.getOpportunitybyID = getOpportunitybyID.bind(this);
       this.retrieveOpportunitybyID = this.retrieveOpportunitybyID.bind(this);

@@ -4,7 +4,6 @@ import {Route,Router} from 'react-router-dom'
 import history from '../Utils/history'
 import NavBar from '../Components/Navigation/NavBar';
 import Home from './Home';
-import {createStore} from "redux";
 
 import Login from './Login';
 import PostList from './PostList';
