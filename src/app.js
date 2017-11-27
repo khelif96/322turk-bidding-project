@@ -66,11 +66,12 @@ app.use(bodyParser.json());
 
 // ROUTES FOR API
 // ===============================================
-var apiRouter = require('./routes/api');      // Get an instance of the express router
-
+var apiRouter = require('./routes/api');
+var sudoApiRouter = require('./routes/sudoApi');
 // REGISTER ROUTES --------------------------
 // All api routes will be prefixed with /api
 app.use('/api', apiRouter);
+app.use('/sudoApi', sudoApiRouter);
 
 app.listen(port);
 
