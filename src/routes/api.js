@@ -23,7 +23,6 @@ router.post('/loginUser', userAuth.loginUser);
 router.post('/registerUser', userAuth.registerUser);
 
 router.get('/demands', demands.getAllDemands);
-
 router.get('/demands/:demandId', demands.getDemand);
 
 router.use(userAuth.checkAuth); // Routes that require and api_token after this

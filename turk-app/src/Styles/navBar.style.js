@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { NavLink} from 'react-router-dom'
-import {Navbar} from 'react-bootstrap';
+import {Navbar,NavDropdown} from 'react-bootstrap';
 
 
 export const NavBarLink = styled(NavLink)`
@@ -20,15 +20,20 @@ export const BrandDiv = styled.div`
   font-size : 30px;
   color : white;
   &:hover{ cursor : pointer }
-  padding : 0px 0px 40px 0px;
-
+  padding : 10px;
 `
-export const Logo = styled.h3`
-color : white;
-padding : 0px 0px 40px 0px;
-
+export const Logo = styled.div`
+  color : white;
 `
 export const OurNavBar = styled(Navbar)`
   background-color : gray;
+  color : white;
   &:hover{ cursor : pointer }
+`;
+
+export const Dropdown = styled(NavDropdown)`
+    margin : 0;
+    padding : 10px;
+    &:active{ color : gray;
+              text-decoration: none;}
 `;

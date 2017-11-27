@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Nav,Navbar,NavDropdown,MenuItem} from 'react-bootstrap';
+import { Nav,MenuItem,Glyphicon} from 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import {LinkContainer} from 'react-router-bootstrap'
-import {NavBarLink,BrandDiv,Logo,OurNavBar} from '../../Styles/NavBar.style'
+import {NavBarLink,BrandDiv,Logo,OurNavBar,Dropdown} from '../../Styles/NavBar.style'
 import logo from "../../Assets/Logo-1.png"
 
 class NavBar extends Component {
@@ -15,20 +15,21 @@ class NavBar extends Component {
   }
 
   render() {
+
+    const title = <div><Glyphicon glyph="align-justify"/> </div>;
     return (
       <OurNavBar>
-        <Navbar.Header>
-          <Navbar.Brand>
+        <Nav pullLeft>
             <LinkContainer to = '/'>
               <BrandDiv>
                 <Logo>AMM Turk App</Logo>
               </BrandDiv>
             </LinkContainer>
-          </Navbar.Brand>
-        </Navbar.Header>
+        </Nav>
 
         <Nav pullRight>
-          <NavDropdown pullRight eventKey="1" title="" id="nav-dropdown">
+
+          <Dropdown  eventKey="1" noCaret title = {title} >
             <MenuItem eventKey="1.2">
               <NavBarLink to = "/RegisterUser">
                 Register
@@ -54,7 +55,7 @@ class NavBar extends Component {
                 Register Demand
               </NavBarLink>
             </MenuItem>
-          </NavDropdown>
+          </Dropdown>
         </Nav>
 
       </OurNavBar>
