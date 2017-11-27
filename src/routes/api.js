@@ -7,6 +7,8 @@ const router = express.Router();
 const apiHome = require('../controller/apiHome');
 const userAuth = require('../controller/userAuth');
 
+const user = require('../controller/user');
+
 const demands = require('../controller/demand')
 const demandModification = require('../controller/demandModification');
 // API
@@ -24,6 +26,8 @@ router.post('/registerUser', userAuth.registerUser);
 
 router.get('/demands', demands.getAllDemands);
 router.get('/demands/:demandId', demands.getDemand);
+
+router.get('/user/api_token=:api_token', user.getUserByApiToken);
 
 router.use(userAuth.checkAuth); // Routes that require and api_token after this
 
