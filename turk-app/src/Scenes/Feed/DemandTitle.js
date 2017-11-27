@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import '../../Styles/App.css';
 import {PanelGroup ,Panel} from 'react-bootstrap';
-import { JobHeading,FeedContainer,Organization,DatePosted,Description,Title } from '../../Styles/list.style'; 
+import { DemandHeading,FeedContainer,Organization,DatePosted,Description,Title } from '../../Styles/list.style';
 
 
-class JobTitle extends Component {
+class DemandTitle extends Component {
 
   constructor(props){
       super(props);
@@ -21,4 +21,4 @@ class JobTitle extends Component {
   }
 }
 
-export default JobTitle;
+export default DemandTitle;

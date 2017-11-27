@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const JobHeading = styled.div`
+export const DemandHeading = styled.div`
   font-size : 20px;
   color : BLACK;
   &:hover{ cursor : pointer;

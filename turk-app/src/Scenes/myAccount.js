@@ -17,13 +17,10 @@ class MyAccount extends Component {
         email: ""
       }
 
-      // this.handleChange = this.handleChange.bind(this);
-      // this.handleSubmit = this.handleSubmit.bind(this);a
       this.getAccountByApiToken = getAccountByApiToken.bind(this);
       this.getAccountInfo = this.getAccountInfo.bind(this);
       this.getAccountInfo();
 
-      // getAccountInfo();
   }
 
   getAccountInfo(){

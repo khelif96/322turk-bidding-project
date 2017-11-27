@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../Styles/App.css';
 import {retrieveDemands} from '../Utils/auth.js';
-import JobTitle from './Feed/JobTitle';
+import DemandTitle from './Feed/DemandTitle';
 import data from '../jobs.json';
 
 class PostList extends Component {
@@ -17,7 +17,7 @@ class PostList extends Component {
 }
 
 createPanel(job){
-    return  (<JobTitle title = {job.title} posterID = {job.posterId} createdDate = {job.createdDate} description = {job.description}/>);
+    return  (<DemandTitle title = {job.title} posterID = {job.posterId} createdDate = {job.createdDate} description = {job.description}/>);
 }
 
 getDemands(){
