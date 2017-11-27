@@ -1,15 +1,33 @@
 import React, { Component } from 'react';
 import {getDemandbyID} from '../Utils/Demand.js';
+import {
+  ContainerBG ,
+  DemandHeaderBG,
+  DemandBody,
+  DemandTitle,
+  DemandUserDate,
+  DemandBodyHeaders,
+  DemandBodyP,
+  BidButton,
+  BackButton
+ }from '../Styles/Demand.style';
+ import {Link} from 'react-router-dom';
 
-import '../Styles/App.css';
+
 
 class Demand extends Component {
 
   constructor(props){
       super(props);
       this.state = {
-        title : "sample",
-        content : "sample content",
+        bidderIds : [],
+        createdDate : "",
+        isActive : false,
+        title : "",
+        content : "",
+        ownerID : "",
+        totalBids : [],
+        winningBid : {},
         demandID : this.props.match.params.id
       }
       this.getDemandbyID = getDemandbyID.bind(this);
@@ -23,8 +41,16 @@ class Demand extends Component {
       this.getDemandbyID(DemandID)
       .then( (response) =>{
         this.setState({
-          title : response.title,
-          content : response.content
+
+          bidderIds : response.bidderIds,
+          createdDate : response.createdDate,
+          isActive : response.isActive,
+          title : response.title ,
+          content : response.content,
+          ownerID : response.ownerID,
+          totalBids : response.totalBids,
+          winningBid : response.winningBid,
+
         })
         console.log(response)
       })
@@ -32,88 +58,49 @@ class Demand extends Component {
   }
   render(){
     return (
-      <div>
-          <div>
-            id : {this.state.demandID}
-          </div>
-          <div>
-            title : {this.state.title}
-          </div>
-          <div>
-            content : {this.state.content}
-          </div>
 
-      </div>
+      <ContainerBG>
+        <DemandHeaderBG>
+          <DemandTitle>
+            {this.state.title}
+          </DemandTitle>
+
+          <DemandUserDate>
+            <div>
+              By : {this.state.demandID}
+            </div>
+
+            <div>
+              Posted : {this.state.createdDate}
+            </div>
+          </DemandUserDate>
+        </DemandHeaderBG>
+        <DemandBody>
+
+          <DemandBodyHeaders>
+            Description
+          </DemandBodyHeaders>
+            <DemandBodyP>
+              {this.state.content}
+            </DemandBodyP>
+
+            <BidButton>
+              Bid On Job
+            </BidButton>
+
+            <Link to = '/'>
+              <BackButton>
+                Back
+              </BackButton>
+            </Link>
+        </DemandBody>
+
+      </ContainerBG>
+
     );
   }
 }
 
 
-  const styleVolunCard = {
-    background: '#D3D3D3',
-    marginLeft: 70,
-    marginRight: 70,
-    marginTop: 40,
-    borderRadius: 8,
-    boxShadow: '4px 4px 4px #D3D3D3',
-    alignContent: 'center',
-    paddingBottom: 15
-  }
-  const styleVolunCardHeader = {
-    padding: 30,
-    paddingBottom: 10,
-    borderTopLeftRadius: 8,
-    background: '#4c4c4c',
-    borderTopRightRadius: 8,
-    boxShadow: '2px 2px 2px gray'
-  }
-  const styleJobCardParagraph = {
-    padding: 30
-  }
-  const styleBigHeader =  {
-      color : 'white',
-      fontSize : 40,
-      textAlign : 'left'
-  }
-  const styleMediumHeader = {
-      color: 'white',
-      fontSize: 20,
-      textAlign: 'left'
-  }
-  const styleSmallHeader = {
-      color : 'black',
-      fontSize : 20,
-      textAlign : 'left'
-  }
-  const styleParagraph = {
-      color : 'black',
-      fontSize: 15,
-      textAlign : 'left'
-  }
-  const styleAcceptButton = {
-    background: 'orange',
-    color: 'white',
-    float: 'right',
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingBottom: 5,
-    paddingTop: 5,
-    border: 0,
-    boxShadow: '2px 2px 2px gray',
-    borderRadius: 4
-  }
-  const styleBackButton = {
-    background: 'gray',
-    color: 'white',
-    float: 'right',
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingBottom: 5,
-    marginRight: 7,
-    paddingTop: 5,
-    border: 0,
-    boxShadow: '2px 2px 2px gray',
-    borderRadius: 4
-  }
 
 export default Demand;

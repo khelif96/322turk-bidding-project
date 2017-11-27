@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 
-import {getAccountByApiToken} from '../Utils/getProfile.js';
+import {getAccountByApiToken} from '../Utils/User.js';
 import '../Styles/App.css';
 
 class MyAccount extends Component {
@@ -11,10 +11,11 @@ class MyAccount extends Component {
       this.state = {
         api_token : localStorage.getItem('api_token'),
         name: {
-          first: "",
-          last: ""
+          first : "",
+          last : "",
         },
-        email: ""
+
+
       }
 
       this.getAccountByApiToken = getAccountByApiToken.bind(this);
@@ -27,18 +28,10 @@ class MyAccount extends Component {
      const Api_token = this.state.api_token;
      //call our axios promise, then retrieve the token from axios
      getAccountByApiToken(Api_token)
-         .then( account => {
-           this.setState({
-             name : {
-               first :account.name.first,
-               last : account.name.last,
-             },
-             email: account.email
-           });
-         })
+         .then( account => console.log("account " + JSON.stringify(account)) )
          .catch( (error) => { localStorage.setItem('api_token',"");
            this.setState({ api_token : ""});
-           alert("Error " + error);
+           alert("Error from : myAccount page" + error);
          });
 
      // event.preventDefault();

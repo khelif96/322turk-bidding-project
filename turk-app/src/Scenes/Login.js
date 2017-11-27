@@ -4,6 +4,7 @@ import '../Styles/App.css';
 import { Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {FormContainer} from '../Styles/form.style'
 import {login} from '../Utils/auth.js';
+import {Link} from 'react-router-dom';
 
 
 class Login extends Component {
@@ -80,6 +81,7 @@ class Login extends Component {
                 />
           </FormGroup>
 
+          <Link to = '/'>
           <Button
             block
             bsSize="large"
@@ -88,6 +90,7 @@ class Login extends Component {
           >
             Login
           </Button>
+          </Link>
 
         </form>
       </FormContainer>
