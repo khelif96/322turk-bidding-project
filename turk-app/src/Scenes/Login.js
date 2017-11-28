@@ -43,7 +43,7 @@ class Login extends Component {
 
       //call our axios promise, then retrieve the token from axios
       this.login(Username,Password)
-          .then( api_token => {localStorage.setItem('api_token',api_token);
+          .then( api_token => { localStorage.setItem('api_token',api_token);
                                 alert("Api Token " + api_token);
           })
           .catch( (error) => { localStorage.setItem('api_token',"");
@@ -81,7 +81,7 @@ class Login extends Component {
                 />
           </FormGroup>
 
-          <Link to = '/'>
+
           <Button
             block
             bsSize="large"
@@ -90,7 +90,6 @@ class Login extends Component {
           >
             Login
           </Button>
-          </Link>
 
         </form>
       </FormContainer>

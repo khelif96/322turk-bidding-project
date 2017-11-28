@@ -47,7 +47,8 @@ class NavBar extends Component {
               </NavBarLink>
             </MenuItem>
             <MenuItem eventKey="1.5">
-              <NavBarLink to = "/myAccount">My Account
+              <NavBarLink to = {`/user/api_token=${localStorage.getItem('api_token')}`}>
+                My Account
               </NavBarLink>
             </MenuItem>
             <MenuItem eventKey="1.6">

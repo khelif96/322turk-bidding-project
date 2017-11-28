@@ -3,8 +3,8 @@ const baseUrl = "http://localhost:3001/api";
 
 export {getAccountByApiToken};
 function getAccountByApiToken(apiToken){
-  return axios.get(baseUrl + "/loginUser")
-  .then((response) => response.data)
+  return axios.get(baseUrl + "/user/api_token=" + apiToken)
+  .then( response => response.data)
   .catch((error) => {
     alert(error + " from USER in utils")
   });

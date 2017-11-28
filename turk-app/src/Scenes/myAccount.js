@@ -4,43 +4,56 @@ import {getAccountByApiToken} from '../Utils/User.js';
 import '../Styles/App.css';
 
 class MyAccount extends Component {
-
-
   constructor(props){
       super(props);
       this.state = {
         api_token : localStorage.getItem('api_token'),
-        name: {
-          first : "",
-          last : "",
-        },
-
-
+        _id: "",
+        userType : "",
+        email : "",
+        __v : "",
+        accountAlerts : [],
+        accountApproved : false,
+        projects : [],
+        createdDate : "",
       }
 
       this.getAccountByApiToken = getAccountByApiToken.bind(this);
       this.getAccountInfo = this.getAccountInfo.bind(this);
       this.getAccountInfo();
-
   }
 
   getAccountInfo(){
-     const Api_token = this.state.api_token;
+     const API_token = this.state.api_token;
      //call our axios promise, then retrieve the token from axios
-     getAccountByApiToken(Api_token)
-         .then( account => console.log("account " + JSON.stringify(account)) )
+     getAccountByApiToken(API_token)
+         .then( (account) => this.setState({
+             _id: account._id,
+             userType : account.userType,
+             email : account.email,
+             __v : account.__v,
+             accountApproved : account.accountApproved,
+             createdDate : account.createdDate,
+             accountAlerts : account.getJSONArray("accountAlerts")
+           })
+         )
          .catch( (error) => { localStorage.setItem('api_token',"");
            this.setState({ api_token : ""});
            alert("Error from : myAccount page" + error);
          });
-
-     // event.preventDefault();
  }
   render() {
     return(
       <div>
       <h1> {this.state.api_token}</h1>
-      <b> {this.state.name.first}</b>
+      <h1> {this.state._id}</h1>
+      <h1> {this.state.userType}</h1>
+      <h1> {this.state.email}</h1>
+      <h1> {this.state.__v}</h1>
+      <h1> {this.state.accountAlerts}</h1>
+      <h1> {this.state.accountApproved}</h1>
+      <h1> {this.state.projects}</h1>
+      <h1> {this.state.createdDate}</h1>
       </div>
     );
   }
