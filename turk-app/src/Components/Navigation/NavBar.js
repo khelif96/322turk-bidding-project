@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Nav,MenuItem,Glyphicon} from 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import {LinkContainer} from 'react-router-bootstrap'
-import {NavBarLink,BrandDiv,Logo,OurNavBar,Dropdown} from '../../Styles/NavBar.style'
+import {NavBarLink,BrandDiv,Logo,OurNavBar,Dropdown} from '../../Styles/navBar.style'
 import logo from "../../Assets/Logo-1.png"
 
 class NavBar extends Component {
