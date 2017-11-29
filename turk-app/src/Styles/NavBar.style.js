@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { NavLink} from 'react-router-dom'
 import {Navbar,NavDropdown} from 'react-bootstrap';
 
-
 export const NavBarLink = styled(NavLink)`
   color : Black;
   text-decoration: none;
