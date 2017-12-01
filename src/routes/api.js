@@ -38,5 +38,8 @@ router.put('/editDemand/:demandId', demandModification.editDemand);
 
 router.post('/bidOnDemand', demandModification.bidOnDemand);
 
+router.post('/approveBidder', demandModification.approveBidder);
+router.post('/addFunds', userAuth.addFunds);
+
 // Return Router
 module.exports = router;
