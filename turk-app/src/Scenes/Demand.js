@@ -34,16 +34,25 @@ class Demand extends Component {
       this.displayContent = this.displayContent.bind(this);
       this.displayContent();
   }
-
+//2017-11-10T19:57:56.710Z
+  convertDate = (date) => ({
+      year : date.substr(0,4),
+      month : date.substr(5,2) ,
+      day : date.substr(8,2) ,
+      hour : date.substr(11,2) ,
+      minutes : date.substr(14,2) ,
+      seconds : date.substr(17,2)
+  })
 
   displayContent(){
       const DemandID = this.state.demandID;
       this.getDemandbyID(DemandID)
       .then( (response) =>{
+        const convertedCreated = this.convertDate(response.createdDate);
         this.setState({
 
           bidderIds : response.bidderIds,
-          createdDate : response.createdDate,
+          createdDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
           isActive : response.isActive,
           title : response.title ,
           content : response.content,
