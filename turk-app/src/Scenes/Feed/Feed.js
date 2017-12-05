@@ -21,7 +21,7 @@ class Feed extends Component {
 
 //takes a demand and creates a DemandPanel and passes the demands title, demandID and description
   createPanel(demand){
-      return  (<DemandPanel title = {demand.title} demandID = {demand._id} description = {demand.description}/>);
+      return  (<DemandPanel demand = {demand} />);
   }
 
   getDemands(){

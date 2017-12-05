@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import '../Styles/App.css';
-import { Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import { Button, FormGroup, FormControl, ControlLabel,Modal} from 'react-bootstrap';
 import {FormContainer} from '../Styles/form.style'
 import {login} from '../Utils/auth.js';
 import {Link} from 'react-router-dom';
-
 
 class Login extends Component {
 
@@ -15,6 +14,7 @@ class Login extends Component {
         username : "",
         password : "",
         api_token : "",
+        showError : false,
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,6 +31,13 @@ class Login extends Component {
     );
   }
 
+  OpenPopUp = () => {
+    this.setState({ showError : true })
+  }
+
+  closePopUp = () => {
+    this.setState({ showError : false })
+  }
 //records our username and password and calls the login authentication
 //if passed we do another promise call to say that when we find our response
 // we will set the response's api token into our current state and localStorage
@@ -43,18 +50,24 @@ class Login extends Component {
 
       //call our axios promise, then retrieve the token from axios
       this.login(Username,Password)
-          .then( api_token => { localStorage.setItem('api_token',api_token);
-                                alert("Api Token " + api_token);
+          .then( api_token => {
+            if(api_token.length > 0) {
+              this.props.isTheUserSignedIn(true);
+              localStorage.setItem('api_token',api_token);
+              this.props.history.push('/')
+            }
+            else this.OpenPopUp();
           })
-          .catch( (error) => { localStorage.setItem('api_token',"");
-            this.setState({ api_token : ""});
-            alert("Error " + error);
-          });
-
+          .catch( error => { localStorage.setItem('api_token',"");
+            this.OpenPopUp();
+          })
+      //history.push('/')
       event.preventDefault();
   }
 
   render() {
+
+    const actions = []
 
     return (
 
@@ -79,17 +92,24 @@ class Login extends Component {
                   value={this.state.password}
                   onChange={this.handleChange}
                 />
+
           </FormGroup>
-
-
-          <Button
-            block
-            bsSize="large"
-            disabled={!this.validateForm()}
-            type="submit"
-          >
-            Login
-          </Button>
+            <Button
+              block
+              bsSize="large"
+              disabled={!this.validateForm()}
+              type="submit"
+            >
+              Login
+            </Button>
+            <Modal show={this.state.showError} onHide={this.closePopUp}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>Login Error</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <p> There is No account under this name, Please Try again </p>
+                      </Modal.Body>
+            </Modal>
 
         </form>
       </FormContainer>

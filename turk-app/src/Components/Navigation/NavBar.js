@@ -31,30 +31,47 @@ class NavBar extends Component {
 
           <Dropdown  eventKey="1" noCaret title = {title} >
             <MenuItem eventKey="1.2">
+
+            {
+              !this.props.enableLogout &&
               <NavBarLink to = "/RegisterUser">
                 Register
               </NavBarLink>
+            }
+
             </MenuItem>
             <MenuItem eventKey="1.3">
-            <NavBarLink to = "/Login">
-              Login
-            </NavBarLink>
-            </MenuItem>
-            <MenuItem divider />
-            <MenuItem eventKey="1.4">
-              <NavBarLink to = "/PostList">
-                Posted Services
+
+            {
+              !this.props.enableLogout ?
+              <NavBarLink to = "/Login">
+                Login
               </NavBarLink>
-            </MenuItem>
-            <MenuItem eventKey="1.5">
+              :
               <NavBarLink to = {`/user/api_token=${localStorage.getItem('api_token')}`}>
                 My Account
               </NavBarLink>
+            }
+
             </MenuItem>
-            <MenuItem eventKey="1.6">
+
+            { this.props.enableLogout && <MenuItem divider />}
+            
+            <MenuItem eventKey="1.4">
+            {
+              this.props.enableLogout &&
+              <NavBarLink to = "/PostList">
+                More Demands
+              </NavBarLink>
+            }
+            </MenuItem>
+            <MenuItem eventKey="1.5">
+            {
+              this.props.enableLogout &&
               <NavBarLink to = "/RegisterDemand">
                 Register Demand
               </NavBarLink>
+            }
             </MenuItem>
           </Dropdown>
         </Nav>

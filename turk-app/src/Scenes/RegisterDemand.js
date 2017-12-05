@@ -38,16 +38,8 @@ class RegisterDemand extends Component {
       const TitleOfEvent = this.state.titleOfEvent;
       const API_token = this.state.api_token;
 
-      alert( "\nContent : " + Content + "\nThe name of Event : "
-             + TitleOfEvent +  "\nAPI TOKEN : " + API_token +"\n"
-            );
-
       //call our axios promise, then retrieve the token from axios
       this.registerDemand(TitleOfEvent,Content,API_token)
-          .then( response => { alert("Success ");
-          })
-          .catch( (error) => { console.log(error);
-          });
 
       event.preventDefault();
   }

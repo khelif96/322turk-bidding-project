@@ -15,26 +15,39 @@ import MyAccount from './Account/myAccount';
 import RegisterDemand from './RegisterDemand';
 
 class App extends Component {
+  constructor(props){
+      super(props);
+      this.state = {
+        isSignedIn : (localStorage.getItem('api_token').length > 0)
+      }
+  }
+
+  userIsSignedIn = (userSignedInStatus) => {
+    this.setState({ isSignedIn : userSignedInStatus })
+  }
+
   render() {
     return (
       <Router history = {history}>
-        <MuiThemeProvider>
           <div >
-            <NavBar/>
+            <NavBar enableLogout = {this.state.isSignedIn} />
+              {this.state.isSignedIn && "user is signed in"}
           <div>
-
             <Route exact path = "/" component = {Home}/>
-
-            <Route  path = "/Login" component = {Login}/>
+            <Route  path = "/Login" component = {
+               (routeProps) => <Login {...routeProps} testCall = {this.state.isSignedIn} isTheUserSignedIn={this.userIsSignedIn} />
+            }/>
             <Route  path = "/RegisterUser" component = {RegisterUser}/>
             <Route  path = "/RegisterDemand" component = {RegisterDemand}/>
-            <Route  path = "/user/api_token=:api_token" component = {MyAccount}/>
+            <Route  path = "/user/api_token=:api_token" component = {
+              (routeProps) => <MyAccount  {...routeProps} isTheUserSignedIn={this.userIsSignedIn}/>
+            }/>
             <Route  path = "/demands/:id" component = {Demand}/>
 
           </div>
 
           </div>
-         </MuiThemeProvider>
+
       </Router>
     );
   }

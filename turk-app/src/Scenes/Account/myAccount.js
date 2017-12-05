@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-
+import { Button } from 'react-bootstrap';
 import {getAccountByApiToken} from '../../Utils/User.js';
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
@@ -22,6 +22,12 @@ class MyAccount extends Component {
       this.getAccountByApiToken = getAccountByApiToken.bind(this);
       this.getAccountInfo = this.getAccountInfo.bind(this);
       this.getAccountInfo();
+  }
+
+  logout = () => {
+      this.props.isTheUserSignedIn(false);
+      localStorage.setItem('api_token',"");
+      this.props.history.push('/')
   }
 
   getAccountInfo(){
@@ -61,6 +67,8 @@ class MyAccount extends Component {
       <h1> {this.state.projects}</h1>
       <h1> {this.state.createdDate}</h1>
       <h1> {this.state.accountAlerts[0]}</h1>
+
+      <Button onClick = { (evt) => this.logout()}> Log out </Button>
       </div>
     );
   }

@@ -11,10 +11,7 @@ function login(userName,Password) {
       password: Password
     })
     .then((response) => response.data.api_token )
-    .catch( (error) => {
-      console.log(error);
-      alert("Error " + error);
-    });
+    .catch( (error) =>  {});
 }
 export {registerUser};
 function registerUser(Username,Password,FirstName,LastName){
@@ -48,7 +45,7 @@ function registerDemand(Title,Content,API_token){
       content: Content,
       api_token: API_token,
     })
-    .then((response) => alert( "success : " + response.message) )
+    .then((response) => {} )
     .catch( (error) => {
         alert( "this is an error from auth " + error.message);
     });
