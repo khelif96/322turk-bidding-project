@@ -33,8 +33,23 @@ export const DatePosted = styled.div`
 `;
 
 export const Description = styled.p`
-    font-size : 12px;
+    text-indent: 40px;
+    font-size : 15px;
     color : BLACK;
-    text-align : center;
+    text-align : left;
 
+`;
+
+export const SectionHeadings = styled.p`
+    font-size : 18px;
+    color : BLACK;
+    text-align : left;
+
+`;
+export const MoreDetails = styled.div`
+    font-size : 18px;
+    color : orange;
+    text-align : right;
+    :hover{ text-decoration : none;
+            }
 `;
