@@ -18,7 +18,7 @@ class App extends Component {
   constructor(props){
       super(props);
       this.state = {
-        isSignedIn : (localStorage.getItem('api_token').length > 0)
+        isSignedIn : (localStorage.getItem('api_token') !== null)
       }
   }
 
