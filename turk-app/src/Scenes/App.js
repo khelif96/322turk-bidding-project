@@ -38,7 +38,6 @@ class App extends Component {
           <div>
             <Route exact path = "/" component = {
                (routeProps) => <Home {...routeProps} userType = {this.state.userType} />
-
             }/>
             <Route  path = "/Login" component = {
                (routeProps) => <Login {...routeProps} testCall = {this.state.isSignedIn} isTheUserSignedIn={this.userIsSignedIn} />

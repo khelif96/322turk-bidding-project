@@ -55,7 +55,6 @@ class NavBar extends Component {
             </MenuItem>
 
             { this.props.enableLogout && <MenuItem divider />}
-
             <MenuItem eventKey="1.4">
             {
               this.props.enableLogout &&
