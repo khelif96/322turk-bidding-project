@@ -16,6 +16,7 @@ class Feed extends Component {
 
       this.getDemands = this.getDemands.bind(this)
       this.retrieveDemands = retrieveDemands.bind(this);
+      this.getDemands();
 
   }
 
@@ -35,7 +36,6 @@ class Feed extends Component {
         });
   }
   render() {
-    this.getDemands();
     return (
       <FeedContainer>
           <PanelGroup>

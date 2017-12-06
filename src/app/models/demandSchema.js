@@ -9,9 +9,13 @@ var demandSchema = new Schema({
   content: String,
   ownerId : String,
   winningDevId : String,
-  totalBids: [{bidAmount : Number, devId: String}] ,
+  totalBids: [{bidAmount: Number, devId: String, deadline: Date}] ,
   isActive: {type: Boolean, default:true},
-  expDate: Date
+  expDate: Date,
+  winningBid : {bidAmount: Number, devId: String, deadline: Date},
+  devChosen : {type : Boolean, default: false},
+  finishedProduct : String,
+  justification : String
 });
 
 module.exports = mongoose.model('Demand',demandSchema);
