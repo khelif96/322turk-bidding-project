@@ -18,7 +18,7 @@ class Demand extends Component {
   constructor(props){
       super(props);
       this.state = {
-        demandID : this.props.match.params.api_token,
+        demandID : this.props.match.params.id,
         ownerId : "",
         content : "",
         title : "",

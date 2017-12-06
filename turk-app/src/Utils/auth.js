@@ -44,7 +44,7 @@ function registerDemand(Title,Content,API_token, ExpDate){
       title: Title,
       content: Content,
       api_token: API_token,
-      date, ExpDate
+      date : ExpDate
     })
     .then((response) => {} )
     .catch( (error) => {

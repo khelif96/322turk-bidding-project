@@ -4,6 +4,7 @@ import '../Styles/App.css';
 import { Button, FormGroup, FormControl, ControlLabel,Modal} from 'react-bootstrap';
 import {FormContainer} from '../Styles/form.style'
 import {login} from '../Utils/auth.js';
+import {getAccountByApiToken} from '../Utils/User.js';
 import {Link} from 'react-router-dom';
 
 class Login extends Component {
@@ -19,6 +20,8 @@ class Login extends Component {
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.login = login.bind(this);
+      this.getAccountByApiToken = getAccountByApiToken.bind(this);
+
   }
 
   validateForm() {
@@ -52,7 +55,14 @@ class Login extends Component {
       this.login(Username,Password)
           .then( api_token => {
             if(api_token.length > 0) {
-              this.props.isTheUserSignedIn(true);
+              this.getAccountByApiToken(api_token)
+                  .then( (account) => {
+                    alert(account.userType);
+                    this.props.isTheUserSignedIn(true,account.userType);
+                  })
+                  .catch( (error) => { localStorage.setItem('api_token',"");
+                    alert("Error from : Login page" + error);
+                  });
               localStorage.setItem('api_token',api_token);
               this.props.history.push('/')
             }

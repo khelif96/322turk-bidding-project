@@ -38,7 +38,7 @@ class MyAccount extends Component {
   }
 
   logout = () => {
-      this.props.isTheUserSignedIn(false);
+      this.props.isTheUserSignedIn(false,"noUser");
       localStorage.setItem('api_token',"");
       this.props.history.push('/')
   }
