@@ -8,6 +8,12 @@ exports.createDemand = (req,res) => {
     res.status(400).json({error: "Missing api_token in request"});
 }else if(req.body.title  === undefined || req.body.content === undefined || req.body.date === undefined){
     res.status(201).json({error: "Incomplete Request"})
+  }
+  else if(req.body.title  == "" || req.body.content == "" || req.body.date == ""){
+      res.status(400).json({error: "Cannot leave fields blank"});
+  }
+  else if(new Date(req.body.date) <= new Date() || new Date(req.body.date) == "Invalid Date"){
+      res.status(400).json({error: "Invalid date"});
   }else{
     User.findOne({api_token: req.body.api_token},function(err,doc){
       if(!doc || err){
@@ -96,7 +102,7 @@ exports.bidOnDemand = (req, res) => {
                   res.status(401).json({error: "Invalid bidAmount"});
                }
                else{
-                  if(req.body.deadline === undefined || req.body.deadline <= new Date()){
+                  if(req.body.deadline === undefined || new Date(req.body.deadline) <= new Date() || new Date(req.body.deadline) == "Invalid Date"){
                      res.status(401).json({error: "Invalid date for promised deadline"});
                   }
                   else{
@@ -113,7 +119,7 @@ exports.bidOnDemand = (req, res) => {
                            "devId" : userDoc._id,
                            "deadline" : req.body.deadline
                         }
-                        var i = demand.totalBids.length - 1;
+                        var i = demand.totalBids.length;
                         while((i > 0) && (demand.totalBids[i - 1].bidAmount > bid.bidAmount)){
                            i = i - 1;
                         }
@@ -175,40 +181,74 @@ exports.approveBidder = (req, res) =>{
                                           }
                                           else{
                                              demand.justification = req.body.justification;
-                                          }
-                                       }
-                                       userClient.funds = userClient.funds - (Math.round((0.5 * demand.totalBids[i].bidAmount) * 100) / 100);
-                                       userDeveloper.funds = userDeveloper.funds + (Math.round((0.5 * demand.totalBids[i].bidAmount) * 100) / 100);
-                                       var winner = {
-                                          "bidAmount" : demand.totalBids[i].bidAmount,
-                                          "devId" : demand.totalBids[i].devId,
-                                          "deadline" : demand.totalBids[i].deadline
-                                       }
-                                       demand.winningBid = winner;
-                                       demand.devChosen = true;
-                                       userDeveloper.projects.push(demand._id);
-                                       demand.save(function(err){
-                                          if(err) {
-                                             res.status(500).json({error: "Error saving winning bid"});
-                                          }
-                                          else{
-                                             userClient.save(function(err){
-                                                if(err){
-                                                   res.status(500).json({error: "Error saving client"});
+                                             userClient.funds = userClient.funds - (Math.round((0.5 * demand.totalBids[i].bidAmount) * 100) / 100);
+                                             userDeveloper.funds = userDeveloper.funds + (Math.round((0.5 * demand.totalBids[i].bidAmount) * 100) / 100);
+                                             var winner = {
+                                                "bidAmount" : demand.totalBids[i].bidAmount,
+                                                "devId" : demand.totalBids[i].devId,
+                                                "deadline" : demand.totalBids[i].deadline
+                                             }
+                                             demand.winningBid = winner;
+                                             demand.devChosen = true;
+                                             userDeveloper.projects.push(demand._id);
+                                             demand.save(function(err){
+                                                if(err) {
+                                                   res.status(500).json({error: "Error saving winning bid"});
                                                 }
                                                 else{
-                                                   userDeveloper.save(function(err){
+                                                   userClient.save(function(err){
                                                       if(err){
-                                                         res.status(500).json({error: "Error saving developer"});
+                                                         res.status(500).json({error: "Error saving client"});
                                                       }
                                                       else{
-                                                         res.status(201).json({message: "Successfully chose and paid developer"});
+                                                         userDeveloper.save(function(err){
+                                                            if(err){
+                                                               res.status(500).json({error: "Error saving developer"});
+                                                            }
+                                                            else{
+                                                               res.status(201).json({message: "Successfully chose and paid developer"});
+                                                            }
+                                                         });
                                                       }
                                                    });
                                                 }
                                              });
                                           }
-                                       });
+                                       }
+                                       else{
+                                           userClient.funds = userClient.funds - (Math.round((0.5 * demand.totalBids[i].bidAmount) * 100) / 100);
+                                           userDeveloper.funds = userDeveloper.funds + (Math.round((0.5 * demand.totalBids[i].bidAmount) * 100) / 100);
+                                           var winner = {
+                                              "bidAmount" : demand.totalBids[i].bidAmount,
+                                              "devId" : demand.totalBids[i].devId,
+                                              "deadline" : demand.totalBids[i].deadline
+                                           }
+                                           demand.winningBid = winner;
+                                           demand.devChosen = true;
+                                           userDeveloper.projects.push(demand._id);
+                                           demand.save(function(err){
+                                              if(err) {
+                                                 res.status(500).json({error: "Error saving winning bid"});
+                                              }
+                                              else{
+                                                 userClient.save(function(err){
+                                                    if(err){
+                                                       res.status(500).json({error: "Error saving client"});
+                                                    }
+                                                    else{
+                                                       userDeveloper.save(function(err){
+                                                          if(err){
+                                                             res.status(500).json({error: "Error saving developer"});
+                                                          }
+                                                          else{
+                                                             res.status(201).json({message: "Successfully chose and paid developer"});
+                                                          }
+                                                       });
+                                                    }
+                                                 });
+                                              }
+                                           });
+                                       }
                                     }
                                     else{
                                        res.status(400).json({error: "Not enough funds to choose this bidder"});
