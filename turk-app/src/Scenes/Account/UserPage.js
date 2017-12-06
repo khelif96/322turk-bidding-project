@@ -35,10 +35,10 @@ class UserPage extends Component {
          .then( (account) => {
            //console.log(UserID);
            this.setState({
-             firstName : account.firstName ,
-             lastName : account.lastName ,
+             firstName : account.name.first ,
+             lastName : account.name.last ,
              email: account.email ,
-             userId: account.userId ,
+             userId: account._id ,
              profileImage : account.profileImage ,
              resume : account.resume ,
              interests: account.interests ,

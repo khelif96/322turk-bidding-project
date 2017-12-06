@@ -40,6 +40,7 @@ class MyAccount extends Component {
   logout = () => {
       this.props.isTheUserSignedIn(false,"noUser");
       localStorage.setItem('api_token',"");
+      localStorage.setItem('userType',"");
       this.props.history.push('/')
   }
 
@@ -50,11 +51,11 @@ class MyAccount extends Component {
          .then( (account) => {
            this.setState({
              api_token : localStorage.getItem('api_token'),
-             firstName : account.firstName ,
-             lastName : account.lastName ,
+             firstName : account.name.first ,
+             lastName : account.name.last ,
              createdDate : account.createdDate ,
              email: account.email ,
-             userId: account.userId ,
+             userId: account._id ,
              password_hash: account.password_hash ,
              profileImage : account.profileImage ,
              resume : account.resume ,

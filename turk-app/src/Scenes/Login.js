@@ -57,7 +57,6 @@ class Login extends Component {
             if(api_token.length > 0) {
               this.getAccountByApiToken(api_token)
                   .then( (account) => {
-                    alert(account.userType);
                     localStorage.setItem('userType',account.userType);
                     this.props.isTheUserSignedIn(true,account.userType);
                   })

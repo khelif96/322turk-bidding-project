@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {getDemandbyID} from '../Utils/Demand.js';
+import {getAccountByID} from '../Utils/User.js';
+
 import {
   ContainerBG ,
   DemandHeaderBG,
@@ -27,10 +29,12 @@ class Demand extends Component {
         devChosen : false,
         isActive : false,
         totalBids : [],
-        createdDate : ""
+        createdDate : "",
+        ownerName : "",
       }
       this.getDemandbyID = getDemandbyID.bind(this);
       this.displayContent = this.displayContent.bind(this);
+      this.getAccountByID = getAccountByID.bind(this);
       this.displayContent();
   }
 //2017-11-10T19:57:56.710Z
@@ -46,10 +50,18 @@ class Demand extends Component {
   displayContent(){
       const DemandID = this.state.demandID;
       this.getDemandbyID(DemandID)
-      .then( (response) =>{
+      .then( (response) => {
         const convertedCreated = this.convertDate(response.createdDate);
+        getAccountByID(response.ownerId)
+            .then( (clientName) => { this.setState({
+                ownerName : clientName.name.first + " " + clientName.name.last
+              })
+            })
+            .catch( (error) => {
+              alert("Error from : demand page" + error);
+        });
         this.setState({
-          ownerId : response.ownerID,
+          ownerId : response.ownerId,
           content : response.content,
           title : response.title ,
           bidderIds : response.bidderIds,
@@ -59,8 +71,8 @@ class Demand extends Component {
           totalBids :  response.totalBids,
           createdDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
         })
-        console.log(response)
       })
+
 
   }
   render(){
@@ -71,17 +83,18 @@ class Demand extends Component {
           <DemandTitle>
             {this.state.title}
           </DemandTitle>
+          
+          <Link to =  {`/user/userId=${this.state.ownerId}`}>
+            <DemandUserDate>
+                By : {this.state.ownerName}
+            </DemandUserDate>
+          </Link>
 
           <DemandUserDate>
-            <div>
-              By : {this.state.demandID}
-            </div>
-
-            <div>
               Posted : {this.state.createdDate}
-            </div>
           </DemandUserDate>
         </DemandHeaderBG>
+
         <DemandBody>
 
           <DemandBodyHeaders>
@@ -98,6 +111,12 @@ class Demand extends Component {
             {this.state.bidderIds}
           </DemandBodyP>
 
+          <DemandBodyHeaders>
+            Demand ID:
+          </DemandBodyHeaders>
+          <DemandBodyP>
+            {this.state.demandID}
+          </DemandBodyP>
 
             <BidButton>
               Bid On Job
