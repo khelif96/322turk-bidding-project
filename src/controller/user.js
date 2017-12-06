@@ -52,3 +52,23 @@ exports.getUserById = (req,res) => {
     }
   })
 }
+
+exports.getTopClients = (req,res) => {
+  User.find({accountApproved:true,userType:"Client"},'-password_hash').sort({rating:-1}).exec(function(err,users){
+    if(!users || err){
+      res.status(404).json({error: "Didnt find any users"})
+    }else{
+      res.send(users);
+    }
+  });
+}
+
+exports.getTopDevs = (req,res) => {
+  User.find({accountApproved:true,userType:"Developer"},'-password_hash').sort({rating:-1}).exec(function(err,users){
+    if(!users || err){
+      res.status(404).json({error: "Didnt find any users"})
+    }else{
+      res.send(users);
+    }
+  });
+}

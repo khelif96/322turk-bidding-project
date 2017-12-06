@@ -9,7 +9,7 @@ var userSchema = new Schema({
   },
   createdDate : {type : Date, default:Date.now},
   email: String,
-  userId: String,
+  userName: String,
   password_hash: String,
   api_token: String,
   profileImage : String,

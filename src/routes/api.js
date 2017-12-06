@@ -33,6 +33,9 @@ router.get('/demands/:demandId/:expanded', demands.getDemand);
 router.get('/user/api_token=:api_token', user.getUserByApiToken);
 router.get('/user/userId=:userId', user.getUserById);
 
+router.get('/users/topClients',user.getTopClients);
+router.get('/users/topDevs', user.getTopDevs);
+
 router.use(userAuth.checkAuth); // Routes that require and api_token after this
 
 
@@ -53,5 +56,6 @@ router.post('/submitProduct', user.isDeveloper, demandModification.submitProduct
 // Pass "api_token" and "amount"
 router.post('/addFunds', user.isClient, userModification.addFunds);
 
+router.use(apiHome.invalidPath);
 // Return Router
 module.exports = router;
