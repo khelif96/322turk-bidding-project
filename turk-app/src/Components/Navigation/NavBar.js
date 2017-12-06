@@ -47,7 +47,7 @@ class NavBar extends Component {
                 Login
               </NavBarLink>
               :
-              <NavBarLink to = {`/user/api_token=${localStorage.getItem('api_token')}`}>
+              <NavBarLink to ="/myAccount">
                 My Account
               </NavBarLink>
             }

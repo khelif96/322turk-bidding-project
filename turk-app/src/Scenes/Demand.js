@@ -13,22 +13,21 @@ import {
  }from '../Styles/Demand.style';
  import {Link} from 'react-router-dom';
 
-
-
 class Demand extends Component {
 
   constructor(props){
       super(props);
       this.state = {
-        bidderIds : [],
-        createdDate : "",
-        isActive : false,
-        title : "",
+        demandID : this.props.match.params.api_token,
+        ownerId : "",
         content : "",
-        ownerID : "",
+        title : "",
+        bidderIds : [],
+        __v : 0,
+        devChosen : false,
+        isActive : false,
         totalBids : [],
-        winningBid : {},
-        demandID : this.props.match.params.id
+        createdDate : ""
       }
       this.getDemandbyID = getDemandbyID.bind(this);
       this.displayContent = this.displayContent.bind(this);
@@ -50,16 +49,15 @@ class Demand extends Component {
       .then( (response) =>{
         const convertedCreated = this.convertDate(response.createdDate);
         this.setState({
-
-          bidderIds : response.bidderIds,
-          createdDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
-          isActive : response.isActive,
-          title : response.title ,
+          ownerId : response.ownerID,
           content : response.content,
-          ownerID : response.ownerID,
-          totalBids : response.totalBids,
-          winningBid : response.winningBid,
-
+          title : response.title ,
+          bidderIds : response.bidderIds,
+          __v : response.__v,
+          devChosen : response.devChosen,
+          isActive :  response.isActive,
+          totalBids :  response.totalBids,
+          createdDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
         })
         console.log(response)
       })
@@ -89,9 +87,17 @@ class Demand extends Component {
           <DemandBodyHeaders>
             Description
           </DemandBodyHeaders>
-            <DemandBodyP>
-              {this.state.content}
-            </DemandBodyP>
+          <DemandBodyP>
+            {this.state.content}
+          </DemandBodyP>
+
+          <DemandBodyHeaders>
+            Bidders:
+          </DemandBodyHeaders>
+          <DemandBodyP>
+            {this.state.bidderIds}
+          </DemandBodyP>
+
 
             <BidButton>
               Bid On Job
