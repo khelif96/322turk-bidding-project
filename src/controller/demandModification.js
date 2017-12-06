@@ -256,7 +256,7 @@ exports.submitProduct = (req,res) => {
                      }
                      else{
                         if(userDeveloper._id != demand.winningBid.devId){
-                           res.status(400).json({error: "This developer didn't win this demand. This should never print."});
+                           res.status(400).json({error: "This developer didn't win this demand."});
                         }
                         else{
                            if(req.body.finishedProduct == ""){
@@ -275,12 +275,16 @@ exports.submitProduct = (req,res) => {
                                     }
                                     else{
                                        if(demand.winningBid.deadline < new Date()){
-                                          userDeveloper.rating = userDeveloper.rating + ((1 - userDeveloper.rating)/(userDeveloper.ratingCount + 1));
+                                          userDeveloper.rating = Math.round((userDeveloper.rating + ((1 - userDeveloper.rating)/(userDeveloper.ratingCount + 1))) * 100) / 100;
                                           userDeveloper.ratingCount = userDeveloper.ratingCount + 1;
                                           userDeveloper.badRatingRecieved = userDeveloper.badRatingRecieved + 1;
                                           if(userDeveloper.badRatingRecieved == 5){
                                              userDeveloper.badRatingRecieved = 0;
                                              userDeveloper.warningCount = userDeveloper.warningCount + 1;
+                                             if(userDeveloper.warningCount == 2){
+                                                userDeveloper.warningCount = 0;
+                                                userDeveloper.blacklist = true;
+                                             }
                                           }
                                           userDeveloper.funds = userDeveloper.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
                                           userClient.funds = userClient.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);

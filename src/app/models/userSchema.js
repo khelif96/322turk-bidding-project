@@ -24,6 +24,7 @@ var userSchema = new Schema({
   badRatingGiven: {type: Number, default: 0},
   badRatingRecieved: {type: Number, default: 0},
   warningCount : {type: Number, default: 0},
+  blacklist : {type: Boolean, default: false},
   userType: {type: String, required: true}, // 3 types Client, Developer, Super_User
   funds : {type: Number, default: 0}
 });
