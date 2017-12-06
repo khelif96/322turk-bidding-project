@@ -16,6 +16,7 @@ class Login extends Component {
         password : "",
         api_token : "",
         showError : false,
+        errorMessage : ""
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -61,7 +62,7 @@ class Login extends Component {
                     this.props.isTheUserSignedIn(true,account.userType);
                   })
                   .catch( (error) => {
-                    localStorage.setItem('api_token',"");
+                    localStorage.removeItem('api_token');
                     localStorage.setItem('userType',"");
                     alert("Error from : Login page" + error);
                   });
@@ -71,7 +72,8 @@ class Login extends Component {
             else this.OpenPopUp();
           })
           .catch( error => {
-            localStorage.setItem('api_token',"");
+            localStorage.removeItem('api_token');
+            alert(error);
             this.OpenPopUp();
           })
       //history.push('/')
@@ -120,7 +122,7 @@ class Login extends Component {
                         <Modal.Title>Login Error</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        <p> There is No account under this name, Please Try again </p>
+                        <p> There was an error with your account,: {this.state.error} Please Try again </p>
                       </Modal.Body>
             </Modal>
 
