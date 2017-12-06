@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import { Button } from 'react-bootstrap';
-import {getAccountByApiToken} from '../../Utils/User.js';
+import {getAccountByApiToken,getAccountByID} from '../../Utils/User.js';
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
 
@@ -11,7 +11,7 @@ class UserPage extends Component {
         firstName : "",
         lastName : "",
         email: "",
-        userId:  this.props.match.params.id,
+        userId:  this.props.match.params.userId,
         profileImage : "",
         resume : "",
         interests: "",
@@ -23,18 +23,17 @@ class UserPage extends Component {
         badRatingRecieved: 0,
       }
 
-      this.getAccountByApiToken = getAccountByApiToken.bind(this);
+      this.getAccountByID = getAccountByID.bind(this);
       this.getAccountInfo = this.getAccountInfo.bind(this);
       this.getAccountInfo();
   }
 
   getAccountInfo(){
-     const API_token = this.state.api_token;
+     const UserID = this.state.userId;
      //call our axios promise, then retrieve the token from axios
-     getAccountByApiToken(API_token)
+     getAccountByID(UserID)
          .then( (account) => {
-           console.log(account);
-           console.log(account.accountAlerts);
+           //console.log(UserID);
            this.setState({
              firstName : account.firstName ,
              lastName : account.lastName ,
@@ -52,7 +51,6 @@ class UserPage extends Component {
             })
          })
          .catch( (error) => { localStorage.setItem('api_token',"");
-           this.setState({ api_token : ""});
            alert("Error from : myAccount page" + error);
          });
  }

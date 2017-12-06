@@ -20,7 +20,7 @@ class App extends Component {
       super(props);
       this.state = {
         isSignedIn : (localStorage.getItem('api_token') !== null),
-        userType : "",
+        userType : localStorage.getItem('userType'),
         canBid : ""
       }
   }
@@ -47,7 +47,7 @@ class App extends Component {
             }/>
             <Route  path = "/RegisterUser" component = {RegisterUser}/>
             <Route  path = "/RegisterDemand" component = {RegisterDemand}/>
-            <Route  path = "/user/api_token=:api_token" component = {
+            <Route  path = "/user/userId=:userId" component = {
               (routeProps) => <UserPage  {...routeProps} />
             }/>
             <Route  path = "/myAccount" component = {

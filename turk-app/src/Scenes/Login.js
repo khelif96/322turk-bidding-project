@@ -58,9 +58,12 @@ class Login extends Component {
               this.getAccountByApiToken(api_token)
                   .then( (account) => {
                     alert(account.userType);
+                    localStorage.setItem('userType',account.userType);
                     this.props.isTheUserSignedIn(true,account.userType);
                   })
-                  .catch( (error) => { localStorage.setItem('api_token',"");
+                  .catch( (error) => {
+                    localStorage.setItem('api_token',"");
+                    localStorage.setItem('userType',"");
                     alert("Error from : Login page" + error);
                   });
               localStorage.setItem('api_token',api_token);

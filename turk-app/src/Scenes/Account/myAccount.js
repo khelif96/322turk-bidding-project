@@ -48,8 +48,6 @@ class MyAccount extends Component {
      //call our axios promise, then retrieve the token from axios
      getAccountByApiToken(API_token)
          .then( (account) => {
-           console.log(account);
-           console.log(account.accountAlerts);
            this.setState({
              api_token : localStorage.getItem('api_token'),
              firstName : account.firstName ,
