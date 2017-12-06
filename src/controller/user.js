@@ -42,3 +42,13 @@ exports.getUserByApiToken = (req,res) => {
         }
     });
 }
+
+exports.getUserById = (req,res) => {
+  User.findById(req.params.userId, '-password_hash', function(err,user){
+    if(!user || err){
+      res.status(401).json({error: "Could not find user"});
+    }else{
+      res.send(user);
+    }
+  })
+}

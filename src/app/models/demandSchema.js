@@ -15,7 +15,8 @@ var demandSchema = new Schema({
   winningBid : {bidAmount: Number, devId: String, deadline: Date},
   devChosen : {type : Boolean, default: false},
   finishedProduct : String,
-  justification : String
+  justification : String,
+  ownerProfile: {}
 });
 
 module.exports = mongoose.model('Demand',demandSchema);
