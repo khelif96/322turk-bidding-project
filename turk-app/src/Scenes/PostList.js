@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../Styles/App.css';
 import {retrieveDemands} from '../Utils/auth.js';
 import DemandTitle from './Feed/DemandTitle';
-import data from '../jobs.json';
 
 class PostList extends Component {
   constructor(props){
