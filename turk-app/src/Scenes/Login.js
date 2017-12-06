@@ -70,7 +70,8 @@ class Login extends Component {
             }
             else this.OpenPopUp();
           })
-          .catch( error => { localStorage.setItem('api_token',"");
+          .catch( error => {
+            localStorage.setItem('api_token',"");
             this.OpenPopUp();
           })
       //history.push('/')

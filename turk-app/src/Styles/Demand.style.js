@@ -1,5 +1,7 @@
 
 import styled from 'styled-components';
+import { Button,Col,Form, FormGroup, FormControl, ControlLabel,Modal} from 'react-bootstrap';
+
 
 export const ContainerBG = styled.div`
   background-color: #D3D3D3;
@@ -43,7 +45,7 @@ export const DemandBodyP = styled.p`
     text-align : left;
     padding : 5px 20px 20px 20px;
 `;
-export const BidButton = styled.button`
+export const BidButton = styled(Button)`
   background-color: orange;
   color: white;
 
@@ -51,8 +53,6 @@ export const BidButton = styled.button`
   width : 100px;
   height : 50px;
   margin : 0 auto;
-
-  padding : 5px 15px 5px 15px;
   border: 0px;
   box-shadow: 2px 2px 2px 2px gray;
   border-radius: 4px;
