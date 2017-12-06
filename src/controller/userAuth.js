@@ -82,7 +82,7 @@ exports.registerUser = (req,res) => {
               }
 
               res.status(201);
-              res.json({"api_token":tempUser.api_token} );
+              res.json({message: "Successfully registered."} );
           });
         });
 
