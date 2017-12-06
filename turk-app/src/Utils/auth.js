@@ -14,14 +14,17 @@ function login(userName,Password) {
     .catch( (error) =>  {});
 }
 export {registerUser};
-function registerUser(Username,Password,FirstName,LastName){
+function registerUser(Username,Password,Email,FirstName,LastName,UserType){
+  console.log(Username, Password, Email, FirstName, LastName, UserType);
   return axios.post(baseUrl+"/registerUser",{
-      email: Username,
+      email: Email,
+      userName: Username,
       password: Password,
       name : {
         first : FirstName,
         last : LastName
-      }
+      },
+      userType : UserType
     })
     .then((response) => response.data.api_token )
     .catch( (error) => {
