@@ -59,31 +59,38 @@ exports.loginUser = (req,res) => {
 };
 
 exports.registerUser = (req,res) => {
-  if(req.body.email === undefined || req.body.password === undefined){
+  if(req.body.email === undefined || req.body.password === undefined || req.body.name  === undefined || req.body.userName === undefined || req.body.userType === undefined){
     res.status(400);
-    res.json({error: "Missing email or password in request"});
+    res.json({error: "Incomplete request"});
   }else{
     User.find({email: new RegExp(req.body.email, 'i')}, function (err,docs){
       if(!docs.length){
-        var tempUser = new User();
-        tempUser.email = req.body.email;
-        tempUser.api_token = rack();
-        tempUser.userType = "Client"; // By Default everyone starts off as a client
-        bcrypt.hash(req.body.password, saltRounds, function(err,hash){
-          tempUser.password_hash = hash;
-          tempUser.save(function(err){
-            if(err){
-            // console.log("ERROR");
-              res.send(err);
-          }
+        User.find({userName : new RegExp(req.body.userName, 'i')}, function (err,docs){
+          if(!docs.length){
+            var tempUser = new User();
+            tempUser.email = req.body.email;
+            tempUser.api_token = rack();
+            tempUser.userType = req.body.userType;
+            tempUser.name = req.body.name;
+            tempUser.userName === req.body.userName;
+            bcrypt.hash(req.body.password, saltRounds, function(err,hash){
+              tempUser.password_hash = hash;
+              tempUser.save(function(err){
+                if(err){
+                // console.log("ERROR");
+                  res.send(err);
+              }
 
-          res.status(201);
-          res.json({"api_token":tempUser.api_token} );
-          // res.status(201);
-          // res.json({api_token: tempUser.api_token, status: "Successfully Created User"});
+              res.status(201);
+              res.json({"api_token":tempUser.api_token} );
+          });
         });
 
+          // res.status(201);
+          // res.json({api_token: tempUser.api_token, status: "Successfully Created User"});
+        }
       });
+
       }else{
 
         res.status(400);
