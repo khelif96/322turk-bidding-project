@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {getDemandbyID} from '../Utils/Demand.js';
 import {getAccountByID} from '../Utils/User.js';
+import {Button,Grid, Row,Col,Form, FormGroup, FormControl, ControlLabel,Modal} from 'react-bootstrap';
+import {FormContainer} from '../Styles/form.style'
 
 import {
   ContainerBG ,
@@ -31,7 +33,13 @@ class Demand extends Component {
         totalBids : [],
         createdDate : "",
         ownerName : "",
+        showBidOption : true,
+        bidValue : 0,
+        showBidError : false,
       }
+
+      this.handleChange = this.handleChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
       this.getDemandbyID = getDemandbyID.bind(this);
       this.displayContent = this.displayContent.bind(this);
       this.getAccountByID = getAccountByID.bind(this);
@@ -47,6 +55,28 @@ class Demand extends Component {
       seconds : date.substr(17,2)
   })
 
+  bidOnDemand = () => {
+
+  }
+
+  OpenPopUp = () => {
+    this.setState({ showBidError : true })
+  }
+
+  closePopUp = () => {
+    this.setState({ showBidError : false })
+  }
+
+  handleSubmit = (event) => {
+        this.OpenPopUp();
+        event.preventDefault();
+  }
+
+  handleChange(event) {
+    this.setState(
+      {[event.target.id]: event.target.value}
+    );
+  }
   displayContent(){
       const DemandID = this.state.demandID;
       this.getDemandbyID(DemandID)
@@ -83,7 +113,7 @@ class Demand extends Component {
           <DemandTitle>
             {this.state.title}
           </DemandTitle>
-          
+
           <Link to =  {`/user/userId=${this.state.ownerId}`}>
             <DemandUserDate>
                 By : {this.state.ownerName}
@@ -118,9 +148,36 @@ class Demand extends Component {
             {this.state.demandID}
           </DemandBodyP>
 
-            <BidButton>
-              Bid On Job
-            </BidButton>
+        <FormContainer>
+
+              <form onSubmit = {this.handleSubmit}>
+                <FormGroup controlId="bidValue">
+                     <FormControl
+                         autoFocus
+                         type="bidValue"
+                         placeholder="Bid Amount"
+                         value ={this.state.bidValue}
+                         onChange = {this.handleChange}
+                      />
+                </FormGroup>
+                    <Button
+                       block
+                       type="submit"
+                >
+                   bid
+                </Button>
+
+                <Modal show={this.state.showBidError} onHide={this.closePopUp}>
+                          <Modal.Header closeButton>
+                            <Modal.Title>Login Error</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <p> You dont have enough money to bid that amount on this project, please enter another price </p>
+                          </Modal.Body>
+                </Modal>
+              </form>
+
+        </FormContainer>
 
             <Link to = '/'>
               <BackButton>
@@ -128,6 +185,8 @@ class Demand extends Component {
               </BackButton>
             </Link>
         </DemandBody>
+
+
 
       </ContainerBG>
 
