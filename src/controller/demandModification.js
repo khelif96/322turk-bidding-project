@@ -6,7 +6,7 @@ var Demand = require('../app/models/demandSchema');
 exports.createDemand = (req,res) => {
   if(req.body.api_token === undefined){
     res.status(400).json({error: "Missing api_token in request"});
-  }else if(req.body.title  === undefined || req.body.content === undefined){
+}else if(req.body.title  === undefined || req.body.content === undefined || req.body.date === undefined){
     res.status(201).json({error: "Incomplete Request"})
   }else{
     User.findOne({api_token: req.body.api_token},function(err,doc){
@@ -17,6 +17,7 @@ exports.createDemand = (req,res) => {
         tempDemand.title = req.body.title;
         tempDemand.content = req.body.content;
         tempDemand.ownerId = doc._id;
+        tempDemand.expDate = req.body.date;
         tempDemand.save(function(err){
           if(err){
             res.send(err);
@@ -72,8 +73,6 @@ exports.editDemand = (req,res) => {
             }else{
               res.status(400).json({error : "Invalid Api Request, You do not have access to this function"});
             }
-
-            // console.log(doc);
           }
         }
       );
@@ -82,7 +81,7 @@ exports.editDemand = (req,res) => {
 }
 };
 
-exports.bidOnDemand = (req, res) => { // Need to check if user is of Developer type
+exports.bidOnDemand = (req, res) => {
    User.findOne({api_token: req.body.api_token},function(err, userDoc){
       if(!userDoc || err){
          res.status(401).json({error: "Invalid api_token"});
@@ -93,42 +92,49 @@ exports.bidOnDemand = (req, res) => { // Need to check if user is of Developer t
                res.status(404).json({error: "Can not find Demand"});
             }
             else{
-               var i;
-               // Check to see if there's a bid already placed by this developer
-               // If there is remove it
-               for(i = 0; i < demand.totalBids.length; i++){
-                  if(demand.totalBids[i].devId == userDoc._id) demand.totalBids.splice(i, 1);
+               if(req.body.bidAmount === undefined || parseInt(req.body.bidAmount) < 1){
+                  res.status(401).json({error: "Invalid bidAmount"});
                }
-               var bid = {
-                  "bidAmount" : req.body.bidAmount,
-                  "devId" : userDoc._id
-               }
-               console.log(demand);
-               // Ensure sorted from least to greatest by bidAmount
-               var i = demand.totalBids.length - 1;
-               while((i > 0) && (demand.totalBids[i - 1].bidAmount > bid.bidAmount)){
-                  i = i - 1;
-               }
-               // Place bid in correct position
-               demand.totalBids.splice(i, 0, bid);
-               demand.save(function(err){
-                  if(err){
-                     console.log("user Save Error");
-                     res.status(500).json({error: "Error Bidding on this demand"});
+               else{
+                  if(req.body.deadline === undefined || req.body.deadline <= new Date()){
+                     res.status(401).json({error: "Invalid date for promised deadline"});
                   }
-               });
-               console.log("Sending Response");
-               res.status(201).json({message: "Successfully Bid on Demand"});
+                  else{
+                     if(demand.isActive == false){
+                        res.status(404).json({error: "This demand is closed. Can no longer place bids."});
+                     }
+                     else{
+                        var i;
+                        for(i = 0; i < demand.totalBids.length; i++){
+                           if(demand.totalBids[i].devId == userDoc._id) demand.totalBids.splice(i, 1);
+                        }
+                        var bid = {
+                           "bidAmount" : req.body.bidAmount,
+                           "devId" : userDoc._id,
+                           "deadline" : req.body.deadline
+                        }
+                        var i = demand.totalBids.length - 1;
+                        while((i > 0) && (demand.totalBids[i - 1].bidAmount > bid.bidAmount)){
+                           i = i - 1;
+                        }
+                        demand.totalBids.splice(i, 0, bid);
+                        demand.save(function(err){
+                           if(err){
+                              res.status(500).json({error: "Error Bidding on this demand"});
+                           }
+                        });
+                        res.status(201).json({message: "Successfully Bid on Demand"});
+                     }
+                  }
+               }
             }
          });
       }
    });
 }
 
-// Need to prodive check for if chosen developer is the lowest or not
-// Also need to check if sufficient funds for chosen developer
 exports.approveBidder = (req, res) =>{
-   if(req.body.winningDev === undefined || req.body.demandId === undefined){ // Ensure dev ID passed
+   if(req.body.devId === undefined || req.body.demandId === undefined){
       res.status(404).json({error: "Incomplete request"});
    }
    else{
@@ -137,42 +143,178 @@ exports.approveBidder = (req, res) =>{
             res.json({error: "invalid demand id", expanded: err});
          }
          else{
-            User.findOne({api_token: req.body.api_token},function(err,userDoc){
-               if(!userDoc || err){
+            User.findOne({api_token: req.body.api_token},function(err,userClient){
+               if(!userClient || err){
                   res.status(401).json({error: "Invalid api_token"});
                }
                else{
-                  if(userDoc._id === demand.ownerId){
-                     if(demand.winningBid === undefined){
-                        var found = false;
-                        for(i = 0; i < demand.totalBids.length; i++){
-                           if(demand.totalBids[i].devId === req.body.winningDev){
-                              found = true;
-                              var winner = {
-                                 "winAmount" : demand.totalBids[i].bidAmount,
-                                 "winDev" : demand.totalBids[i].devId
-                              }
-                              demand.winningBid = winner;
-                              demand.save(function(err){
-                                 if(err) {
-                                    res.status(500).json({error: "Error Saving entry"});
-                                 }
-                                 else{
-                                    res.status(200).json({message: "Successfully Approved Bidder"});
-                                 }
-                              });
-                              break;
-                           }
-                        }
-                        if(!found) res.status(401).json({error: "Winning developer never placed a bid on demand. This should never print"});
+                  User.findById(req.body.devId, function(err, userDeveloper){
+                     if(!userDeveloper || err){
+                        res.status(401).json({error: "Invalid devId"});
                      }
                      else{
-                        res.status(401).json({error: "Winning developer already chosen for this demand"});
+                        if(userClient._id == demand.ownerId){
+                           if(!demand.devChosen){
+                              var found = false;
+                              var i;
+                              for(i = 0; i < demand.totalBids.length; i++){
+                                 if(demand.totalBids[i].devId === req.body.devId){
+                                    found = true;
+                                    break;
+                                 }
+                              }
+                              if(found){
+                                 if(demand.totalBids[i].deadline <= new Date()){
+                                    res.status(401).json({error: "Can't choose this developer due to the promised deadline."});
+                                 }
+                                 else{
+                                    if(userClient.funds >= demand.totalBids[i].bidAmount){
+                                       if(i != 0){
+                                          if(req.body.justification === undefined || req.body.justification == ""){
+                                             res.status(404).json({error: "Need to provide a reason for choosing this developer who isn't the lowest bidder."});
+                                          }
+                                          else{
+                                             demand.justification = req.body.justification;
+                                          }
+                                       }
+                                       userClient.funds = userClient.funds - (Math.round((0.5 * demand.totalBids[i].bidAmount) * 100) / 100);
+                                       userDeveloper.funds = userDeveloper.funds + (Math.round((0.5 * demand.totalBids[i].bidAmount) * 100) / 100);
+                                       var winner = {
+                                          "bidAmount" : demand.totalBids[i].bidAmount,
+                                          "devId" : demand.totalBids[i].devId,
+                                          "deadline" : demand.totalBids[i].deadline
+                                       }
+                                       demand.winningBid = winner;
+                                       demand.devChosen = true;
+                                       userDeveloper.projects.push(demand._id);
+                                       demand.save(function(err){
+                                          if(err) {
+                                             res.status(500).json({error: "Error saving winning bid"});
+                                          }
+                                          else{
+                                             userClient.save(function(err){
+                                                if(err){
+                                                   res.status(500).json({error: "Error saving client"});
+                                                }
+                                                else{
+                                                   userDeveloper.save(function(err){
+                                                      if(err){
+                                                         res.status(500).json({error: "Error saving developer"});
+                                                      }
+                                                      else{
+                                                         res.status(201).json({message: "Successfully chose and paid developer"});
+                                                      }
+                                                   });
+                                                }
+                                             });
+                                          }
+                                       });
+                                    }
+                                    else{
+                                       res.status(400).json({error: "Not enough funds to choose this bidder"});
+                                    }
+                                 }
+                              }
+                              else{
+                                 res.status(401).json({error: "Winning developer never placed a bid on demand. This should never print"});
+                              }
+                           }
+                           else{
+                              res.status(401).json({error: "Winning developer already chosen for this demand"});
+                           }
+                        }
+                        else{
+                           res.status(401).json({error: "User and demand owner do not match"});
+                        }
                      }
-                  }
-                  else{
-                     res.status(401).json({error: "User and demand owner do not match"});
-                  }
+                  });
+               }
+            });
+         }
+      });
+   }
+}
+
+exports.submitProduct = (req,res) => {
+   if(req.body.api_token === undefined || req.body.demandId === undefined || req.body.finishedProduct === undefined){
+      res.status(400).json({error: "Invalid Request"});
+   }
+   else{
+      Demand.findById(req.body.demandId,function(err, demand){
+         if(!demand || err){
+            res.json({error: "Invalid demand id", expanded: err});
+         }
+         else{
+            User.findOne({api_token: req.body.api_token},function(err, userDeveloper){
+               if(!userDeveloper || err){
+                  res.status(401).json({error: "Invalid api_token"});
+               }
+               else{
+                  User.findById(demand.ownerId, function(err, userClient){
+                     if(!userClient || err){
+                        res.status(401).json({error: "Couldn't find owner of demand."});
+                     }
+                     else{
+                        if(userDeveloper._id != demand.winningBid.devId){
+                           res.status(400).json({error: "This developer didn't win this demand."});
+                        }
+                        else{
+                           if(req.body.finishedProduct == ""){
+                              res.status(400).json({error: "Product is empty"});
+                           }
+                           else{
+                              if(demand.isActive == false){
+                                 res.status(401).json({error: "Product already submitted"});
+                              }
+                              else{
+                                 demand.finishedProduct = req.body.finishedProduct;
+                                 demand.isActive = false;
+                                 demand.save(function(err){
+                                    if(err) {
+                                       res.status(500).json({error: "Error Saving product"});
+                                    }
+                                    else{
+                                       if(demand.winningBid.deadline < new Date()){
+                                          userDeveloper.rating = Math.round((userDeveloper.rating + ((1 - userDeveloper.rating)/(userDeveloper.ratingCount + 1))) * 100) / 100;
+                                          userDeveloper.ratingCount = userDeveloper.ratingCount + 1;
+                                          userDeveloper.badRatingRecieved = userDeveloper.badRatingRecieved + 1;
+                                          if(userDeveloper.badRatingRecieved == 5){
+                                             userDeveloper.badRatingRecieved = 0;
+                                             userDeveloper.warningCount = userDeveloper.warningCount + 1;
+                                             if(userDeveloper.warningCount == 2){
+                                                userDeveloper.warningCount = 0;
+                                                userDeveloper.blacklist = true;
+                                             }
+                                          }
+                                          userDeveloper.funds = userDeveloper.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                          userClient.funds = userClient.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                       }
+                                       else{
+                                          userClient.funds = userClient.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                          userDeveloper.funds = userDeveloper.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                       }
+                                       userClient.save(function(err){
+                                          if(err){
+                                             res.status(500).json({error: "Error Saving client"});
+                                          }
+                                          else{
+                                             userDeveloper.save(function(err){
+                                                if(err){
+                                                   res.status(500).json({error: "Error Saving developer"});
+                                                }
+                                                else{
+                                                   res.status(201).json({message: "Successfully saved product."});
+                                                }
+                                             });
+                                          }
+                                       });
+                                    }
+                                 });
+                              }
+                           }
+                        }
+                     }
+                  });
                }
             });
          }
