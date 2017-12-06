@@ -59,6 +59,10 @@ class Demand extends Component {
 
   }
 
+  validateBid() {
+     return this.state.bidValue > 0
+   }
+
   OpenPopUp = () => {
     this.setState({ showBidError : true })
   }
@@ -68,6 +72,7 @@ class Demand extends Component {
   }
 
   handleSubmit = (event) => {
+        alert(this.state.bidValue)
         this.OpenPopUp();
         event.preventDefault();
   }
@@ -149,34 +154,29 @@ class Demand extends Component {
           </DemandBodyP>
 
         <FormContainer>
-
               <form onSubmit = {this.handleSubmit}>
                 <FormGroup controlId="bidValue">
-                     <FormControl
-                         autoFocus
-                         type="bidValue"
-                         placeholder="Bid Amount"
-                         value ={this.state.bidValue}
-                         onChange = {this.handleChange}
-                      />
+                   <FormControl
+                       autoFocus
+                       type="bidValue"
+                       placeholder="Bid Amount"
+                       value ={this.state.bidValue}
+                       onChange = {this.handleChange}
+                    />
                 </FormGroup>
-                    <Button
-                       block
-                       type="submit"
-                >
-                   bid
-                </Button>
+                    <Button block type="submit" disabled={!this.validateBid()} >
+                       bid
+                    </Button>
 
                 <Modal show={this.state.showBidError} onHide={this.closePopUp}>
-                          <Modal.Header closeButton>
-                            <Modal.Title>Login Error</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            <p> You dont have enough money to bid that amount on this project, please enter another price </p>
-                          </Modal.Body>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Login Error</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <p> You dont have enough money to bid that amount on this project, please enter another price </p>
+                  </Modal.Body>
                 </Modal>
               </form>
-
         </FormContainer>
 
             <Link to = '/'>
@@ -185,9 +185,6 @@ class Demand extends Component {
               </BackButton>
             </Link>
         </DemandBody>
-
-
-
       </ContainerBG>
 
     );

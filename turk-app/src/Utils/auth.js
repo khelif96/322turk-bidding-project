@@ -26,9 +26,11 @@ function registerUser(Username,Password,Email,FirstName,LastName,UserType){
       },
       userType : UserType
     })
-    .then((response) => response.data.api_token )
+    .then((message) => alert(message + " success") )
     .catch( (error) => {
-        alert( "this is an error from auth " + error.message);
+      alert(error.response.data.message);
+      alert(error.response.status);
+      alert(error.response.headers);
     });
 }
 
