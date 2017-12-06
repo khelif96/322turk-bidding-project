@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import '../Styles/App.css';
-import { Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import { Button, FormGroup, FormControl, ControlLabel, DropdownButton, MenuItem} from 'react-bootstrap';
 import {FormContainer} from '../Styles/form.style'
 import {registerUser} from '../Utils/auth.js';
 
@@ -15,7 +15,10 @@ class RegisterUser extends Component {
         firstName : "",
         lastName : "",
         password : "",
-        api_token : ""
+        api_token : "",
+        email: "",
+        userType : ""
+
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,7 +27,7 @@ class RegisterUser extends Component {
 
   validateForm() {
      return (this.state.username.length > 0 && this.state.password.length > 0
-            && this.state.firstName.length > 0 && this.state.lastName.length > 0);
+            && this.state.firstName.length > 0 && this.state.lastName.length > 0 && this.state.email.length > 0 && this.state.userType.length > 0);
    }
 
   handleChange(event) {
@@ -42,15 +45,17 @@ class RegisterUser extends Component {
       const Password = this.state.password;
       const FirstName = this.state.firstName;
       const LastName = this.state.lastName;
+      const Email = this.state.email;
+      const UserType = this.state.userType;
 
       const currentState = this.state;
 
       alert("Your username is "+ Username + "\nPassword : " + Password +
-            "\nYour First Name is "+ FirstName + "\nLast Name : " + LastName + "\n"
+            "\nYour First Name is "+ FirstName + "\nLast Name : " + LastName + "\n" + "UserType : " + UserType
             );
 
       //call our axios promise, then retrieve the token from axios
-      this.registerUser(Username,Password,FirstName,LastName)
+      this.registerUser(Username,Password,Email,FirstName,LastName,UserType)
           .then( api_token => {localStorage.setItem('api_token',api_token);
                                 alert("Api Token " + api_token);
           })
@@ -88,11 +93,20 @@ class RegisterUser extends Component {
           </FormGroup>
 
           <FormGroup controlId="username" bsSize = "large">
-            <ControlLabel>enter in your email</ControlLabel>
+            <ControlLabel>Enter in your username</ControlLabel>
             <FormControl
                   autoFocus
                   type="username"
                   value={this.state.username}
+                  onChange={this.handleChange}
+                />
+          </FormGroup>
+          <FormGroup controlId="email" bsSize = "large">
+            <ControlLabel>Enter in your email</ControlLabel>
+            <FormControl
+                  autoFocus
+                  type="email"
+                  value={this.state.email}
                   onChange={this.handleChange}
                 />
           </FormGroup>
@@ -106,6 +120,19 @@ class RegisterUser extends Component {
                   onChange={this.handleChange}
                 />
           </FormGroup>
+          <FormGroup controlId="userType">
+            <ControlLabel>Choose your Account Type</ControlLabel>
+            <FormControl componentClass="select"
+              value={this.state.userType}
+              onChange={this.handleChange}
+              placeholder="Account Type"
+            >
+              <option value="Client">Client</option>
+              <option value="Developer">Developer</option>
+            </FormControl>
+            </FormGroup>
+
+
 
           <Button
             block
