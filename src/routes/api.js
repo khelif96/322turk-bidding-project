@@ -53,5 +53,6 @@ router.post('/submitProduct', user.isDeveloper, demandModification.submitProduct
 // Pass "api_token" and "amount"
 router.post('/addFunds', user.isClient, userModification.addFunds);
 
+router.use(apiHome.invalidPath);
 // Return Router
 module.exports = router;
