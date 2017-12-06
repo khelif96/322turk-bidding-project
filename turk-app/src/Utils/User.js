@@ -20,3 +20,15 @@ function getAccountByID(org_ID){
     alert(error + " from USER in utils")
   });
 }
+
+export {addFunds};
+function addFunds(Amount, API_token){
+    return axios.post(baseUrl + "/addFunds", {
+        api_token : API_token,
+        amount : Amount
+    })
+    .then((response) => alert("success : " + response.message))
+    .catch((error) => {
+      alert("This is an error from addFunds " + error.message);
+    });
+}

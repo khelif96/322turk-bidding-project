@@ -39,11 +39,12 @@ function retrieveDemands(){
 }
 
 export {registerDemand};
-function registerDemand(Title,Content,API_token){
+function registerDemand(Title,Content,API_token, ExpDate){
   return axios.post(baseUrl+"/createDemand",{
       title: Title,
       content: Content,
       api_token: API_token,
+      date, ExpDate
     })
     .then((response) => {} )
     .catch( (error) => {
