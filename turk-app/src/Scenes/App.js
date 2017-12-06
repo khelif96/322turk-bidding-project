@@ -35,7 +35,10 @@ class App extends Component {
             <NavBar enableLogout = {this.state.isSignedIn} />
               {this.state.isSignedIn && "user is signed in"}
           <div>
-            <Route exact path = "/" component = {Home}/>
+            <Route exact path = "/" component = {
+               (routeProps) => <Home {...routeProps} userType = {this.state.userType} />
+
+            }/>
             <Route  path = "/Login" component = {
                (routeProps) => <Login {...routeProps} testCall = {this.state.isSignedIn} isTheUserSignedIn={this.userIsSignedIn} />
             }/>
