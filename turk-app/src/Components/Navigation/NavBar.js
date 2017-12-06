@@ -15,52 +15,7 @@ class NavBar extends Component {
   }
 
   render() {
-
     const title = <div><Glyphicon glyph="align-justify"/> </div>;
-    if(localStorage.getItem("api_token") != null){
-    return (
-      <OurNavBar>
-        <Nav pullLeft>
-            <LinkContainer to = '/'>
-              <BrandDiv>
-                <Logo>AMM Turk App</Logo>
-              </BrandDiv>
-            </LinkContainer>
-        </Nav>
-
-        <Nav pullRight>
-
-          <Dropdown  eventKey="1" noCaret title = {title} >
-          <MenuItem eventKey="1.2">
-            <NavBarLink to ="/">
-            <button onClick={localStorage.removeItem('api_token')}>
-              Logout
-            </button>
-            </NavBarLink>
-
-          </MenuItem>
-            <MenuItem divider />
-            <MenuItem eventKey="1.4">
-              <NavBarLink to = "/PostList">
-                Posted Services
-              </NavBarLink>
-            </MenuItem>
-            <MenuItem eventKey="1.5">
-              <NavBarLink to = {`/user/api_token=${localStorage.getItem('api_token')}`}>
-                My Account
-              </NavBarLink>
-            </MenuItem>
-            <MenuItem eventKey="1.6">
-              <NavBarLink to = "/RegisterDemand">
-                Register Demand
-              </NavBarLink>
-            </MenuItem>
-          </Dropdown>
-        </Nav>
-
-      </OurNavBar>
-    );
-  }else{
     return (
       <OurNavBar>
         <Nav pullLeft>
@@ -92,7 +47,7 @@ class NavBar extends Component {
                 Login
               </NavBarLink>
               :
-              <NavBarLink to = {`/user/api_token=${localStorage.getItem('api_token')}`}>
+              <NavBarLink to ="/myAccount">
                 My Account
               </NavBarLink>
             }
@@ -100,7 +55,6 @@ class NavBar extends Component {
             </MenuItem>
 
             { this.props.enableLogout && <MenuItem divider />}
-            
             <MenuItem eventKey="1.4">
             {
               this.props.enableLogout &&
@@ -111,7 +65,7 @@ class NavBar extends Component {
             </MenuItem>
             <MenuItem eventKey="1.5">
             {
-              this.props.enableLogout &&
+              (localStorage.getItem('userType') == "Client") &&
               <NavBarLink to = "/RegisterDemand">
                 Register Demand
               </NavBarLink>
@@ -122,8 +76,6 @@ class NavBar extends Component {
 
       </OurNavBar>
     );
-
-  }
   }
 }
 

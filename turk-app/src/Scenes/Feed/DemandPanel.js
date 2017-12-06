@@ -10,6 +10,7 @@ import { DemandHeading,
          SectionHeadings,
          MoreDetails
       } from '../../Styles/feed.style';
+import {getAccountByID} from '../../Utils/User.js';
 
 
 class DemandPanel extends Component {
@@ -22,11 +23,17 @@ class DemandPanel extends Component {
         isActive : this.props.demand.isActive,
         title : this.props.demand.title,
         content : this.props.demand.content,
-        ownerID :this.props.demand.ownerID,
+        ownerID :this.props.demand.ownerId,
         totalBids : this.props.demand.totalBids,
         winningBid : this.props.demand.winningBid,
-        demandID : this.props.demand._id
+        demandID : this.props.demand._id,
+        ownerName : "",
       }
+
+      this.getAccountByID = getAccountByID.bind(this);
+      this.convertName(this.state.ownerID)
+
+
   }
   convertDate = (date) => ({
       year : date.substr(0,4),
@@ -37,13 +44,25 @@ class DemandPanel extends Component {
       seconds : date.substr(17,2)
   })
 
+  convertName = (ownerId) => {
+    getAccountByID(ownerId)
+        .then( (clientName) => { this.setState({
+            ownerName : clientName.name.first + " " + clientName.name.last
+          })
+        })
+        .catch( (error) => {
+          alert("Error from : demand page" + error);
+    });
+  }
+
+
   render() {
-    const convertedCreated = this.convertDate(this.state.createdDate)
+    const convertedCreated = this.convertDate(this.state.createdDate);
     const createdDate = convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year
     return (
       <Panel collapsible header={ <DemandHeading>{this.state.title}</DemandHeading> } eventKey="1">
       <SectionHeadings> Created by : </SectionHeadings>
-        <Organization> {this.state.demandID + " on " +  createdDate}</Organization>
+        <Organization> {this.state.ownerName + " on " +  createdDate}</Organization>
 
       <SectionHeadings> Description : </SectionHeadings>
         <Description>{this.state.content}</Description>

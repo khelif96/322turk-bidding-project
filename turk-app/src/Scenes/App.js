@@ -12,18 +12,24 @@ import Demand from './Demand';
 import Feed from './Feed/Feed'
 import RegisterUser from './RegisterUser';
 import MyAccount from './Account/myAccount';
+import UserPage from './Account/UserPage';
 import RegisterDemand from './RegisterDemand';
 
 class App extends Component {
   constructor(props){
       super(props);
       this.state = {
-        isSignedIn : (localStorage.getItem('api_token').length > 0)
+        isSignedIn : (localStorage.getItem('api_token') !== null),
+        userType : localStorage.getItem('userType'),
+        canBid : ""
       }
   }
 
-  userIsSignedIn = (userSignedInStatus) => {
-    this.setState({ isSignedIn : userSignedInStatus })
+  userIsSignedIn = (userSignedInStatus,userTypeString) => {
+    this.setState({
+      isSignedIn : userSignedInStatus,
+      userType : userTypeString
+     })
   }
 
   render() {
@@ -31,15 +37,20 @@ class App extends Component {
       <Router history = {history}>
           <div >
             <NavBar enableLogout = {this.state.isSignedIn} />
-              {this.state.isSignedIn && "user is signed in"}
+              {this.state.isSignedIn && "user is signed in with type : " + this.state.userType}
           <div>
-            <Route exact path = "/" component = {Home}/>
+            <Route exact path = "/" component = {
+               (routeProps) => <Home {...routeProps} userType = {this.state.userType} />
+            }/>
             <Route  path = "/Login" component = {
                (routeProps) => <Login {...routeProps} testCall = {this.state.isSignedIn} isTheUserSignedIn={this.userIsSignedIn} />
             }/>
             <Route  path = "/RegisterUser" component = {RegisterUser}/>
             <Route  path = "/RegisterDemand" component = {RegisterDemand}/>
-            <Route  path = "/user/api_token=:api_token" component = {
+            <Route  path = "/user/userId=:userId" component = {
+              (routeProps) => <UserPage  {...routeProps} />
+            }/>
+            <Route  path = "/myAccount" component = {
               (routeProps) => <MyAccount  {...routeProps} isTheUserSignedIn={this.userIsSignedIn}/>
             }/>
             <Route  path = "/demands/:id" component = {Demand}/>

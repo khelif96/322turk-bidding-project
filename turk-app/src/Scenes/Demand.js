@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import {getDemandbyID} from '../Utils/Demand.js';
+import {getAccountByID} from '../Utils/User.js';
+import {Button,Grid, Row,Col,Form, FormGroup, FormControl, ControlLabel,Modal} from 'react-bootstrap';
+import {FormContainer} from '../Styles/form.style'
+
 import {
   ContainerBG ,
   DemandHeaderBG,
@@ -13,25 +17,32 @@ import {
  }from '../Styles/Demand.style';
  import {Link} from 'react-router-dom';
 
-
-
 class Demand extends Component {
 
   constructor(props){
       super(props);
       this.state = {
-        bidderIds : [],
-        createdDate : "",
-        isActive : false,
-        title : "",
+        demandID : this.props.match.params.id,
+        ownerId : "",
         content : "",
-        ownerID : "",
+        title : "",
+        bidderIds : [],
+        __v : 0,
+        devChosen : false,
+        isActive : false,
         totalBids : [],
-        winningBid : {},
-        demandID : this.props.match.params.id
+        createdDate : "",
+        ownerName : "",
+        showBidOption : true,
+        bidValue : 0,
+        showBidError : false,
       }
+
+      this.handleChange = this.handleChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
       this.getDemandbyID = getDemandbyID.bind(this);
       this.displayContent = this.displayContent.bind(this);
+      this.getAccountByID = getAccountByID.bind(this);
       this.displayContent();
   }
 //2017-11-10T19:57:56.710Z
@@ -44,25 +55,54 @@ class Demand extends Component {
       seconds : date.substr(17,2)
   })
 
+  bidOnDemand = () => {
+
+  }
+
+  OpenPopUp = () => {
+    this.setState({ showBidError : true })
+  }
+
+  closePopUp = () => {
+    this.setState({ showBidError : false })
+  }
+
+  handleSubmit = (event) => {
+        this.OpenPopUp();
+        event.preventDefault();
+  }
+
+  handleChange(event) {
+    this.setState(
+      {[event.target.id]: event.target.value}
+    );
+  }
   displayContent(){
       const DemandID = this.state.demandID;
       this.getDemandbyID(DemandID)
-      .then( (response) =>{
+      .then( (response) => {
         const convertedCreated = this.convertDate(response.createdDate);
+        getAccountByID(response.ownerId)
+            .then( (clientName) => { this.setState({
+                ownerName : clientName.name.first + " " + clientName.name.last
+              })
+            })
+            .catch( (error) => {
+              alert("Error from : demand page" + error);
+        });
         this.setState({
-
-          bidderIds : response.bidderIds,
-          createdDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
-          isActive : response.isActive,
-          title : response.title ,
+          ownerId : response.ownerId,
           content : response.content,
-          ownerID : response.ownerID,
-          totalBids : response.totalBids,
-          winningBid : response.winningBid,
-
+          title : response.title ,
+          bidderIds : response.bidderIds,
+          __v : response.__v,
+          devChosen : response.devChosen,
+          isActive :  response.isActive,
+          totalBids :  response.totalBids,
+          createdDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
         })
-        console.log(response)
       })
+
 
   }
   render(){
@@ -74,28 +114,70 @@ class Demand extends Component {
             {this.state.title}
           </DemandTitle>
 
-          <DemandUserDate>
-            <div>
-              By : {this.state.demandID}
-            </div>
+          <Link to =  {`/user/userId=${this.state.ownerId}`}>
+            <DemandUserDate>
+                By : {this.state.ownerName}
+            </DemandUserDate>
+          </Link>
 
-            <div>
+          <DemandUserDate>
               Posted : {this.state.createdDate}
-            </div>
           </DemandUserDate>
         </DemandHeaderBG>
+
         <DemandBody>
 
           <DemandBodyHeaders>
             Description
           </DemandBodyHeaders>
-            <DemandBodyP>
-              {this.state.content}
-            </DemandBodyP>
+          <DemandBodyP>
+            {this.state.content}
+          </DemandBodyP>
 
-            <BidButton>
-              Bid On Job
-            </BidButton>
+          <DemandBodyHeaders>
+            Bidders:
+          </DemandBodyHeaders>
+          <DemandBodyP>
+            {this.state.bidderIds}
+          </DemandBodyP>
+
+          <DemandBodyHeaders>
+            Demand ID:
+          </DemandBodyHeaders>
+          <DemandBodyP>
+            {this.state.demandID}
+          </DemandBodyP>
+
+        <FormContainer>
+
+              <form onSubmit = {this.handleSubmit}>
+                <FormGroup controlId="bidValue">
+                     <FormControl
+                         autoFocus
+                         type="bidValue"
+                         placeholder="Bid Amount"
+                         value ={this.state.bidValue}
+                         onChange = {this.handleChange}
+                      />
+                </FormGroup>
+                    <Button
+                       block
+                       type="submit"
+                >
+                   bid
+                </Button>
+
+                <Modal show={this.state.showBidError} onHide={this.closePopUp}>
+                          <Modal.Header closeButton>
+                            <Modal.Title>Login Error</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <p> You dont have enough money to bid that amount on this project, please enter another price </p>
+                          </Modal.Body>
+                </Modal>
+              </form>
+
+        </FormContainer>
 
             <Link to = '/'>
               <BackButton>
@@ -103,6 +185,8 @@ class Demand extends Component {
               </BackButton>
             </Link>
         </DemandBody>
+
+
 
       </ContainerBG>
 

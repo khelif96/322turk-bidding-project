@@ -11,12 +11,23 @@ function getAccountByApiToken(apiToken){
 }
 
 export {getAccountByID};
-function getAccountByID(org_ID){
-  return axios.post(baseUrl + "/userInfobyID",{
-    user_id: org_ID
-  })
-  .then((response) => response.data)
+function getAccountByID(user_ID){
+  return axios.get(baseUrl + "/user/userId=" + user_ID)
+  .then( response => response.data )
   .catch((error) => {
     alert(error + " from USER in utils")
+    console.log(error)
   });
+}
+
+export {addFunds};
+function addFunds(Amount, API_token){
+    return axios.post(baseUrl + "/addFunds", {
+        api_token : API_token,
+        amount : Amount
+    })
+    .then((response) => alert("success : " + response.message))
+    .catch((error) => {
+      alert("This is an error from addFunds " + error.message);
+    });
 }
