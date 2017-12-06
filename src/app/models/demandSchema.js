@@ -11,7 +11,9 @@ var demandSchema = new Schema({
   winningDevId : String,
   totalBids: [{bidAmount : Number, devId: String}] ,
   isActive: {type: Boolean, default:true},
-  expDate: Date
+  expDate: Date,
+  winningBid : {winAmount : Number, winDev : String},
+  finishedProduct : String
 });
 
 module.exports = mongoose.model('Demand',demandSchema);

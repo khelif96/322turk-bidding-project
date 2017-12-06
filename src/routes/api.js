@@ -33,10 +33,13 @@ router.use(userAuth.checkAuth); // Routes that require and api_token after this
 
 
 // Post Modification Routes //
-router.post('/createDemand', demandModification.createDemand);
-router.put('/editDemand/:demandId', demandModification.editDemand);
+router.post('/createDemand', user.isClient, demandModification.createDemand);
+router.put('/editDemand/:demandId', user.isClient,demandModification.editDemand);
 
-router.post('/bidOnDemand', demandModification.bidOnDemand);
+router.post('/bidOnDemand', user.isDeveloper, demandModification.bidOnDemand);
+
+router.post('/approveBidder', user.isClient, demandModification.approveBidder);
+router.post('/addFunds', user.isClient, userAuth.addFunds);
 
 // Return Router
 module.exports = router;

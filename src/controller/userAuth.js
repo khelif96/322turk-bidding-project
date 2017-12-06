@@ -92,3 +92,28 @@ exports.registerUser = (req,res) => {
     });
   }
 };
+
+
+exports.addFunds = (req, res) =>{
+   if(req.body.amount === undefined){ // Ensure dev ID passed
+      res.status(404).json({error: "amount isn't specified"});
+   }
+   User.findOne({api_token: req.body.api_token},function(err, userDoc){
+      if(!userDoc || err){
+         res.status(401).json({error: "Invalid api_token"});
+      }
+      else{
+         console.log(userDoc);
+         if(userDoc.funds === undefined) userDoc.funds = parseInt(req.body.amount);
+         else userDoc.funds = userDoc.funds + parseInt(req.body.amount);
+         userDoc.save(function(err){
+            if(err){
+               console.log("user Save Error");
+               res.status(500).json({error: "Error adding funds"});
+            }
+         });
+         console.log("Sending Response");
+         res.status(201).json({message: "Successfully added funds"});
+      }
+   });
+}

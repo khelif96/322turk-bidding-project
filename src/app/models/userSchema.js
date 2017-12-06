@@ -22,8 +22,8 @@ var userSchema = new Schema({
   accountAlerts : [],
   rating: Number,
   warningCount : Number,
-  userType: {type: String, required: true} // 3 types Client, Developer, Super_User
-
+  userType: {type: String, required: true}, // 3 types Client, Developer, Super_User
+  funds : Number
 });
 
 module.exports = mongoose.model('User',userSchema);
