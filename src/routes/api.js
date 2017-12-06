@@ -31,6 +31,7 @@ router.get('/demands/:demandId/:expanded', demands.getDemand);
 
 
 router.get('/user/api_token=:api_token', user.getUserByApiToken);
+router.get('/user/userId=:userId', user.getUserById);
 
 router.use(userAuth.checkAuth); // Routes that require and api_token after this
 
