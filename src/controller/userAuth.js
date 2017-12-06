@@ -43,10 +43,14 @@ exports.loginUser = (req,res) => {
         // TODO check password hash if matches stored password if so return an api_token
           bcrypt.compare(req.body.password,docs[0].password_hash, function(err, valid){
             if(valid){
-
-              res.status(201);
-              res.json({"api_token":docs[0].api_token });
-              // res.json({api_token: docs[0].api_token});
+                if(docs[0].accountApproved){
+                    res.status(201);
+                    res.json({"api_token":docs[0].api_token });
+                }
+                else{
+                    res.status(401);
+                    res.json({error: "Account needs to be verified."});
+                }
             }else{
 
               res.status(401);
