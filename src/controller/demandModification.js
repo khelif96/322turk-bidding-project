@@ -24,6 +24,7 @@ exports.createDemand = (req,res) => {
         tempDemand.content = req.body.content;
         tempDemand.ownerId = doc._id;
         tempDemand.expDate = req.body.date;
+        if(req.body.tags !== undefined) tempDemand.tags = (req.body.tags).split(/\s* \s*/);
         tempDemand.save(function(err){
           if(err){
             res.send(err);
@@ -316,10 +317,12 @@ exports.submitProduct = (req,res) => {
                                     else{
                                        if(demand.winningBid.deadline < new Date()){
                                           userDeveloper.rating = Math.round((userDeveloper.rating + ((1 - userDeveloper.rating)/(userDeveloper.ratingCount + 1))) * 100) / 100;
+                                          userDeveloper.ratingRecieved = Math.round((userDeveloper.ratingRecieved + ((1 - userDeveloper.ratingRecieved)/(userDeveloper.ratingRecievedCount + 1))) * 100) / 100;
                                           userDeveloper.ratingCount = userDeveloper.ratingCount + 1;
-                                          userDeveloper.badRatingRecieved = userDeveloper.badRatingRecieved + 1;
-                                          if(userDeveloper.badRatingRecieved == 5){
-                                             userDeveloper.badRatingRecieved = 0;
+                                          userDeveloper.ratingRecievedCount = userDeveloper.ratingRecievedCount + 1;
+                                          if(userDeveloper.ratingRecievedCount >= 5 && userDeveloper.ratingRecieved <= 2){
+                                             userDeveloper.ratingRecievedCount = 0;
+                                             userDeveloper.ratingRecievedCount = 0;
                                              userDeveloper.warningCount = userDeveloper.warningCount + 1;
                                              if(userDeveloper.warningCount == 2){
                                                 userDeveloper.warningCount = 0;

@@ -26,6 +26,7 @@ router.post('/loginUser', userAuth.loginUser);
 router.post('/registerUser', userAuth.registerUser);
 
 router.get('/demands', demands.getAllDemands);
+router.get('/myDemands/:api_token', demands.getMyDemands);
 router.get('/demands/:demandId', demands.getDemand);
 router.get('/demands/:demandId/:expanded', demands.getDemand);
 
@@ -36,8 +37,11 @@ router.get('/user/userId=:userId', user.getUserById);
 router.get('/users/topClients',user.getTopClients);
 router.get('/users/topDevs', user.getTopDevs);
 
-router.use(userAuth.checkAuth); // Routes that require and api_token after this
+router.post('/searchDemands', demands.searchDemands);
+router.post('/searchUsers', user.searchUsers);
+router.get('/getVerifiedDevelopers', user.getVerifiedDevelopers);
 
+router.use(userAuth.checkAuth); // Routes that require and api_token after this
 
 // Post Modification Routes //
 // Pass "api_token", "title", "content", "date"

@@ -72,3 +72,30 @@ exports.getTopDevs = (req,res) => {
     }
   });
 }
+
+exports.getVerifiedDevelopers = (req,res) => {
+  User.find({accountApproved : true, userType : "Developer"}, function(err,users){
+    if(!users || err){
+      res.status(400).json({error: "Could not find matching users"});
+    }else{
+      res.send(users);
+    }
+  })
+}
+
+exports.searchUsers = (req, res) => {
+    if(req.body.input === undefined){
+        res.status(404).json({error: "search field empty"});
+    }
+    else{
+        var arr = (req.body.input).split(/\s* \s*/);
+        User.find({tags : {$in : arr}}, function (err,docs){
+            if(!docs.length || err){
+                res.status(404).json({error: "Could not find any users"});
+            }
+            else{
+                res.send(docs);
+            }
+        });
+    }
+}

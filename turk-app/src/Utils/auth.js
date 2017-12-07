@@ -41,6 +41,15 @@ function retrieveDemands(){
     });
 }
 
+export {retrieveVerifiedDevelopers};
+function retrieveVerifiedDevelopers(){
+  return axios.get(baseUrl+"/getVerifiedDevelopers")
+    .then((response) => response.data )
+    .catch( (error) => {
+        alert( "this is an error from auth " + error.message);
+    });
+}
+
 export {registerDemand};
 function registerDemand(Title,Content,API_token, ExpDate){
   return axios.post(baseUrl+"/createDemand",{
