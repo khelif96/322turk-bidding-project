@@ -101,14 +101,14 @@ class MyAccount extends Component {
       <h1> interest : {this.state.interests}</h1>
       <h1> sample work : {this.state.sampleWork}</h1>
       <h1> project : {this.state.projects}</h1>
-      <h1> account approved : {this.state.accountApproved}</h1>
+      <h1> account approved : {this.state.accountApproved ? "approved" : "not approved"}</h1>
       <h1> account alerts : {this.state.accountAlerts }</h1>
       <h1> rating : {this.state.rating}</h1>
       <h1> rating count : {this.state.ratingCount}</h1>
       <h1> bad rating given: {this.state.badRatingGiven}</h1>
       <h1> badRatingRecieved : {this.state.badRatingRecieved}</h1>
       <h1> warning count : {this.state.warningCount }</h1>
-      <h1> blacklist :{this.state.blacklist }</h1>
+      <h1> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h1>
       <h1> usertype : {this.state.userType}</h1>
       <h1> funds : {this.state.funds }</h1>
 

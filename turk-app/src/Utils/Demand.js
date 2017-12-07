@@ -18,9 +18,9 @@ function submitProduct(DemandId, Product, API_token){
         finishedProduct : Product,
         demandId : DemandId
     })
-    .then((response) => alert("success : " + response.message))
+    .then((response) => this.openProductMessage("bid submission successful" ))
     .catch((error) => {
-      alert("This is an error from submitProduct " + error.message);
+      this.openProductMessage("error: " + error.response.data.error);
     });
 }
 
@@ -32,9 +32,9 @@ function placeBid(DemandId, BidAmount, Deadline, API_token){
         bidAmount : BidAmount,
         deadline : Deadline
     })
-    .then((response) => alert("success : " + response.message))
+    .then((response) => this.openBidMessage("bid submission successful" ))
     .catch((error) => {
-      alert("This is an error from palceBid " + error.message);
+      this.openBidMessage("error: " + error.response.data.error);
     });
 }
 

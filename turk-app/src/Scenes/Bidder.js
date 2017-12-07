@@ -8,21 +8,21 @@ class Bidder extends Component {
       super(props);
       this.state = {
         rating : "",
-        devId : this.props.ID,
+        devId : this.props.devId,
         name : "",
-        bidAmount : "",
-        deadline : "",
+        bidAmount : this.props.bidAmount,
+        deadline : this.props.deadline,
 
       }
 
       this.getAccountByID = getAccountByID.bind(this);
-      //this.displayContent = this.displayContent.bind(this);
+      this.displayContent = this.displayContent.bind(this);
 
-      //this.displayContent()
+      this.displayContent()
   }
 
-  /*displayContent = () => {
-    getAccountByID(this.props.ID)
+  displayContent = () => {
+    getAccountByID(this.state.devId)
         .then( (clientName) => {
           //alert(JSON.stringify(clientName.name))
           this.setState({
@@ -33,14 +33,14 @@ class Bidder extends Component {
         .catch( (error) => {
           alert(error +  "Error from : bidder");
         });
-  }*/
+  }
 
   render() {
     const style ={ color : "orange"}
     return (
-      <h2 style={ style }>
-        {this.state.devId}
-      </h2>
+      <h3 style={ style }>
+        {this.state.name + " placed a bid of $" + this.state.bidAmount + " due on " + this.state.deadline}
+      </h3>
     );
   }
 }

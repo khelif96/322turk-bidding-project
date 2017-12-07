@@ -16,7 +16,6 @@ function login(userName,Password) {
 }
 export {registerUser};
 function registerUser(Username,Password,Email,FirstName,LastName,UserType){
-  console.log(Username, Password, Email, FirstName, LastName, UserType);
   return axios.post(baseUrl+"/registerUser",{
       email: Email,
       userName: Username,
