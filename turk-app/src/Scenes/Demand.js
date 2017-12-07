@@ -110,8 +110,6 @@ class Demand extends Component {
 
   submitBid = (event) => {
       if(this.state.userType !== "Developer") this.setState({ bidMessage : "Only developers can submit bids" })
-
-      else if(this.state.developerBalance - this.state.bidValue < 0) this.setState({ bidMessage : "Your current balance is too low, please pick another price" })
       else this.setState({ bidMessage : "Your bid has been submitted" })
 
       this.openBidMessage();
@@ -170,10 +168,10 @@ class Demand extends Component {
           __v : response.__v,
           devChosen : response.devChosen,
           isActive :  response.isActive,
-          totalBids :  response.totalBids.map( JSONObject => (
+          totalBids :  response.totalBids.length > 0 ? response.totalBids.map( JSONObject => (
                  <Bidder ID = {JSONObject.devId}/>
-            )),
-          winningBid : response.winningBid,
+            )) : "there are currently no bidders, be the first ! ",
+          winningBid :  response.winningBid != null  ? <Bidder ID = { response.winningBid.devId}/> : null,
           createdDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
         })
 
@@ -221,7 +219,7 @@ class Demand extends Component {
             Bidders:
           </DemandBodyHeaders>
           <DemandBodyP>
-            {this.state.totalBids}
+            { this.state.totalBids }
           </DemandBodyP>
 
           <DemandBodyHeaders>
@@ -235,7 +233,7 @@ class Demand extends Component {
             Current Winning Bidder
           </DemandBodyHeaders>
           <DemandBodyP>
-            {this.state.winningBid.devId + " with a bid amount of " + this.state.winningBid.bidAmount}
+            {this.state.winningBid != null ? this.state.winningBid : "there is no winning bidder yet, be the first !"}
           </DemandBodyP>
 
 
