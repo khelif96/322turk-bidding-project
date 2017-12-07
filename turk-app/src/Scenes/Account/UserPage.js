@@ -1,8 +1,11 @@
 import React, { Component} from 'react';
 import { Button } from 'react-bootstrap';
 import {getAccountByApiToken,getAccountByID} from '../../Utils/User.js';
+import {getDemandbyID} from '../../Utils/Demand.js';
+
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
+import DemandPanel from '../Feed/DemandPanel';
 
 class UserPage extends Component {
   constructor(props){
@@ -17,6 +20,7 @@ class UserPage extends Component {
         interests: "",
         sampleWork: "",
         projects: [],
+        showProjects : [],
         rating: 0,
         ratingCount: 0,
         badRatingGiven: 0,
@@ -24,8 +28,32 @@ class UserPage extends Component {
       }
 
       this.getAccountByID = getAccountByID.bind(this);
+      this.getDemandbyID = getDemandbyID.bind(this);
+
       this.getAccountInfo = this.getAccountInfo.bind(this);
+      this.createPanel = this.createPanel.bind(this);
       this.getAccountInfo();
+  }
+  convertDate = (date) => ({
+      year : date.substr(0,4),
+      month : date.substr(5,2) ,
+      day : date.substr(8,2) ,
+      hour : date.substr(11,2) ,
+      minutes : date.substr(14,2) ,
+      seconds : date.substr(17,2)
+  })
+
+  createPanel(demand){
+    let demandPanel = ""
+    this.getDemandbyID(demand)
+      .then( (response) => {
+        let tempArray = this.state.showProjects
+        tempArray.push(<DemandPanel demand = {response} /> )
+        this.setState({
+          showProjects : tempArray
+        })
+      })
+      //return  (<DemandPanel demand = {demand} />);
   }
 
   getAccountInfo(){
@@ -43,7 +71,7 @@ class UserPage extends Component {
              resume : account.resume ,
              interests: account.interests ,
              sampleWork: account.sampleWork ,
-             projects: account.projects ,
+             projects: account.projects.map( demandID => { this.createPanel(demandID )} ),
              rating: account.rating ,
              ratingCount: account.ratingCount ,
              badRatingGiven: account.badRatingGiven ,
@@ -53,7 +81,10 @@ class UserPage extends Component {
          .catch( (error) => { localStorage.removeItem('api_token');
            alert("Error from : myAccount page" + error);
          });
+
+
  }
+
   render() {
     return(
       <div>
@@ -66,7 +97,7 @@ class UserPage extends Component {
       <h1> resume  : {this.state.resume }</h1>
       <h1> interest : {this.state.interests}</h1>
       <h1> sample work : {this.state.sampleWork}</h1>
-      <h1> project : {this.state.projects}</h1>
+      <h1> project : { this.state.showProjects.map( object => object)}</h1>
       <h1> rating : {this.state.rating}</h1>
       <h1> rating count : {this.state.ratingCount}</h1>
       <h1> bad rating given: {this.state.badRatingGiven}</h1>

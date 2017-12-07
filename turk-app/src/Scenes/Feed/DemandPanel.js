@@ -11,6 +11,9 @@ import { DemandHeading,
          MoreDetails
       } from '../../Styles/feed.style';
 import {getAccountByID} from '../../Utils/User.js';
+import Bidder from "../Bidder"
+import {getDemandbyID} from '../../Utils/Demand.js';
+
 
 
 class DemandPanel extends Component {
@@ -25,12 +28,13 @@ class DemandPanel extends Component {
         content : this.props.demand.content,
         ownerID :this.props.demand.ownerId,
         totalBids : this.props.demand.totalBids,
-        winningBid : this.props.demand.winningBid,
+        winningBid : "",
         demandID : this.props.demand._id,
         ownerName : "",
       }
 
       this.getAccountByID = getAccountByID.bind(this);
+      this.getDemandbyID = getDemandbyID.bind(this);
       this.convertName(this.state.ownerID)
 
 
@@ -51,8 +55,16 @@ class DemandPanel extends Component {
           })
         })
         .catch( (error) => {
-          alert("Error from : demand page" + error);
+          alert("Error from : demand panel page" + error);
     });
+
+    /*getDemandbyID(this.state.demandID)
+        .then( (response) =>{
+          this.setState({
+              winningBid : response.winningBid.deadline
+          })
+        })
+        .catch( (error) => {alert("Error from : demand panel page" + error);} )*/
   }
 
 
@@ -62,12 +74,13 @@ class DemandPanel extends Component {
     return (
       <Panel collapsible header={ <DemandHeading>{this.state.title}</DemandHeading> } eventKey="1">
       <SectionHeadings> Created by : </SectionHeadings>
-        <Organization> {this.state.ownerName + " on " +  createdDate}</Organization>
+        <Organization>  <Link to = {`/user/userId=${this.state.ownerID}`}>{this.state.ownerName + " on " +  createdDate} </Link></Organization>
 
       <SectionHeadings> Description : </SectionHeadings>
         <Description>{this.state.content}</Description>
 
-      <SectionHeadings> Lowest Bidder : </SectionHeadings>
+      <SectionHeadings> Is Active: </SectionHeadings>
+      <Description>{ this.state.isActive ? "is active" : "is not active"}</Description>
 
 
       <Link to = {`/demands/${this.state.demandID}`}><MoreDetails> More details </MoreDetails> </Link>

@@ -46,7 +46,9 @@ class App extends Component {
                (routeProps) => <Login {...routeProps} testCall = {this.state.isSignedIn} isTheUserSignedIn={this.userIsSignedIn} />
             }/>
             <Route  path = "/RegisterUser" component = {RegisterUser}/>
-            <Route  path = "/RegisterDemand" component = {RegisterDemand}/>
+            <Route  path = "/RegisterDemand" component = {
+              (routeProps) => <RegisterDemand {...routeProps} />
+            }/>
             <Route  path = "/user/userId=:userId" component = {
               (routeProps) => <UserPage  {...routeProps} />
             }/>

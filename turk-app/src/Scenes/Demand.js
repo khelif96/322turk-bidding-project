@@ -240,12 +240,19 @@ class Demand extends Component {
             {this.state.demandID}
           </DemandBodyP>
 
-          <DemandBodyHeaders>
-            Current Winning Bidder
-          </DemandBodyHeaders>
-          <DemandBodyP>
-            {this.state.winningBid != null ? this.state.winningBid : "there is no winning bidder yet, be the first !"}
-          </DemandBodyP>
+          { this.state.devChosen &&
+              ( <div>
+                <DemandBodyHeaders>
+                  Chosen Developer :
+                </DemandBodyHeaders>
+
+                <DemandBodyP>
+                  {this.state.winningBid}
+                </DemandBodyP>
+                </div> 
+              )
+          }
+
 
 
       <FormContainer>
@@ -311,11 +318,9 @@ class Demand extends Component {
         </FormContainer>
 
 
-            <Link to = '/'>
-              <BackButton>
+              <BackButton onClick = { (event) => this.props.history.goBack()}>
                 Back
               </BackButton>
-            </Link>
         </DemandBody>
       </ContainerBG>
 

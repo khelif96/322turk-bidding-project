@@ -33,7 +33,7 @@ class MoreDemands extends Component {
         .then( arrayOfdemands => {
           let tempActive= []
           let tempInactive = []
-          for(var i = 0; i < arrayOfdemands.length; i++)  arrayOfdemands[i].isActive ? tempActive.push(this.createPanel(arrayOfdemands[i])) : tempInactive.push(this.createPanel(arrayOfdemands[i]));
+          for(var i = 0; i < arrayOfdemands.length; i++) arrayOfdemands[i].isActive == false ? tempInactive.push(this.createPanel(arrayOfdemands[i])) : tempActive.push(this.createPanel(arrayOfdemands[i]));
           this.setState({
             activeDemands : tempActive,
             inactiveDemands : tempInactive,
@@ -49,7 +49,7 @@ class MoreDemands extends Component {
   render() {
     return (
       <FeedContainer>
-          <SwitchDemands >
+          <SwitchDemands>
               <Button onClick={ (event) => {this.setState({showActive : true})} }> Show Active </Button>
               <Button onClick={ (event) => {this.setState({showActive : false})}}> Show Inactive </Button>
           </SwitchDemands>
