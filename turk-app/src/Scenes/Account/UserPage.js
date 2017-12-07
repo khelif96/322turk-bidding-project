@@ -50,7 +50,7 @@ class UserPage extends Component {
              badRatingRecieved: account.badRatingRecieved ,
             })
          })
-         .catch( (error) => { localStorage.setItem('api_token',"");
+         .catch( (error) => { localStorage.removeItem('api_token');
            alert("Error from : myAccount page" + error);
          });
  }

@@ -35,9 +35,30 @@ exports.loginUser = (req,res) => {
     console.log("Trying to find email");
     User.find({email: new RegExp(req.body.email, 'i')}, function (err,docs){ // Search User Database for User with matching Email
       if(!docs.length || err){
-        res.status(401);
-        res.json({error: "Could not find account"});
+          User.find({userName : new RegExp(req.body.email, 'i')}, function (err,docs){
+              if(!docs.length || err){
+                  res.status(401);
+                  res.json({error: "Could not find account"});
+              }
+              else{
+                  bcrypt.compare(req.body.password,docs[0].password_hash, function(err, valid){
+                    if(valid){
+                        if(docs[0].accountApproved){
+                            res.status(201);
+                            res.json({"api_token":docs[0].api_token });
+                        }
+                        else{
+                            res.status(401);
+                            res.json({error: "Account needs to be verified."});
+                        }
+                    }else{
 
+                      res.status(401);
+                      res.json({error:"Invalid Password"});
+                    }
+                  });
+              }
+          });
       }else{
         console.log("Somehow got here");
         // TODO check password hash if matches stored password if so return an api_token

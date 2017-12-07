@@ -5,13 +5,12 @@ export {login};
 function login(userName,Password) {
   console.log("Logging in");
   // alert("logging in ");
-
   return axios.post(baseUrl+"/loginUser", {
       email: userName,
       password: Password
     })
     .then((response) => response.data.api_token )
-    .catch( (error) =>  {});
+    .catch( (error) =>  error );
 }
 export {registerUser};
 function registerUser(Username,Password,Email,FirstName,LastName,UserType){
