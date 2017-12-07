@@ -39,3 +39,21 @@ exports.getDemand = (req,res) => {
     }
   });
 }
+
+exports.getMyDemands = (req,res) => {
+    User.findOne({api_token: req.params.api_token},function(err, userDoc){
+        if(!userDoc || err){
+            res.status(401).json({error: "Invalid api_token"});
+        }
+        else{
+            Demand.find({_id : {$in : userDoc.projects}}, function (err,docs){
+                if(!docs.length || err){
+                    res.status(404).json({error: "Could not find anything"});
+                }
+                else{
+                    res.send(docs);
+                }
+            });
+        }
+    });
+}

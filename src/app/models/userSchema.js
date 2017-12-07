@@ -21,8 +21,10 @@ var userSchema = new Schema({
   accountAlerts : [],
   rating: {type: Number, default: 0},
   ratingCount: {type: Number, default: 0},
-  badRatingGiven: {type: Number, default: 0},
-  badRatingRecieved: {type: Number, default: 0},
+  ratingGiven: {type: Number, default: 0},
+  ratingGivenCount: {type: Number, default: 0},
+  ratingRecieved: {type: Number, default: 0},
+  ratingRecievedCount: {type: Number, default: 0},
   warningCount : {type: Number, default: 0},
   blacklist : {type: Boolean, default: false},
   userType: {type: String, required: true}, // 3 types Client, Developer, Super_User

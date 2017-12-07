@@ -72,3 +72,24 @@ exports.getTopDevs = (req,res) => {
     }
   });
 }
+
+exports.getVerifiedDevelopers = (req,res) => {
+  User.find({accountApproved : true, userType : "Developer"}, function(err,users){
+    if(!users || err){
+      res.status(400).json({error: "Could not find matching users"});
+    }else{
+      res.send(users);
+    }
+  })
+}
+
+exports.search = (req, res) => {
+    if(req.body.input === undefined){
+        res.status(404).json({error: "search field empty"});
+    }
+    else{
+        var arr = (req.body.input).split();
+        console.log(arr);
+        res.status(200).json({message: "success"})
+    }
+}
