@@ -2,6 +2,9 @@ import React, { Component} from 'react';
 import { Button } from 'react-bootstrap';
 import {getAccountByApiToken,getAccountByID} from '../../Utils/User.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
+import { FeedContainer } from '../../Styles/feed.style';
+
+
 
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
@@ -47,11 +50,13 @@ class UserPage extends Component {
     let demandPanel = ""
     this.getDemandbyID(demand)
       .then( (response) => {
-        let tempArray = this.state.showProjects
-        tempArray.push(<DemandPanel demand = {response} /> )
-        this.setState({
-          showProjects : tempArray
-        })
+        if(response != null){
+          let tempArray = this.state.showProjects
+          tempArray.push(<DemandPanel demand = {response} /> )
+          this.setState({
+            showProjects : tempArray
+          })
+        }
       })
       //return  (<DemandPanel demand = {demand} />);
   }
@@ -97,7 +102,7 @@ class UserPage extends Component {
       <h1> resume  : {this.state.resume }</h1>
       <h1> interest : {this.state.interests}</h1>
       <h1> sample work : {this.state.sampleWork}</h1>
-      <h1> project : { this.state.showProjects.map( object => object)}</h1>
+      <h1> project : <FeedContainer>{ this.state.showProjects.map( object => object)} </FeedContainer></h1>
       <h1> rating : {this.state.rating}</h1>
       <h1> rating count : {this.state.ratingCount}</h1>
       <h1> bad rating given: {this.state.badRatingGiven}</h1>

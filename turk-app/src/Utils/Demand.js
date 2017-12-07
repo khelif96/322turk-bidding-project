@@ -6,9 +6,7 @@ export {getDemandbyID};
 function getDemandbyID(DemandId){
   return axios.get(baseUrl + "/demands/" + DemandId )
   .then( response =>  response.data )
-  .catch((error) => {
-    alert(error + " from getDemandbyID in utils/demand.js")
-  });
+  .catch((error) => {  });
 }
 
 export {submitProduct};
