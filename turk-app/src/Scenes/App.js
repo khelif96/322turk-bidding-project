@@ -21,7 +21,7 @@ class App extends Component {
       this.state = {
         isSignedIn : (localStorage.getItem('api_token') !== null),
         userType : localStorage.getItem('userType'),
-        canBid : ""
+        canBid : true,
       }
   }
 
@@ -37,7 +37,7 @@ class App extends Component {
       <Router history = {history}>
           <div >
             <NavBar enableLogout = {this.state.isSignedIn} />
-              {this.state.isSignedIn && "user is signed in with type : " + this.state.userType}
+              {this.state.isSignedIn && "user is signed in with type : " + this.state.userType + "with api token : " + localStorage.getItem('api_token')}
           <div>
             <Route exact path = "/" component = {
                (routeProps) => <Home {...routeProps} userType = {this.state.userType} />
@@ -53,7 +53,9 @@ class App extends Component {
             <Route  path = "/myAccount" component = {
               (routeProps) => <MyAccount  {...routeProps} isTheUserSignedIn={this.userIsSignedIn}/>
             }/>
-            <Route  path = "/demands/:id" component = {Demand}/>
+            <Route  path = "/demands/:id" component = {
+              (routeProps) => <Demand {...routeProps} appState={this.state}/>
+            }/>
 
           </div>
 

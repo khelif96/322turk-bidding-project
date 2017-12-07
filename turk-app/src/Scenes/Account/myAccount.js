@@ -39,7 +39,7 @@ class MyAccount extends Component {
 
   logout = () => {
       this.props.isTheUserSignedIn(false,"noUser");
-      localStorage.setItem('api_token',"");
+      localStorage.removeItem('api_token');
       localStorage.setItem('userType',"");
       this.props.history.push('/')
   }
@@ -76,9 +76,10 @@ class MyAccount extends Component {
                ))
             })
          })
-         .catch( (error) => { localStorage.setItem('api_token',"");
+         .catch( (error) => {
+           alert("got an error with API token")
+           localStorage.removeItem('api_token');
            this.setState({ api_token : ""});
-           alert("Error from : myAccount page" + error);
          });
  }
   render() {

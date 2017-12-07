@@ -56,10 +56,11 @@ class RegisterUser extends Component {
 
       //call our axios promise, then retrieve the token from axios
       this.registerUser(Username,Password,Email,FirstName,LastName,UserType)
-          .then( api_token => {localStorage.setItem('api_token',api_token);
-                                alert("Api Token " + api_token);
+          .then( message => {
+              alert(message + " from creating user")
           })
-          .catch( (error) => { console.log(error);
+          .catch( (error) => {
+
           });
 
       event.preventDefault();

@@ -5,13 +5,12 @@ export {login};
 function login(userName,Password) {
   console.log("Logging in");
   // alert("logging in ");
-
   return axios.post(baseUrl+"/loginUser", {
       email: userName,
       password: Password
     })
     .then((response) => response.data.api_token )
-    .catch( (error) =>  {});
+    .catch( (error) =>  error );
 }
 export {registerUser};
 function registerUser(Username,Password,Email,FirstName,LastName,UserType){
@@ -26,9 +25,11 @@ function registerUser(Username,Password,Email,FirstName,LastName,UserType){
       },
       userType : UserType
     })
-    .then((response) => response.data.api_token )
+    .then((message) => alert(message + " success") )
     .catch( (error) => {
-        alert( "this is an error from auth " + error.message);
+      alert(error.response.data.message);
+      alert(error.response.status);
+      alert(error.response.headers);
     });
 }
 
