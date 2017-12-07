@@ -262,8 +262,8 @@ class Demand extends Component {
 
                 <FormGroup controlId="bidDeadLine">
                    <FormControl
-                       type="bidDeadLine"
-                       placeholder="Dead Line"
+                       componentClass = "input"
+                       type="date"
                        value ={this.state.bidDeadLine}
                        onChange = {this.handleChange}
                     />

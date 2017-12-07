@@ -14,7 +14,7 @@ class RegisterDemand extends Component {
         content : "",
         titleOfEvent : "",
         api_token : localStorage.getItem("api_token"),
-        dueDate: "2017-12-17"
+        dueDate: "0000-00-00"
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,7 +39,7 @@ class RegisterDemand extends Component {
       const Content = this.state.content;
       const TitleOfEvent = this.state.titleOfEvent;
       const API_token = this.state.api_token;
-      alert(this.state.dueDate);
+      //alert(this.state.dueDate);
       //call our axios promise, then retrieve the token from axios
       this.registerDemand(TitleOfEvent,Content,API_token,this.state.dueDate);
 
