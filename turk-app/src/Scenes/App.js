@@ -7,7 +7,7 @@ import Home from './Home';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Login from './Login';
-import PostList from './PostList';
+import MoreDemands from './MoreDemands';
 import Demand from './Demand';
 import Feed from './Feed/Feed'
 import RegisterUser from './RegisterUser';
@@ -56,6 +56,8 @@ class App extends Component {
             <Route  path = "/demands/:id" component = {
               (routeProps) => <Demand {...routeProps} appState={this.state}/>
             }/>
+
+            <Route  path = "/MoreDemands" component = {MoreDemands}/>
 
           </div>
 

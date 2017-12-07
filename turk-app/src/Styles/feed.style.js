@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {PanelGroup ,Panel,ButtonGroup,Button} from 'react-bootstrap';
 
 export const DemandHeading = styled.div`
   font-size : 20px;
@@ -53,3 +54,10 @@ export const MoreDetails = styled.div`
     :hover{ text-decoration : none;
             }
 `;
+export const SwitchDemands = styled(ButtonGroup)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem auto;
+
+`

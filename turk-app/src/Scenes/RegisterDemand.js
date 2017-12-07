@@ -4,6 +4,7 @@ import '../Styles/App.css';
 import { Button, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import {FormContainer} from '../Styles/form.style'
 import {registerDemand} from '../Utils/auth.js';
+// import {DatePicker} from '../Components/DatePicker.js';
 
 class RegisterDemand extends Component {
 
@@ -12,7 +13,8 @@ class RegisterDemand extends Component {
       this.state = {
         content : "",
         titleOfEvent : "",
-        api_token : localStorage.getItem("api_token")
+        api_token : localStorage.getItem("api_token"),
+        dueDate: "0000-00-00"
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -37,9 +39,9 @@ class RegisterDemand extends Component {
       const Content = this.state.content;
       const TitleOfEvent = this.state.titleOfEvent;
       const API_token = this.state.api_token;
-
+      //alert(this.state.dueDate);
       //call our axios promise, then retrieve the token from axios
-      this.registerDemand(TitleOfEvent,Content,API_token)
+      this.registerDemand(TitleOfEvent,Content,API_token,this.state.dueDate);
 
       event.preventDefault();
   }
@@ -55,7 +57,7 @@ class RegisterDemand extends Component {
             <ControlLabel>Title of the Job</ControlLabel>
             <FormControl
                   autoFocus
-                  type="titleOfEvent"
+                  type="input"
                   value={this.state.titleOfEvent}
                   onChange={this.handleChange}
                 />
@@ -69,7 +71,15 @@ class RegisterDemand extends Component {
                   onChange={this.handleChange}
                 />
           </FormGroup>
-
+          <FormGroup controlId="dueDate" bsSize = "large">
+            <ControlLabel>When is your deadline?</ControlLabel>
+            <FormControl
+                  componentClass="input"
+                  type="date"
+                  value={this.state.dueDate}
+                  onChange={this.handleChange}
+                />
+          </FormGroup>
           <Button
             block
             bsSize="large"
