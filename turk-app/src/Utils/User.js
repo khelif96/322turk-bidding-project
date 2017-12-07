@@ -31,3 +31,16 @@ function addFunds(Amount, API_token){
       alert("This is an error from addFunds " + error.message);
     });
 }
+
+export {rateUser};
+function rateUser(API_token, DemandId, Rating){
+    return axios.post(baseUrl + "/rate", {
+        api_token : API_token,
+        demandId : DemandId,
+        rating : Rating
+    })
+    .then((response) => alert("success : " + response.message))
+    .catch((error) => {
+      alert("This is an error from rating " + error.message);
+    });
+}
