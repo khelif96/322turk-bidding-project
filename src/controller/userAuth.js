@@ -98,7 +98,7 @@ exports.registerUser = (req,res) => {
       }else{
 
         res.status(400);
-        res.json({error:"Email belongs to another user"});
+        res.json({error:"Email Or Username belongs to another user"});
       }
     });
   }
