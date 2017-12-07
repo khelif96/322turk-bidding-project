@@ -16,7 +16,9 @@ var demandSchema = new Schema({
   devChosen : {type : Boolean, default: false},
   finishedProduct : String,
   justification : String,
-  ownerProfile: {}
+  ownerProfile: {},
+  clientRated : {type : Boolean, default: false},
+  devRated : {type : Boolean, default: false}
 });
 
 module.exports = mongoose.model('Demand',demandSchema);
