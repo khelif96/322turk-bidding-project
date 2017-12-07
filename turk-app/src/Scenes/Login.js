@@ -16,7 +16,7 @@ class Login extends Component {
         password : "",
         api_token : "",
         showError : false,
-        errorMessage : ""
+        errorMessage : "LOGIN ERROR"
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,8 +35,8 @@ class Login extends Component {
     );
   }
 
-  OpenPopUp = () => {
-    this.setState({ showError : true })
+  OpenPopUp = (message) => {
+    this.setState({ showError : true, errorMessage : message })
   }
 
   closePopUp = () => {
@@ -73,8 +73,8 @@ class Login extends Component {
           })
           .catch( error => {
             localStorage.removeItem('api_token');
-            alert(error);
-            this.OpenPopUp();
+            // alert(error);
+            // this.OpenPopUp();
           })
       //history.push('/')
       event.preventDefault();
@@ -122,7 +122,7 @@ class Login extends Component {
                         <Modal.Title>Login Error</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        <p> There was an error with your account,: {this.state.error} Please Try again </p>
+                        <p> {this.state.errorMessage}  </p>
                       </Modal.Body>
             </Modal>
 
