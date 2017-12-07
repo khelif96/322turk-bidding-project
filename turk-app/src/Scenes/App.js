@@ -7,7 +7,7 @@ import Home from './Home';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Login from './Login';
-import PostList from './PostList';
+import MoreDemands from './MoreDemands';
 import Demand from './Demand';
 import Feed from './Feed/Feed'
 import RegisterUser from './RegisterUser';
@@ -46,7 +46,9 @@ class App extends Component {
                (routeProps) => <Login {...routeProps} testCall = {this.state.isSignedIn} isTheUserSignedIn={this.userIsSignedIn} />
             }/>
             <Route  path = "/RegisterUser" component = {RegisterUser}/>
-            <Route  path = "/RegisterDemand" component = {RegisterDemand}/>
+            <Route  path = "/RegisterDemand" component = {
+              (routeProps) => <RegisterDemand {...routeProps} />
+            }/>
             <Route  path = "/user/userId=:userId" component = {
               (routeProps) => <UserPage  {...routeProps} />
             }/>
@@ -56,6 +58,8 @@ class App extends Component {
             <Route  path = "/demands/:id" component = {
               (routeProps) => <Demand {...routeProps} appState={this.state}/>
             }/>
+
+            <Route  path = "/MoreDemands" component = {MoreDemands}/>
 
           </div>
 

@@ -16,7 +16,6 @@ function login(userName,Password) {
 }
 export {registerUser};
 function registerUser(Username,Password,Email,FirstName,LastName,UserType){
-  console.log(Username, Password, Email, FirstName, LastName, UserType);
   return axios.post(baseUrl+"/registerUser",{
       email: Email,
       userName: Username,
@@ -50,8 +49,10 @@ function registerDemand(Title,Content,API_token, ExpDate){
       api_token: API_token,
       date : ExpDate
     })
-    .then((response) => {alert("Over here" + response.data.message)} )
+    .then( (response) => {
+      this.props.history.push(`/demands/${response.data.demandId}`)
+    } )
     .catch( (error) => {
-        alert( "this is an error from register " + error.response.data.error);
+        this.openRegisterMessage(error.response.data.error)
     });
 }

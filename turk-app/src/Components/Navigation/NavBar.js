@@ -58,7 +58,7 @@ class NavBar extends Component {
             <MenuItem eventKey="1.4">
             {
               this.props.enableLogout &&
-              <NavBarLink to = "/PostList">
+              <NavBarLink to = "/MoreDemands">
                 More Demands
               </NavBarLink>
             }
