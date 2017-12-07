@@ -32,20 +32,6 @@ function addFunds(Amount, API_token){
     });
 }
 
-
-export {placeRating};
-function placeRating(Amount, API_token){
-    return axios.post(baseUrl + "/addFunds", {
-        api_token : API_token,
-        amount : Amount
-    })
-    .then((response) => alert("success : " + response.message))
-    .catch((error) => {
-      alert("This is an error from addFunds " + error.message);
-    });
-}
-
-
 export{searchUsers};
 function searchUsers(Input){
     return axios.post(baseUrl + "/searchUsers", {
@@ -54,5 +40,17 @@ function searchUsers(Input){
     .then((response) => alert("success : " + response.message))
     .catch((error) => {
       alert("Error in search " + error.response.data.error);
+
+export {rateUser};
+function rateUser(API_token, DemandId, Rating, Reason){
+    return axios.post(baseUrl + "/rate", {
+        api_token : API_token,
+        demandId : DemandId,
+        rating : Rating,
+        justification : Reason
+    })
+    .then((response) => alert("success : " + response.message))
+    .catch((error) => {
+      alert("This is an error from rating " + error.message);
     });
 }

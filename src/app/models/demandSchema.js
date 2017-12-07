@@ -19,6 +19,8 @@ var demandSchema = new Schema({
   ownerProfile: {},
   clientRated : {type : Boolean, default: false},
   devRated : {type : Boolean, default: false},
+  devRating : {rating : Number, reason : String},
+  clientRating : {rating : Number, reason : String},
   tags: []
 });
 
