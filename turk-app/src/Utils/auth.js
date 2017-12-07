@@ -49,8 +49,8 @@ function registerDemand(Title,Content,API_token, ExpDate){
       api_token: API_token,
       date : ExpDate
     })
-    .then((response) => {} )
+    .then((response) => {alert("Over here" + response.data.message)} )
     .catch( (error) => {
-        alert( "this is an error from auth " + error.message);
+        alert( "this is an error from register " + error.response.data.error);
     });
 }
