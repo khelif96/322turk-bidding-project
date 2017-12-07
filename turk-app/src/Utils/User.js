@@ -33,11 +33,12 @@ function addFunds(Amount, API_token){
 }
 
 export {rateUser};
-function rateUser(API_token, DemandId, Rating){
+function rateUser(API_token, DemandId, Rating, Reason){
     return axios.post(baseUrl + "/rate", {
         api_token : API_token,
         demandId : DemandId,
-        rating : Rating
+        rating : Rating,
+        justification : Reason
     })
     .then((response) => alert("success : " + response.message))
     .catch((error) => {
