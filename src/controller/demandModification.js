@@ -24,6 +24,7 @@ exports.createDemand = (req,res) => {
         tempDemand.content = req.body.content;
         tempDemand.ownerId = doc._id;
         tempDemand.expDate = req.body.date;
+        if(req.body.tags !== undefined) tempDemand.tags = (req.body.tags).split(/\s* \s*/);
         tempDemand.save(function(err){
           if(err){
             res.send(err);

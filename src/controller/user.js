@@ -83,13 +83,19 @@ exports.getVerifiedDevelopers = (req,res) => {
   })
 }
 
-exports.search = (req, res) => {
+exports.searchUsers = (req, res) => {
     if(req.body.input === undefined){
         res.status(404).json({error: "search field empty"});
     }
     else{
-        var arr = (req.body.input).split();
-        console.log(arr);
-        res.status(200).json({message: "success"})
+        var arr = (req.body.input).split(/\s* \s*/);
+        User.find({tags : {$in : arr}}, function (err,docs){
+            if(!docs.length || err){
+                res.status(404).json({error: "Could not find any users"});
+            }
+            else{
+                res.send(docs);
+            }
+        });
     }
 }

@@ -28,7 +28,8 @@ var userSchema = new Schema({
   warningCount : {type: Number, default: 0},
   blacklist : {type: Boolean, default: false},
   userType: {type: String, required: true}, // 3 types Client, Developer, Super_User
-  funds : {type: Number, default: 0}
+  funds : {type: Number, default: 0},
+  tags : []
 });
 
 module.exports = mongoose.model('User',userSchema);

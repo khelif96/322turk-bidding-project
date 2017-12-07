@@ -37,7 +37,8 @@ router.get('/user/userId=:userId', user.getUserById);
 router.get('/users/topClients',user.getTopClients);
 router.get('/users/topDevs', user.getTopDevs);
 
-router.post('/search', user.search);
+router.post('/searchDemands', demands.searchDemands);
+router.post('/searchUsers', user.searchUsers);
 router.get('/getVerifiedDevelopers', user.getVerifiedDevelopers);
 
 router.use(userAuth.checkAuth); // Routes that require and api_token after this

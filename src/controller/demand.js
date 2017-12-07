@@ -57,3 +57,20 @@ exports.getMyDemands = (req,res) => {
         }
     });
 }
+
+exports.searchDemands = (req, res) => {
+    if(req.body.input === undefined){
+        res.status(404).json({error: "search field empty"});
+    }
+    else{
+        var arr = (req.body.input).split(/\s* \s*/);
+        Demand.find({tags : {$in : arr}}, function (err,docs){
+            if(!docs.length || err){
+                res.status(404).json({error: "Could not find demands"});
+            }
+            else{
+                res.send(docs);
+            }
+        });
+    }
+}
