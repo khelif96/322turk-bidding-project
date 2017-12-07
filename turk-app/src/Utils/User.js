@@ -31,3 +31,28 @@ function addFunds(Amount, API_token){
       alert("This is an error from addFunds " + error.message);
     });
 }
+
+
+export {placeRating};
+function placeRating(Amount, API_token){
+    return axios.post(baseUrl + "/addFunds", {
+        api_token : API_token,
+        amount : Amount
+    })
+    .then((response) => alert("success : " + response.message))
+    .catch((error) => {
+      alert("This is an error from addFunds " + error.message);
+    });
+}
+
+
+export{searchUsers};
+function searchUsers(Input){
+    return axios.post(baseUrl + "/searchUsers", {
+        input : Input
+    })
+    .then((response) => alert("success : " + response.message))
+    .catch((error) => {
+      alert("Error in search " + error.response.data.error);
+    });
+}

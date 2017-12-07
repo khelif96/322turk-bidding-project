@@ -21,10 +21,15 @@ class UserPage extends Component {
         sampleWork: "",
         projects: [],
         showProjects : [],
-        rating: 0,
-        ratingCount: 0,
+        rating: "",
+        ratingCount: "",
+        ratingGiven: "",
+        ratingGivenCount: "",
+        ratingRecieved: "",
+        ratingRecievedCount: "",
         badRatingGiven: 0,
         badRatingRecieved: 0,
+        tags : [],
       }
 
       this.getAccountByID = getAccountByID.bind(this);
@@ -76,8 +81,11 @@ class UserPage extends Component {
              projects: account.projects.map( demandID => { this.createPanel(demandID )} ),
              rating: account.rating ,
              ratingCount: account.ratingCount ,
-             badRatingGiven: account.badRatingGiven ,
-             badRatingRecieved: account.badRatingRecieved ,
+             ratingGiven: account.ratingGiven,
+             ratingGivenCount: account.ratingGivenCount,
+             ratingRecieved: account.ratingRecieved,
+             ratingRecievedCount: account.ratingRecievedCount,
+             tags : account.tags,
             })
          })
          .catch( (error) => { localStorage.removeItem('api_token');
@@ -101,9 +109,7 @@ class UserPage extends Component {
       <h1> sample work : {this.state.sampleWork}</h1>
       <h1> project : <FeedContainer>{ this.state.showProjects.map( object => object)} </FeedContainer></h1>
       <h1> rating : {this.state.rating}</h1>
-      <h1> rating count : {this.state.ratingCount}</h1>
-      <h1> bad rating given: {this.state.badRatingGiven}</h1>
-      <h1> badRatingRecieved : {this.state.badRatingRecieved}</h1>
+      <h1> number of ratings recieved : {this.state.ratingCount}</h1>
 
       </div>
     );

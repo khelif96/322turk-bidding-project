@@ -28,14 +28,19 @@ class MyAccount extends Component {
         showProjects : [],
         accountApproved: false,
         accountAlerts : [],
-        rating: 0,
-        ratingCount: 0,
-        badRatingGiven: 0,
-        badRatingRecieved: 0,
+
+        rating: "",
+        ratingCount: "",
+        ratingGiven: "",
+        ratingGivenCount: "",
+        ratingRecieved: "",
+        ratingRecievedCount: "",
+
         warningCount : 0,
         blacklist : false,
         userType: "", // 3 types Client, Developer, Super_User
-        funds : 0
+        funds : 0,
+        tags : "",
       }
 
       this.getAccountByApiToken = getAccountByApiToken.bind(this);
@@ -88,12 +93,15 @@ class MyAccount extends Component {
              accountApproved: account.accountApproved ,
              rating: account.rating ,
              ratingCount: account.ratingCount ,
-             badRatingGiven: account.badRatingGiven ,
-             badRatingRecieved: account.badRatingRecieved ,
+             ratingGiven: account.ratingGiven,
+             ratingGivenCount: account.ratingGivenCount,
+             ratingRecieved: account.ratingRecieved,
+             ratingRecievedCount: account.ratingRecievedCount,
              warningCount : account.warningCount ,
              blacklist : account.blacklist ,
              userType: account.userType , // 3 types Client, Developer, Super_User
              funds : account.funds,
+             tags : account.tags,
              accountAlerts : account.accountAlerts.map( JSONObject => (
                     <AlertMessage message = {JSONObject.message}/>
                )),
@@ -129,14 +137,15 @@ class MyAccount extends Component {
       <h1> account alerts : {this.state.accountAlerts }</h1>
       <h1> rating : {this.state.rating}</h1>
       <h1> rating count : {this.state.ratingCount}</h1>
-      <h1> bad rating given: {this.state.badRatingGiven}</h1>
-      <h1> badRatingRecieved : {this.state.badRatingRecieved}</h1>
+
       <h1> warning count : {this.state.warningCount }</h1>
       <h1> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h1>
       <h1> usertype : {this.state.userType}</h1>
       <h1> funds : {this.state.funds }</h1>
+      <h1> tags : {this.state.tags }</h1>
 
       <Button onClick = { (evt) => this.logout()}> Log out </Button>
+
       </div>
     );
   }

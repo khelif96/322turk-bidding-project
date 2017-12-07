@@ -49,3 +49,11 @@ function chooseBidder(DemandId, DevId, Reason, API_token){
       alert("This is an error from chooseBidder " + error.response.data.error);
     });
 }
+export{searchDemands};
+function searchDemands(Input){
+    return axios.post(baseUrl + "/searchDemands", {
+        input : Input
+    })
+    .then((response) =>  response.data )
+    .catch((error) => { });
+}

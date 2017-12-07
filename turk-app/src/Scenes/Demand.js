@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {getDemandbyID,placeBid,submitProduct} from '../Utils/Demand.js';
 import {getAccountByID,getAccountByApiToken} from '../Utils/User.js';
-import {Button,Grid, Row,Col,Form, FormGroup, FormControl, ControlLabel,Modal} from 'react-bootstrap';
+import {Button,Grid,Form, FormGroup, FormControl, ControlLabel,Modal} from 'react-bootstrap';
 import {FormContainer,DatePicker} from '../Styles/form.style'
 import Bidder from "./Bidder"
 
@@ -42,6 +42,7 @@ class Demand extends Component {
         winningBid : "",
         winningBidID : "",
         userType : "",
+        tags : [],
 
         //client only:
         totalBids : [],
@@ -186,6 +187,7 @@ class Demand extends Component {
             winningBid :  response.winningBid != null  ? <Bidder devId = { response.winningBid.devId} bidAmount = { response.winningBid.bidAmount} deadline = { response.winningBid.deadline}/> : null,
             winningBidID : response.winningBid != null  ? response.winningBid.devId : null,
             createdDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
+            tags : response.tags,
           })
 
 
@@ -240,6 +242,13 @@ class Demand extends Component {
           </DemandBodyHeaders>
           <DemandBodyP>
             {this.state.demandID}
+          </DemandBodyP>
+
+          <DemandBodyHeaders>
+            Tags :
+          </DemandBodyHeaders>
+          <DemandBodyP>
+            {this.state.tags}
           </DemandBodyP>
 
           { this.state.devChosen &&
@@ -317,6 +326,7 @@ class Demand extends Component {
                 </Modal.Body>
               </Modal>
             </form>
+
         </FormContainer>
 
 
