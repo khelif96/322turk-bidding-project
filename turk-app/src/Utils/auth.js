@@ -10,7 +10,9 @@ function login(userName,Password) {
       password: Password
     })
     .then((response) => response.data.api_token )
-    .catch( (error) =>  error );
+    .catch( (error) =>  {
+      this.OpenPopUp(error.response.data.error )
+    });
 }
 export {registerUser};
 function registerUser(Username,Password,Email,FirstName,LastName,UserType){
@@ -27,9 +29,7 @@ function registerUser(Username,Password,Email,FirstName,LastName,UserType){
     })
     .then((message) => alert(message + " success") )
     .catch( (error) => {
-      alert(error.response.data.message);
-      alert(error.response.status);
-      alert(error.response.headers);
+      this.OpenPopUp(error.response.data.error)
     });
 }
 

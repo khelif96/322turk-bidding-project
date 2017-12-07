@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import '../Styles/App.css';
-import { Button, FormGroup, FormControl, ControlLabel, DropdownButton, MenuItem} from 'react-bootstrap';
+import { Button, FormGroup, FormControl, ControlLabel, DropdownButton, MenuItem, Modal} from 'react-bootstrap';
 import {FormContainer} from '../Styles/form.style'
 import {registerUser} from '../Utils/auth.js';
 
@@ -17,12 +17,23 @@ class RegisterUser extends Component {
         password : "",
         api_token : "",
         email: "",
-        userType : ""
+        userType : "Client",
+        showError: false,
+        errorMessage: "Problem"
 
       }
+      // this.errorMessage = "Problem";
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.registerUser = registerUser.bind(this);
+  }
+  OpenPopUp = (message) => {
+    this.setState({ showError : true, errorMessage : message })
+    // this.errorMessage = message;
+  }
+
+  closePopUp = () => {
+    this.setState({ showError : false })
   }
 
   validateForm() {
@@ -50,14 +61,14 @@ class RegisterUser extends Component {
 
       const currentState = this.state;
 
-      alert("Your username is "+ Username + "\nPassword : " + Password +
-            "\nYour First Name is "+ FirstName + "\nLast Name : " + LastName + "\n" + "UserType : " + UserType
-            );
+      // alert("Your username is "+ Username + "\nPassword : " + Password +
+      //       "\nYour First Name is "+ FirstName + "\nLast Name : " + LastName + "\n" + "UserType : " + UserType
+      //       );
 
       //call our axios promise, then retrieve the token from axios
       this.registerUser(Username,Password,Email,FirstName,LastName,UserType)
           .then( message => {
-              alert(message + " from creating user")
+              // alert(message + " from creating user")
           })
           .catch( (error) => {
 
@@ -143,8 +154,17 @@ class RegisterUser extends Component {
           >
             Register
           </Button>
+          <Modal show={this.state.showError} onHide={this.closePopUp}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Registration Error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <p> {this.state.errorMessage} </p>
+                    </Modal.Body>
+          </Modal>
 
         </form>
+
       </FormContainer>
     );
   }
