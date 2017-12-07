@@ -36,7 +36,7 @@ exports.createDemand = (req,res) => {
           // console.log("ERROR");
             res.send(err);
           }
-          res.status(200).json({message: "Successfully Created Note"});
+          res.status(200).json({"demandId":tempDemand._id});
         });
       }
     });
