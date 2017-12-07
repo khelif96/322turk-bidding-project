@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {getDemandbyID,placeBid,submitProduct} from '../Utils/Demand.js';
 import {getAccountByID,getAccountByApiToken} from '../Utils/User.js';
-import {Button,Grid, Row,Col,Form, FormGroup, FormControl, ControlLabel,Modal} from 'react-bootstrap';
+import {Button,Grid,Form, FormGroup, FormControl, ControlLabel,Modal} from 'react-bootstrap';
 import {FormContainer,DatePicker} from '../Styles/form.style'
 import Bidder from "./Bidder"
 
@@ -42,6 +42,7 @@ class Demand extends Component {
         winningBid : "",
         winningBidID : "",
         userType : "",
+        tags : [],
 
         //client only:
         totalBids : [],
@@ -53,6 +54,8 @@ class Demand extends Component {
         bidDeadLine : "",
         showBidError : false,
         bidMessage : "",
+        lowestBidderID : "",
+
 
         // chosen developer only
         product: "",
@@ -179,11 +182,12 @@ class Demand extends Component {
             devChosen : response.devChosen,
             isActive :  response.isActive,
             totalBids :  response.totalBids.length > 0 ? response.totalBids.map( JSONObject => (
-                   <Bidder devId = {JSONObject.devId} bidAmount = {JSONObject.bidAmount} deadline = {JSONObject.deadline}/>
+                   <Bidder devId = {JSONObject.devId} bidAmount = {JSONObject.bidAmount} deadline = {JSONObject.deadline} demandID = {this.state.demandID} lowestBidderID = {response.totalBids[0].devId}/>
               )) : "there are currently no bidders, be the first ! ",
             winningBid :  response.winningBid != null  ? <Bidder devId = { response.winningBid.devId} bidAmount = { response.winningBid.bidAmount} deadline = { response.winningBid.deadline}/> : null,
             winningBidID : response.winningBid != null  ? response.winningBid.devId : null,
             createdDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
+            tags : response.tags,
           })
 
 
@@ -240,6 +244,13 @@ class Demand extends Component {
             {this.state.demandID}
           </DemandBodyP>
 
+          <DemandBodyHeaders>
+            Tags :
+          </DemandBodyHeaders>
+          <DemandBodyP>
+            {this.state.tags}
+          </DemandBodyP>
+
           { this.state.devChosen &&
               ( <div>
                 <DemandBodyHeaders>
@@ -249,7 +260,7 @@ class Demand extends Component {
                 <DemandBodyP>
                   {this.state.winningBid}
                 </DemandBodyP>
-                </div> 
+                </div>
               )
           }
 
@@ -315,6 +326,7 @@ class Demand extends Component {
                 </Modal.Body>
               </Modal>
             </form>
+
         </FormContainer>
 
 

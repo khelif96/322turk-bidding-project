@@ -54,6 +54,16 @@ export const MoreDetails = styled.div`
     :hover{ text-decoration : none;
             }
 `;
+
+export const ChooseBidder = styled.button`
+    font-size : 18px;
+    color : orange;
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    :hover{ text-decoration : none;
+            }
+`;
 export const SwitchDemands = styled(ButtonGroup)`
     display: flex;
     justify-content: center;

@@ -6,9 +6,7 @@ export {getDemandbyID};
 function getDemandbyID(DemandId){
   return axios.get(baseUrl + "/demands/" + DemandId )
   .then( response =>  response.data )
-  .catch((error) => {
-    alert(error + " from getDemandbyID in utils/demand.js")
-  });
+  .catch((error) => {  });
 }
 
 export {submitProduct};
@@ -48,6 +46,14 @@ function chooseBidder(DemandId, DevId, Reason, API_token){
     })
     .then((response) => alert("success : " + response.message))
     .catch((error) => {
-      alert("This is an error from chooseBidder " + error.message);
+      alert("This is an error from chooseBidder " + error.response.data.error);
     });
+}
+export{searchDemands};
+function searchDemands(Input){
+    return axios.post(baseUrl + "/searchDemands", {
+        input : Input
+    })
+    .then((response) =>  response.data )
+    .catch((error) => { });
 }

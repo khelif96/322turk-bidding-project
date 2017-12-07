@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import '../Styles/App.css';
 import Feed from './Feed/Feed'
+import UserFeed from './Feed/UserFeed'
+
 
 
 class Home extends Component {
@@ -20,7 +22,7 @@ class Home extends Component {
 
           <div >
             <div style = {style}> HOME </div>
-            <Feed />
+            <UserFeed />
           </div>
     );
   }

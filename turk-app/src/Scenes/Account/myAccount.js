@@ -1,8 +1,13 @@
 import React, { Component} from 'react';
 import { Button } from 'react-bootstrap';
 import {getAccountByApiToken} from '../../Utils/User.js';
+import {getDemandbyID} from '../../Utils/Demand.js';
+import { FeedContainer } from '../../Styles/feed.style';
+
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
+import DemandPanel from '../Feed/DemandPanel';
+
 
 class MyAccount extends Component {
   constructor(props){
@@ -20,21 +25,31 @@ class MyAccount extends Component {
         interests: "",
         sampleWork: "",
         projects: [],
+        showProjects : [],
         accountApproved: false,
         accountAlerts : [],
-        rating: 0,
-        ratingCount: 0,
-        badRatingGiven: 0,
-        badRatingRecieved: 0,
+
+        rating: "",
+        ratingCount: "",
+        ratingGiven: "",
+        ratingGivenCount: "",
+        ratingRecieved: "",
+        ratingRecievedCount: "",
+
         warningCount : 0,
         blacklist : false,
         userType: "", // 3 types Client, Developer, Super_User
-        funds : 0
+        funds : 0,
+        tags : "",
       }
 
       this.getAccountByApiToken = getAccountByApiToken.bind(this);
-      this.getAccountInfo = this.getAccountInfo.bind(this);
       this.getAccountInfo();
+      this.getDemandbyID = getDemandbyID.bind(this);
+
+      this.createPanel = this.createPanel.bind(this);
+
+
   }
 
   logout = () => {
@@ -42,6 +57,19 @@ class MyAccount extends Component {
       localStorage.removeItem('api_token');
       localStorage.setItem('userType',"");
       this.props.history.push('/')
+  }
+
+  createPanel(demand){
+    this.getDemandbyID(demand)
+      .then( (response) => {
+        if(response != null){
+          let tempArray = this.state.showProjects
+          tempArray.push(<DemandPanel demand = {response} /> )
+          this.setState({
+            showProjects : tempArray
+          })
+        }
+      })
   }
 
   getAccountInfo(){
@@ -61,19 +89,23 @@ class MyAccount extends Component {
              resume : account.resume ,
              interests: account.interests ,
              sampleWork: account.sampleWork ,
-             projects: account.projects ,
+             projects: account.projects.map( demandID => {this.createPanel(demandID)}),
              accountApproved: account.accountApproved ,
              rating: account.rating ,
              ratingCount: account.ratingCount ,
-             badRatingGiven: account.badRatingGiven ,
-             badRatingRecieved: account.badRatingRecieved ,
+             ratingGiven: account.ratingGiven,
+             ratingGivenCount: account.ratingGivenCount,
+             ratingRecieved: account.ratingRecieved,
+             ratingRecievedCount: account.ratingRecievedCount,
              warningCount : account.warningCount ,
              blacklist : account.blacklist ,
              userType: account.userType , // 3 types Client, Developer, Super_User
              funds : account.funds,
+             tags : account.tags,
              accountAlerts : account.accountAlerts.map( JSONObject => (
                     <AlertMessage message = {JSONObject.message}/>
-               ))
+               )),
+
             })
          })
          .catch( (error) => {
@@ -100,19 +132,20 @@ class MyAccount extends Component {
       <h1> resume  : {this.state.resume }</h1>
       <h1> interest : {this.state.interests}</h1>
       <h1> sample work : {this.state.sampleWork}</h1>
-      <h1> project : {this.state.projects}</h1>
+      <h1> project : <FeedContainer>{this.state.showProjects.map( object => object)} </FeedContainer></h1>
       <h1> account approved : {this.state.accountApproved ? "approved" : "not approved"}</h1>
       <h1> account alerts : {this.state.accountAlerts }</h1>
       <h1> rating : {this.state.rating}</h1>
       <h1> rating count : {this.state.ratingCount}</h1>
-      <h1> bad rating given: {this.state.badRatingGiven}</h1>
-      <h1> badRatingRecieved : {this.state.badRatingRecieved}</h1>
+
       <h1> warning count : {this.state.warningCount }</h1>
       <h1> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h1>
       <h1> usertype : {this.state.userType}</h1>
       <h1> funds : {this.state.funds }</h1>
+      <h1> tags : {this.state.tags }</h1>
 
       <Button onClick = { (evt) => this.logout()}> Log out </Button>
+
       </div>
     );
   }

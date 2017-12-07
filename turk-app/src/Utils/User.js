@@ -32,6 +32,15 @@ function addFunds(Amount, API_token){
     });
 }
 
+export{searchUsers};
+function searchUsers(Input){
+    return axios.post(baseUrl + "/searchUsers", {
+        input : Input
+    })
+    .then((response) => alert("success : " + response.message))
+    .catch((error) => {
+      alert("Error in search " + error.response.data.error);
+
 export {rateUser};
 function rateUser(API_token, DemandId, Rating, Reason){
     return axios.post(baseUrl + "/rate", {
