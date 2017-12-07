@@ -53,6 +53,8 @@ class Demand extends Component {
         bidDeadLine : "",
         showBidError : false,
         bidMessage : "",
+        lowestBidderID : "",
+
 
         // chosen developer only
         product: "",
@@ -179,7 +181,7 @@ class Demand extends Component {
             devChosen : response.devChosen,
             isActive :  response.isActive,
             totalBids :  response.totalBids.length > 0 ? response.totalBids.map( JSONObject => (
-                   <Bidder devId = {JSONObject.devId} bidAmount = {JSONObject.bidAmount} deadline = {JSONObject.deadline}/>
+                   <Bidder devId = {JSONObject.devId} bidAmount = {JSONObject.bidAmount} deadline = {JSONObject.deadline} demandID = {this.state.demandID} lowestBidderID = {response.totalBids[0].devId}/>
               )) : "there are currently no bidders, be the first ! ",
             winningBid :  response.winningBid != null  ? <Bidder devId = { response.winningBid.devId} bidAmount = { response.winningBid.bidAmount} deadline = { response.winningBid.deadline}/> : null,
             winningBidID : response.winningBid != null  ? response.winningBid.devId : null,
@@ -249,7 +251,7 @@ class Demand extends Component {
                 <DemandBodyP>
                   {this.state.winningBid}
                 </DemandBodyP>
-                </div> 
+                </div>
               )
           }
 

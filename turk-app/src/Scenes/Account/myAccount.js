@@ -1,8 +1,13 @@
 import React, { Component} from 'react';
 import { Button } from 'react-bootstrap';
 import {getAccountByApiToken} from '../../Utils/User.js';
+import {getDemandbyID} from '../../Utils/Demand.js';
+import { FeedContainer } from '../../Styles/feed.style';
+
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
+import DemandPanel from '../Feed/DemandPanel';
+
 
 class MyAccount extends Component {
   constructor(props){
@@ -20,6 +25,7 @@ class MyAccount extends Component {
         interests: "",
         sampleWork: "",
         projects: [],
+        showProjects : [],
         accountApproved: false,
         accountAlerts : [],
         rating: 0,
@@ -33,8 +39,12 @@ class MyAccount extends Component {
       }
 
       this.getAccountByApiToken = getAccountByApiToken.bind(this);
-      this.getAccountInfo = this.getAccountInfo.bind(this);
       this.getAccountInfo();
+      this.getDemandbyID = getDemandbyID.bind(this);
+
+      this.createPanel = this.createPanel.bind(this);
+
+
   }
 
   logout = () => {
@@ -42,6 +52,19 @@ class MyAccount extends Component {
       localStorage.removeItem('api_token');
       localStorage.setItem('userType',"");
       this.props.history.push('/')
+  }
+
+  createPanel(demand){
+    this.getDemandbyID(demand)
+      .then( (response) => {
+        if(response != null){
+          let tempArray = this.state.showProjects
+          tempArray.push(<DemandPanel demand = {response} /> )
+          this.setState({
+            showProjects : tempArray
+          })
+        }
+      })
   }
 
   getAccountInfo(){
@@ -61,7 +84,7 @@ class MyAccount extends Component {
              resume : account.resume ,
              interests: account.interests ,
              sampleWork: account.sampleWork ,
-             projects: account.projects ,
+             projects: account.projects.map( demandID => {this.createPanel(demandID)}),
              accountApproved: account.accountApproved ,
              rating: account.rating ,
              ratingCount: account.ratingCount ,
@@ -73,7 +96,8 @@ class MyAccount extends Component {
              funds : account.funds,
              accountAlerts : account.accountAlerts.map( JSONObject => (
                     <AlertMessage message = {JSONObject.message}/>
-               ))
+               )),
+
             })
          })
          .catch( (error) => {
@@ -100,7 +124,7 @@ class MyAccount extends Component {
       <h1> resume  : {this.state.resume }</h1>
       <h1> interest : {this.state.interests}</h1>
       <h1> sample work : {this.state.sampleWork}</h1>
-      <h1> project : {this.state.projects}</h1>
+      <h1> project : <FeedContainer>{this.state.showProjects.map( object => object)} </FeedContainer></h1>
       <h1> account approved : {this.state.accountApproved ? "approved" : "not approved"}</h1>
       <h1> account alerts : {this.state.accountAlerts }</h1>
       <h1> rating : {this.state.rating}</h1>

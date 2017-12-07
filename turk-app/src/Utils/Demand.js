@@ -46,6 +46,6 @@ function chooseBidder(DemandId, DevId, Reason, API_token){
     })
     .then((response) => alert("success : " + response.message))
     .catch((error) => {
-      alert("This is an error from chooseBidder " + error.message);
+      alert("This is an error from chooseBidder " + error.response.data.error);
     });
 }

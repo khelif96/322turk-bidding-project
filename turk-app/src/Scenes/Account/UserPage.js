@@ -3,9 +3,6 @@ import { Button } from 'react-bootstrap';
 import {getAccountByApiToken,getAccountByID} from '../../Utils/User.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
 import { FeedContainer } from '../../Styles/feed.style';
-
-
-
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
 import DemandPanel from '../Feed/DemandPanel';
