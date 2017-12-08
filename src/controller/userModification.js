@@ -163,7 +163,7 @@ exports.giveRating = (req, res) =>{
                                                                 var tempTransaction = new Transaction();
                                                                 tempTransaction.origin_id = demand._id;
                                                                 tempTransaction.destination_id = userDeveloper._id;
-                                                                tempTransaction.amount = demand.winningBid.bidAmount;
+                                                                tempTransaction.amount = demand.winningBid.bidAmount / 2;
                                                                 tempTransaction.transactionType = "Payments";
                                                                 tempTransaction.complete = false;
                                                                 tempTransaction.message = req.body.justification;
@@ -227,7 +227,7 @@ exports.giveRating = (req, res) =>{
                                                             superUser.funds = superUser.funds + (Math.round(demand.winningBid.bidAmount * 0.05 * 100) / 100);
                                                             userClient.funds = userClient.funds - (Math.round(demand.winningBid.bidAmount * 0.05 * 100) / 100);
                                                             userDeveloper.funds = userDeveloper.funds - (Math.round(demand.winningBid.bidAmount * 0.05 * 100) / 100);
-                                                            
+
                                                             userDoc.ratingGiven = Math.round((userDoc.ratingGiven + ((req.body.rating - userDoc.ratingGiven)/(userDoc.ratingGivenCount + 1))) * 100) / 100;
                                                             userDoc.ratingGivenCount = userDoc.ratingGivenCount + 1;
                                                             if((userDoc.ratingGiven < 2 || userDoc.ratingGiven > 4) && (userDoc.ratingGivenCount >= 8)){

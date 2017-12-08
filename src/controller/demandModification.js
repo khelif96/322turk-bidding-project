@@ -315,32 +315,32 @@ exports.submitProduct = (req,res) => {
                                        else{
                                           demand.finishedProduct = req.body.finishedProduct;
                                           demand.isActive = false;
+                                          if(demand.winningBid.deadline < new Date()){
+                                             userDeveloper.rating = Math.round((userDeveloper.rating + ((1 - userDeveloper.rating)/(userDeveloper.ratingCount + 1))) * 100) / 100;
+                                             userDeveloper.ratingRecieved = Math.round((userDeveloper.ratingRecieved + ((1 - userDeveloper.ratingRecieved)/(userDeveloper.ratingRecievedCount + 1))) * 100) / 100;
+                                             userDeveloper.ratingCount = userDeveloper.ratingCount + 1;
+                                             userDeveloper.ratingRecievedCount = userDeveloper.ratingRecievedCount + 1;
+                                             if(userDeveloper.ratingRecievedCount >= 5 && userDeveloper.ratingRecieved <= 2){
+                                                userDeveloper.ratingRecievedCount = 0;
+                                                userDeveloper.ratingRecievedCount = 0;
+                                                userDeveloper.warningCount = userDeveloper.warningCount + 1;
+                                                if(userDeveloper.warningCount == 2){
+                                                   userDeveloper.warningCount = 0;
+                                                   userDeveloper.blacklist = true;
+                                                }
+                                             }
+                                             userDeveloper.funds = userDeveloper.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                             userClient.funds = userClient.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                          }
+                                          else{
+                                             userClient.funds = userClient.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                             superUser.funds = superUser.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                          }
                                           demand.save(function(err){
                                              if(err) {
                                                 res.status(500).json({error: "Error Saving product"});
                                              }
                                              else{
-                                                if(demand.winningBid.deadline < new Date()){
-                                                   userDeveloper.rating = Math.round((userDeveloper.rating + ((1 - userDeveloper.rating)/(userDeveloper.ratingCount + 1))) * 100) / 100;
-                                                   userDeveloper.ratingRecieved = Math.round((userDeveloper.ratingRecieved + ((1 - userDeveloper.ratingRecieved)/(userDeveloper.ratingRecievedCount + 1))) * 100) / 100;
-                                                   userDeveloper.ratingCount = userDeveloper.ratingCount + 1;
-                                                   userDeveloper.ratingRecievedCount = userDeveloper.ratingRecievedCount + 1;
-                                                   if(userDeveloper.ratingRecievedCount >= 5 && userDeveloper.ratingRecieved <= 2){
-                                                      userDeveloper.ratingRecievedCount = 0;
-                                                      userDeveloper.ratingRecievedCount = 0;
-                                                      userDeveloper.warningCount = userDeveloper.warningCount + 1;
-                                                      if(userDeveloper.warningCount == 2){
-                                                         userDeveloper.warningCount = 0;
-                                                         userDeveloper.blacklist = true;
-                                                      }
-                                                   }
-                                                   userDeveloper.funds = userDeveloper.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                                   userClient.funds = userClient.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                                }
-                                                else{
-                                                   userClient.funds = userClient.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                                   superUser.funds = superUser.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                                }
                                                 userClient.save(function(err){
                                                    if(err){
                                                       res.status(500).json({error: "Error Saving client"});
@@ -351,7 +351,7 @@ exports.submitProduct = (req,res) => {
                                                             res.status(500).json({error: "Error Saving developer"});
                                                          }
                                                          else{
-                                                             userClient.save(function(err){
+                                                             superUser.save(function(err){
                                                                 if(err){
                                                                    res.status(500).json({error: "Error Saving superUser"});
                                                                 }
