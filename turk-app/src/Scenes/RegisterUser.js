@@ -19,7 +19,8 @@ class RegisterUser extends Component {
         email: "",
         userType : "Client",
         showError: false,
-        errorMessage: "Problem"
+        errorMessage: "Problem",
+        tags : ""
 
       }
       // this.errorMessage = "Problem";
@@ -132,6 +133,17 @@ class RegisterUser extends Component {
                   onChange={this.handleChange}
                 />
           </FormGroup>
+
+          <FormGroup controlId="tags" bsSize = "large">
+            <ControlLabel>Add tags for other users to search you, seperate them with spaces</ControlLabel>
+            <FormControl
+                  autoFocus
+                  type="tags"
+                  value={this.state.tags}
+                  onChange={this.handleChange}
+                />
+          </FormGroup>
+
           <FormGroup controlId="userType">
             <ControlLabel>Choose your Account Type</ControlLabel>
             <FormControl componentClass="select"

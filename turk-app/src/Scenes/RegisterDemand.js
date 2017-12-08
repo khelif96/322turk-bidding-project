@@ -16,7 +16,8 @@ class RegisterDemand extends Component {
         api_token : localStorage.getItem("api_token"),
         dueDate: "0000-00-00",
         showProductMessage : false,
-        ProductMessage : ""
+        ProductMessage : "",
+        tags : "",
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -84,6 +85,17 @@ class RegisterDemand extends Component {
                   onChange={this.handleChange}
                 />
           </FormGroup>
+
+          <FormGroup controlId="tags" bsSize = "large">
+            <ControlLabel>Enter Tags for users to search, seperate them with spaces</ControlLabel>
+            <FormControl
+                  autoFocus
+                  type="input"
+                  value={this.state.tags}
+                  onChange={this.handleChange}
+                />
+          </FormGroup>
+
           <FormGroup controlId="dueDate" bsSize = "large">
             <ControlLabel>When is your deadline?</ControlLabel>
             <FormControl
