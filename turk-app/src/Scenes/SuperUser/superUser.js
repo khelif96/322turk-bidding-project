@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import '../Styles/App.css';
 import UnverifiedUserFeed from './unverifiedUserFeed'
 import AllUserFeed from './allUserFeed'
+import TransactionFeed from './transactionFeed'
 // import { browserHistory } from 'react-router'
 
 
@@ -10,6 +11,9 @@ class SuperUserHome extends Component {
 
   constructor(props){
       super(props);
+      this.state = {
+        time: Date.now()
+      }
   }
 
  componentWillMount(){
@@ -18,6 +22,11 @@ class SuperUserHome extends Component {
     if(localStorage.getItem('userType') !== 'Super_User')
       this.props.history.push('/')
   }
+
+  componentDidMount() {
+    setInterval(() => this.setState({ time: Date.now()}), 1000)
+}
+
   render() {
     var style =  {
         color : 'gray',
@@ -30,6 +39,7 @@ class SuperUserHome extends Component {
             <div style = {style}> Super User Home Page </div>
             <UnverifiedUserFeed />
             <AllUserFeed/>
+            <TransactionFeed/>
 
           </div>
     );
