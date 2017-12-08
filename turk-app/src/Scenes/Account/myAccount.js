@@ -71,7 +71,10 @@ class MyAccount extends Component {
         }
       })
   }
-
+  /*account.accountAlerts.map( JSONObject => (
+         <AlertMessage message = {JSONObject.message}/>
+  )),
+  */
   getAccountInfo(){
      const API_token = this.state.api_token;
      //call our axios promise, then retrieve the token from axios
@@ -102,14 +105,11 @@ class MyAccount extends Component {
              userType: account.userType , // 3 types Client, Developer, Super_User
              funds : account.funds,
              tags : account.tags,
-             accountAlerts : account.accountAlerts.map( JSONObject => (
-                    <AlertMessage message = {JSONObject.message}/>
-               )),
-
+             accountAlerts :account.accountAlerts
             })
+            alert(JSON.stringify(account))
          })
          .catch( (error) => {
-           alert("got an error with API token")
            localStorage.removeItem('api_token');
            this.setState({ api_token : ""});
          });

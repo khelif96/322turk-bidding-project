@@ -37,11 +37,8 @@ function searchUsers(Input){
     return axios.post(baseUrl + "/searchUsers", {
         input : Input
     })
-    .then((response) => alert("success : " + response.message))
-    .catch((error) => {
-      alert("Error in search " + error.response.data.error);
-
-  });
+    .then((response) => response.data )
+    .catch((error) => { });
 }
 
 export {rateUser};

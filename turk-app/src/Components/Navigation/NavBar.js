@@ -63,7 +63,16 @@ class NavBar extends Component {
               </NavBarLink>
             }
             </MenuItem>
+
             <MenuItem eventKey="1.5">
+            {
+              this.props.enableLogout &&
+              <NavBarLink to = "/MoreUsers">
+                More Users
+              </NavBarLink>
+            }
+            </MenuItem>
+            <MenuItem eventKey="1.6">
             {
               (localStorage.getItem('userType') == "Client") &&
               <NavBarLink to = "/RegisterDemand">

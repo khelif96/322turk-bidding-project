@@ -1,34 +1,71 @@
 import React, { Component } from 'react';
 import '../../Styles/App.css';
 import {getAccountByID} from '../../Utils/User.js';
+import {getDemandbyID} from '../../Utils/Demand.js';
+import {Link} from 'react-router-dom';
+import {PanelGroup ,Panel} from 'react-bootstrap';
+import { DemandHeading,
+         FeedContainer,
+         Organization,
+         DatePosted,
+         Description,
+         SectionHeadings,
+         MoreDetails
+      } from '../../Styles/feed.style';
+import DemandPanel from '../Feed/DemandPanel';
 
 
-class Bidder extends Component {
+
+class UserPanel extends Component {
   constructor(props){
       super(props);
       this.state = {
         rating : "",
-        devId : this.props.devId,
+        devId : this.props.user._id,
         name : "",
-        bidAmount : this.props.bidAmount,
-        deadline : this.props.deadline,
+        tags : [],
+        ratingCount : "",
+        userType : "",
+        createdDate : "",
+        mostRecentProject : "",
 
       }
 
+      this.getDemandbyID = getDemandbyID.bind(this);
       this.getAccountByID = getAccountByID.bind(this);
       this.displayContent = this.displayContent.bind(this);
 
       this.displayContent()
   }
 
+  convertDate = (date) => ({
+      year : date.substr(0,4),
+      month : date.substr(5,2) ,
+      day : date.substr(8,2) ,
+      hour : date.substr(11,2) ,
+      minutes : date.substr(14,2) ,
+      seconds : date.substr(17,2)
+  })
+
   displayContent = () => {
     getAccountByID(this.state.devId)
-        .then( (clientName) => {
-          //alert(JSON.stringify(clientName.name))
+        .then( (user) => {
           this.setState({
-            name : clientName.name.first + " " + clientName.name.last,
-            rating : clientName.rating.type
+            rating : user.rating,
+            name : user.name.first + " " + user.name.last,
+            tags : user.tags,
+            ratingCount : user.ratingCount,
+            userType :  user.userType,
+            createdDate :  user.createdDate,
           })
+          this.getDemandbyID(user.projects[user.projects.length-1])
+            .then( (response) => {
+              if(response != null){
+                this.setState({
+                  mostRecentProject :( <DemandPanel demand = {response} />)
+                })
+              }
+            })
         })
         .catch( (error) => {
           alert(error +  "Error from : bidder");
@@ -36,13 +73,26 @@ class Bidder extends Component {
   }
 
   render() {
-    const style ={ color : "orange"}
+    const convertedCreated = this.convertDate(this.state.createdDate);
+    const createdDate = convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year
     return (
-      <h3 style={ style }>
-        {this.state.name + " placed a bid of $" + this.state.bidAmount + " due on " + this.state.deadline}
-      </h3>
+      <Panel collapsible header={ <DemandHeading>{this.state.name}</DemandHeading> } eventKey="1">
+
+        <SectionHeadings> Joined on : {createdDate} </SectionHeadings>
+          <Description>{this.state.content}</Description>
+
+        <SectionHeadings> Rating :  {this.state.rating}</SectionHeadings>
+
+        <SectionHeadings> Interests: {this.state.tags}</SectionHeadings>
+
+        <SectionHeadings> Newest Project:  </SectionHeadings>
+          <Description>{this.state.mostRecentProject}</Description>
+
+
+        <Link to = {`/user/userId=${this.state.devId}`}><MoreDetails> More detail </MoreDetails> </Link>
+      </Panel>
     );
   }
 }
 
-export default Bidder;
+export default UserPanel;
