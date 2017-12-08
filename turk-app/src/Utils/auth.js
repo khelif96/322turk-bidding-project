@@ -16,7 +16,7 @@ function login(userName,Password) {
     });
 }
 export {registerUser};
-function registerUser(Username,Password,Email,FirstName,LastName,UserType){
+function registerUser(Username,Password,Email,FirstName,LastName,UserType, Interests){
   return axios.post(baseUrl+"/registerUser",{
       email: Email,
       userName: Username,
@@ -25,7 +25,8 @@ function registerUser(Username,Password,Email,FirstName,LastName,UserType){
         first : FirstName,
         last : LastName
       },
-      userType : UserType
+      userType : UserType,
+      interests : Interests
     })
     .then((message) => alert(message + " success") )
     .catch( (error) => {
@@ -61,12 +62,13 @@ function retrieveVerifiedClients(){
 }
 
 export {registerDemand};
-function registerDemand(Title,Content,API_token, ExpDate){
+function registerDemand(Title,Content,API_token, ExpDate, Tags){
   return axios.post(baseUrl+"/createDemand",{
       title: Title,
       content: Content,
       api_token: API_token,
-      date : ExpDate
+      date : ExpDate,
+      tags : Tags
     })
     .then( (response) => {
       this.props.history.push(`/demands/${response.data.demandId}`)

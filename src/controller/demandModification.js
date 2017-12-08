@@ -21,6 +21,7 @@ exports.createDemand = (req,res) => {
       }else{
         var tempDemand = new Demand();
         tempDemand.title = req.body.title;
+        tempDemand.createdNum = Number(tempDemand.createdDate);
         tempDemand.content = req.body.content;
         tempDemand.ownerId = doc._id;
         tempDemand.expDate = req.body.date;
@@ -327,6 +328,7 @@ exports.submitProduct = (req,res) => {
                                                       break;
                                                   }
                                               }
+                                              // TODO delete
                                               demand.save(function(err){
                                                  if(err) {
                                                     res.status(500).json({error: "Error Saving product"});
