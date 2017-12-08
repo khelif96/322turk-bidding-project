@@ -119,12 +119,17 @@ exports.registerUser = (req,res) => {
           // res.status(201);
           // res.json({api_token: tempUser.api_token, status: "Successfully Created User"});
         }
+        else{
+
+          res.status(400);
+          res.json({error:"Username belongs to another user"});
+        }
       });
 
       }else{
 
         res.status(400);
-        res.json({error:"Email Or Username belongs to another user"});
+        res.json({error:"Email belongs to another user"});
       }
     });
   }
