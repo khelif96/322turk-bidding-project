@@ -1,6 +1,7 @@
 import axios from 'axios';
-const baseUrl = "http://localhost:3001/api";
-
+import baseUrlDomain from '../Assets/baseUrl'
+const baseUrl = baseUrlDomain+":3001/api";
+console.log(baseUrl);
 export {login};
 function login(userName,Password) {
   console.log("Logging in");
