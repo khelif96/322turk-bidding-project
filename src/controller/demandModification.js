@@ -343,7 +343,8 @@ exports.submitProduct = (req,res) => {
                                                    var message = {
                                                        messageType : "projectSubmitted",
                                                        description : req.body.finishedProduct,
-                                                       senderID : userDeveloper._id
+                                                       senderID : userDeveloper._id,
+                                                       demandID : demand._id
                                                    }
                                                    userClient.accountAlerts.push(message);
                                                 }

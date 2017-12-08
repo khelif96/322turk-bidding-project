@@ -27,7 +27,10 @@ class MyAccount extends Component {
         projects: [],
         showProjects : [],
         accountApproved: false,
+
         accountAlerts : [],
+        showAlerts : [],
+
 
         rating: "",
         ratingCount: "",
@@ -47,7 +50,9 @@ class MyAccount extends Component {
       this.getAccountInfo();
       this.getDemandbyID = getDemandbyID.bind(this);
 
-      this.createPanel = this.createPanel.bind(this);
+      this.createDemands = this.createDemands.bind(this);
+      this.createMessages = this.createMessages.bind(this);
+
 
 
   }
@@ -59,7 +64,7 @@ class MyAccount extends Component {
       this.props.history.push('/')
   }
 
-  createPanel(demand){
+  createDemands(demand){
     this.getDemandbyID(demand)
       .then( (response) => {
         if(response != null){
@@ -71,10 +76,14 @@ class MyAccount extends Component {
         }
       })
   }
-  /*account.accountAlerts.map( JSONObject => (
-         <AlertMessage message = {JSONObject.message}/>
-  )),
-  */
+
+  createMessages(message){
+      if(message != null){
+        return <AlertMessage message = {message} />
+      }
+
+  }
+
   getAccountInfo(){
      const API_token = this.state.api_token;
      //call our axios promise, then retrieve the token from axios
@@ -92,7 +101,7 @@ class MyAccount extends Component {
              resume : account.resume ,
              interests: account.interests ,
              sampleWork: account.sampleWork ,
-             projects: account.projects.map( demandID => {this.createPanel(demandID)}),
+             projects: account.projects.map( demandID => {this.createDemands(demandID)}),
              accountApproved: account.accountApproved ,
              rating: account.rating ,
              ratingCount: account.ratingCount ,
@@ -105,15 +114,17 @@ class MyAccount extends Component {
              userType: account.userType , // 3 types Client, Developer, Super_User
              funds : account.funds,
              tags : account.tags,
-             accountAlerts :account.accountAlerts
+             accountAlerts : account.accountAlerts.map( messages => <AlertMessage message = {messages} />  ),
+
             })
-            alert(JSON.stringify(account))
          })
          .catch( (error) => {
            localStorage.removeItem('api_token');
            this.setState({ api_token : ""});
          });
  }
+ //      <h4> Alerts : {this.state.accountAlerts}</h4>
+
   render() {
     return(
       <div>
@@ -121,28 +132,31 @@ class MyAccount extends Component {
 
 
 
-      <h1> api: {this.state.api_token } </h1>
-      <h1> first name :{this.state.firstName } </h1>
-      <h1> last name : {this.state.lastName } </h1>
-      <h1> created date : {this.state.createdDate } </h1>
-      <h1> email  : {this.state.email} </h1>
-      <h1> userdID : {this.state.userId}</h1>
-      <h1> password hash : {this.state.password_hash}</h1>
-      <h1> profile image : {this.state.profileImage }</h1>
-      <h1> resume  : {this.state.resume }</h1>
-      <h1> interest : {this.state.interests}</h1>
-      <h1> sample work : {this.state.sampleWork}</h1>
-      <h1> project : <FeedContainer>{this.state.showProjects.map( object => object)} </FeedContainer></h1>
-      <h1> account approved : {this.state.accountApproved ? "approved" : "not approved"}</h1>
-      <h1> account alerts : {this.state.accountAlerts }</h1>
-      <h1> rating : {this.state.rating}</h1>
-      <h1> rating count : {this.state.ratingCount}</h1>
+      <h4> api: {this.state.api_token } </h4>
+      <h4> first name :{this.state.firstName } </h4>
+      <h4> last name : {this.state.lastName } </h4>
+      <h4> created date : {this.state.createdDate } </h4>
+      <h4> email  : {this.state.email} </h4>
+      <h4> userdID : {this.state.userId}</h4>
+      <h4> password hash : {this.state.password_hash}</h4>
+      <h4> profile image : {this.state.profileImage }</h4>
+      <h4> resume  : {this.state.resume }</h4>
+      <h4> interest : {this.state.interests}</h4>
+      <h4> sample work : {this.state.sampleWork}</h4>
+      <h4> project : <FeedContainer>{this.state.showProjects.map( object => object)} </FeedContainer></h4>
+      <h4> account approved : {this.state.accountApproved ? "approved" : "not approved"}</h4>
 
-      <h1> warning count : {this.state.warningCount }</h1>
-      <h1> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h1>
-      <h1> usertype : {this.state.userType}</h1>
-      <h1> funds : {this.state.funds }</h1>
-      <h1> tags : {this.state.tags }</h1>
+      <h4> Alerts : <FeedContainer> {this.state.accountAlerts} </FeedContainer></h4>
+
+
+      <h4> rating : {this.state.rating}</h4>
+      <h4> rating count : {this.state.ratingCount}</h4>
+
+      <h4> warning count : {this.state.warningCount }</h4>
+      <h4> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h4>
+      <h4> usertype : {this.state.userType}</h4>
+      <h4> funds : {this.state.funds }</h4>
+      <h4> tags : {this.state.tags }</h4>
 
       <Button onClick = { (evt) => this.logout()}> Log out </Button>
 
