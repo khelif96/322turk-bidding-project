@@ -29,17 +29,15 @@ class Bidder extends Component {
         reason : "",
       }
 
-      this.handleChange = this.handleChange.bind(this);
       this.getAccountByID = getAccountByID.bind(this);
-
       this.chooseBidder = chooseBidder.bind(this);
-
 
       this.displayContent = this.displayContent.bind(this);
 
       this.selectBidder = this.selectBidder.bind(this);
       this.confirmBidder = this.confirmBidder.bind(this);
 
+      this.handleChange = this.handleChange.bind(this);
 
       this.displayContent()
   }

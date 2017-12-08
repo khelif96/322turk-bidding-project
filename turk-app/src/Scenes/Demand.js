@@ -58,7 +58,7 @@ class Demand extends Component {
 
 
         // chosen developer only
-        rating : 3,
+        rating : 0,
         product: "",
         showProductError : false,
         productMessage : "",
