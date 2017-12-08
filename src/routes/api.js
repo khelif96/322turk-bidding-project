@@ -24,7 +24,6 @@ router.post('/loginUser', userAuth.loginUser);
 
 // Register User Route
 router.post('/registerUser', userAuth.registerUser);
-router.get('/allUsers', user.getAllUsers);
 
 router.get('/demands', demands.getAllDemands);
 router.get('/myDemands/:api_token', demands.getMyDemands);

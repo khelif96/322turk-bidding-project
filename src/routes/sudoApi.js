@@ -20,6 +20,7 @@ router.use(userAuth.checkAuth);
 router.post('/unverifiedUsers', users.getUnverifiedUsers);
 router.post('/verifyUser', users.verifyUser);
 router.post('/rejectUser', users.rejectUser);
+router.get('/getAllUsers', users.getAllUsers);
 
 
 // Return Router

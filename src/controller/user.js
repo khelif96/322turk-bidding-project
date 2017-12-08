@@ -99,17 +99,3 @@ exports.searchUsers = (req, res) => {
         });
     }
 }
-
-exports.getAllUsers = (req,res) => {
-    User.find({}, function (err,docs){
-      if(!docs.length || err){
-        res.status(404);
-        res.json({error: "Could not find any thing"})
-      }else{
-          res.status(200);
-          res.send(docs);
-          // res.status(201);
-          // res.json({api_token: tempUser.api_token, status: "Successfully Created User"});
-        }
-        });
-  };
