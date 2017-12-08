@@ -82,27 +82,6 @@ class MoreDemands extends Component {
         });
   }
 
-  //showDemandsClick = (demands) => {this.setState({ showDemands : demands})}
-  /*
-  <form onSubmit = {event => this.searchDemandsWithTag(this.state.searchString)}>
-    <FormGroup controlId="searchString">
-       <FormControl
-           placeholder="type in the tags to find a demand"
-           value ={this.state.searchString}
-           onChange = {this.handleChange}
-        />
-    </FormGroup>
-        <Button
-        block
-          disabled={!this.validateSearch() }
-        >
-           Search
-        </Button>
-  </form>
-  <Button onClick = { (event) => this.searchDemandsWithTag(this.state.searchString)}> Show demands with peaches tag </Button>
-
-  */
-
   render() {
     return (
       <FeedContainer>
@@ -120,7 +99,8 @@ class MoreDemands extends Component {
               <Button onClick={ (event) => {this.setState({showActive : false})}}> Show Inactive </Button>
           </SwitchDemands>
           <PanelGroup>
-            { this.state.showActive ? this.state.activeDemands : this.state.inactiveDemands }
+            { this.state.showActive && this.state.activeDemands }
+            { ! this.state.showActive && this.state.inactiveDemands }
           </PanelGroup>
 
       </FeedContainer>

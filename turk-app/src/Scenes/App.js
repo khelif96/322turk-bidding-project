@@ -8,8 +8,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Login from './Login';
 import MoreDemands from './MoreDemands';
+import MoreUsers from './MoreUsers';
 import Demand from './Demand';
-import Feed from './Feed/Feed'
 import RegisterUser from './RegisterUser';
 import MyAccount from './Account/myAccount';
 import UserPage from './Account/UserPage';
@@ -62,6 +62,8 @@ class App extends Component {
             }/>
 
             <Route  path = "/MoreDemands" component = {MoreDemands}/>
+
+            <Route  path = "/MoreUsers" component = {MoreUsers}/>
 
             <Route path = "/superUserHome" component = {SuperUserHome} />
           </div>
