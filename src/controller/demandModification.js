@@ -333,9 +333,38 @@ exports.submitProduct = (req,res) => {
                                                       break;
                                                   }
                                               }
-                                              // TODO delete demand which was found with demandId
-                                              // but save userDeveloper and userClient
-
+                                              demand.isActive = false;
+                                              demand.devChosen = true;
+                                              demand.title = "Nullified" + demand.title;
+                                              demand.save(function(err){
+                                                 if(err) {
+                                                    res.status(500).json({error: "Error Saving product"});
+                                                 }
+                                                 else{
+                                                    userClient.save(function(err){
+                                                       if(err){
+                                                          res.status(500).json({error: "Error Saving client"});
+                                                       }
+                                                       else{
+                                                          userDeveloper.save(function(err){
+                                                             if(err){
+                                                                res.status(500).json({error: "Error Saving developer"});
+                                                             }
+                                                             else{
+                                                                 superUser.save(function(err){
+                                                                    if(err){
+                                                                       res.status(500).json({error: "Error Saving superUser"});
+                                                                    }
+                                                                    else{
+                                                                        res.status(201).json({message: "Successfully saved product."});
+                                                                    }
+                                                                });
+                                                             }
+                                                          });
+                                                       }
+                                                    });
+                                                 }
+                                              });
                                           }
                                           else{
                                               demand.finishedProduct = req.body.finishedProduct;
