@@ -27,7 +27,6 @@ class AlertMessage extends Component {
           rating : 0,
           ratingMessage : "",
           demandId : this.props.message.demandID,
-          demandName : ""
       }
 
       this.getAccountByID = getAccountByID.bind(this);
@@ -39,7 +38,7 @@ class AlertMessage extends Component {
 
       this.SubmitRating = this.SubmitRating.bind(this);
 
-      this.convertMessage()
+      //this.convertMessage()
 
   }
 
@@ -63,22 +62,16 @@ class AlertMessage extends Component {
   })
 
   convertMessage = () =>{
-    const messageType = this.state.messageType
-    this.getDemandbyID(this.props.message.demandID)
-      .then( (response) => {
+    /*const messageType = this.state.messageType
 
-        if(response != null) {
-          this.setState({  demandName : response.title })}
-      })
-
-    this.getAccountByID(this.state.senderID)
+    if this.getAccountByID(this.state.senderID)
       .then( account => {
         if(messageType == "projectSubmitted") {
-          const headerMessage = " User " + account.name.first + " " + account.name.last + " submitted his product for " +  this.state.demandName
+          const headerMessage = " User " + account.name.first + " " + account.name.last + " submitted his product for " +  this.state.demandId
           this.setState( {header  : headerMessage} )
         }
       })
-
+*/
   }
 
   openModal = () => {

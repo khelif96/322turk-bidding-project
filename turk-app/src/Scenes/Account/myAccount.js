@@ -120,7 +120,10 @@ class MyAccount extends Component {
              userType: account.userType , // 3 types Client, Developer, Super_User
              funds : account.funds,
              tags : account.tags,
-             accountAlerts : account.accountAlerts.map( messages => <AlertMessage message = {messages} />  ),
+             accountAlerts : account.accountAlerts.map( messages => {
+               alert(JSON.stringify(messages))
+
+             } ),
 
             })
          })
