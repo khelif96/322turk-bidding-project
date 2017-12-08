@@ -66,6 +66,12 @@ exports.rejectUser = (req,res) => {
       res.status(400).json({error: "could not find user"});
     }else{
       user.accountApproved = false;
+      var message = {
+                messageType : "superUserNotification",
+                description : req.body.rejectedMessage,
+                senderID : " ",
+                demandID : " "
+            };
       user.accountAlerts.push({"message": req.body.rejectedMessage});
       user.save(function(err){
         if(err){
