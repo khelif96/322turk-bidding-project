@@ -101,7 +101,8 @@ exports.registerUser = (req,res) => {
                 tempUser.interests = req.body.interests;
                 tempUser.tags = (req.body.interests).split(/\s* \s*/);
             }
-            tempUser.userName === req.body.userName;
+            tempUser.userName = req.body.userName;
+            tempUser.tags.push(req.body.userName);
             bcrypt.hash(req.body.password, saltRounds, function(err,hash){
               tempUser.password_hash = hash;
               tempUser.save(function(err){
@@ -118,12 +119,17 @@ exports.registerUser = (req,res) => {
           // res.status(201);
           // res.json({api_token: tempUser.api_token, status: "Successfully Created User"});
         }
+        else{
+
+          res.status(400);
+          res.json({error:"Username belongs to another user"});
+        }
       });
 
       }else{
 
         res.status(400);
-        res.json({error:"Email Or Username belongs to another user"});
+        res.json({error:"Email belongs to another user"});
       }
     });
   }

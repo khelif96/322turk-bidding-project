@@ -24,6 +24,7 @@ router.post('/rejectUser', users.rejectUser);
 router.post('/getAllUsers', users.getAllUsers);
 router.post('/getTransactions', transactions.getTransactions);
 router.post('/approveTransaction', transactions.approveTransaction);
+router.post('/rejectTransaction', transactions.rejectTransaction);
 router.post('/getAllUsers', users.getAllUsers);
 
 

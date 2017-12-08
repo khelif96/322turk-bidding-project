@@ -35,6 +35,33 @@ exports.addFunds = (req, res) =>{
    }
 }
 
+exports.protest = (req, res) =>{
+    User.findOne({api_token: req.body.api_token},function(err, userDoc){
+        if(!userDoc || err){
+            res.status(401).json({error: "Invalid api_token"});
+        }
+        else{
+            var tempTransaction = new Transaction();
+            tempTransaction.origin_id = userDoc._id;
+            tempTransaction.complete = false;
+            tempTransaction.transactionType = "Protest";
+            if(req.body.message !== undefined || req.body.message != "") tempTransaction.message = req.body.message;
+            else tempTransaction.message = "Please remove warning.";
+            tempTransaction.save(function(err){
+              if(err){
+                res.send(err);
+              }
+            });
+            userDoc.save(function(err){
+                if(err){
+                    res.send(err);
+                }
+                else res.status(200).json({message: "Sent request to super user."});
+            });
+        }
+    });
+}
+
 exports.giveRating = (req, res) =>{
     if(req.body.rating === undefined || req.body.demandId === undefined){
         res.status(404).json({error: "Incomplete request"});

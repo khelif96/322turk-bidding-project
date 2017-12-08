@@ -16,6 +16,25 @@ exports.getTransactions = (req,res) => {
     });
 };
 
+exports.rejectTransaction = (req, res) => {
+    Transaction.findById(req.body.transactionId, function(err, transaction){
+        if(!docs.length || err){
+            res.status(404);
+            res.json({error: "Could not find any thing"})
+        }else{
+            transaction.complete = true;
+            transaction.save(function(err){
+                if(err){
+                    res.status(500).json({error: "Error Saving transaction"});
+                }
+                else{
+                    res.status(200).json({message: "Rejected."});
+                }
+            });
+        }
+    });
+}
+
 exports.approveTransaction = (req, res) => {
     Transaction.findById(req.body.transactionId, function(err, transaction){
         if(!transaction || err){
@@ -28,6 +47,32 @@ exports.approveTransaction = (req, res) => {
                     }
                     else{
                         client.funds = client.funds + transaction.amount;
+                        transaction.complete = true;
+                        client.save(function(err){
+                            if(err){
+                                res.status(500).json({error: "Error Saving client"});
+                            }
+                            else{
+                                transaction.save(function(err){
+                                    if(err){
+                                        res.status(500).json({error: "Error Saving transaction"});
+                                    }
+                                    else{
+                                        res.status(200).json({message: "Successfully added funds."});
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            else if(transaction.transactionType == "Protest"){
+                User.findById(transaction.origin_id, function(err,client){
+                    if(!client || err){
+                        res.status(401).json({error: "Could not find user"});
+                    }
+                    else{
+                        client.warningCount = client.warningCount - 1;
                         transaction.complete = true;
                         client.save(function(err){
                             if(err){

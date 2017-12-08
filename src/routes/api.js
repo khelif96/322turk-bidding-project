@@ -47,24 +47,25 @@ router.use(userAuth.checkAuth); // Routes that require and api_token after this
 
 // Post Modification Routes //
 // Pass "api_token", "title", "content", "date"
-router.post('/createDemand', user.isClient, demandModification.createDemand);
+router.post('/createDemand', user.isBlacklist, user.isClient, demandModification.createDemand);
 router.put('/editDemand/:demandId', user.isClient,demandModification.editDemand);
 
 // Pass "api_token", "demandId", "bidAmount", "deadline"
-router.post('/bidOnDemand', user.isDeveloper, demandModification.bidOnDemand);
+router.post('/bidOnDemand', user.isDeveloper, user.isBlacklist, demandModification.bidOnDemand);
 
 // Pass "api_token", "devId", "demandId", and "reason" only if chosen bidder is not the lowest
-router.post('/approveBidder', user.isClient, demandModification.approveBidder);
+router.post('/approveBidder', user.isClient, user.isBlacklist, demandModification.approveBidder);
 
 // Pass "api_token", "demandId", and "finishedProduct"
-router.post('/submitProduct', user.isDeveloper, demandModification.submitProduct);
+router.post('/submitProduct', user.isDeveloper, user.isBlacklist, demandModification.submitProduct);
 
 // Pass "api_token" and "amount"
-router.post('/addFunds', user.isClient, userModification.addFunds);
+router.post('/addFunds', user.isClient, user.isBlacklist, userModification.addFunds);
 
-router.post('/rate', userModification.giveRating);
+router.post('/rate', user.isBlacklist, userModification.giveRating);
 
 router.post('/getAlerts',user.getAlerts);
+router.post('/protestWarning',userModification.protest);
 
 router.use(apiHome.invalidPath);
 // Return Router

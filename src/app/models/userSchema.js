@@ -17,6 +17,7 @@ var userSchema = new Schema({
   interests: String,
   sampleWork: String,
   projects: [],
+  projectCount: {type : Number, default: 0},
   accountApproved: {type: Boolean, default: false},
   accountAlerts : [],
   rating: {type: Number, default: 0},
