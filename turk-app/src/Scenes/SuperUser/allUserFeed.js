@@ -20,6 +20,11 @@ class AllUserFeed extends Component {
 
   }
 
+  componentDidMount(){
+   var intervalId = setInterval(this.getAllUsers, 1000);
+   // store intervalId in the state so it can be accessed later:
+   this.setState({intervalId: intervalId});
+}
 //takes a demand and creates a UserPanel and passes the demands title, demandID and description
   createPanel(user){
       return  (<UserPanel user = {user} />);
@@ -31,9 +36,12 @@ class AllUserFeed extends Component {
           // alert("test" + arrayOfUsers);
           // this.setState({allUsers:arrayOfUsers})
           // alert(arrayOfUsers.length)
-          let tempArray = []
-          for(var i = 0; i < arrayOfUsers.length; i++)  tempArray.push(this.createPanel(arrayOfUsers[i]));
-          this.setState({allUsers : tempArray})
+          if(arrayOfUsers != undefined){
+
+            let tempArray = []
+            for(var i = 0; i < arrayOfUsers.length; i++)  tempArray.push(this.createPanel(arrayOfUsers[i]));
+            this.setState({allUsers : tempArray})
+          }
         })
         .catch( (error) => {  alert("Error Overhere " + error);
         });

@@ -1,7 +1,9 @@
 import React, { Component} from 'react';
-import { Button, Row,Col,Nav,NavItem,Tab} from 'react-bootstrap';
+import { Button, FormControl, FormGroup, Row,Col,Nav,NavItem,Tab} from 'react-bootstrap';
+import {FormContainer} from '../../Styles/form.style'
+
 import {getAccountByApiToken} from '../../Utils/User.js';
-import {protestWarning} from '../../Utils/auth.js';
+import {protestWarning,addFunds} from '../../Utils/auth.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
 import { FeedContainer } from '../../Styles/feed.style';
 import { Page,PageContainer} from '../../Styles/myAccount.style';
@@ -10,7 +12,6 @@ import { Page,PageContainer} from '../../Styles/myAccount.style';
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
 import DemandPanel from '../Feed/DemandPanel';
-
 
 class MyAccount extends Component {
   constructor(props){
@@ -47,8 +48,13 @@ class MyAccount extends Component {
         userType: "", // 3 types Client, Developer, Super_User
         funds : 0,
         tags : "",
+        newFunds: 15
       }
+
+      this.handleChange = this.handleChange.bind(this);
+
       this.protestWarning = protestWarning.bind(this);
+      // this.addFunds = addFunds.bind(this);
       this.getAccountByApiToken = getAccountByApiToken.bind(this);
       this.getAccountInfo();
       this.getDemandbyID = getDemandbyID.bind(this);
@@ -57,6 +63,12 @@ class MyAccount extends Component {
       this.createDemands = this.createDemands.bind(this);
       this.createMessages = this.createMessages.bind(this);
 
+  }
+
+  handleChange(event) {
+    this.setState(
+      {[event.target.id]: event.target.value}
+    );
   }
 
   logout = () => {
@@ -120,11 +132,8 @@ class MyAccount extends Component {
              userType: account.userType , // 3 types Client, Developer, Super_User
              funds : account.funds,
              tags : account.tags,
-             accountAlerts : account.accountAlerts.map( messages => {
-               alert(JSON.stringify(messages))
-
-             } ),
-
+             accountAlerts : account.accountAlerts.map( messages => <AlertMessage message = {messages} />  ),
+             newFunds : 0
             })
          })
          .catch( (error) => {
@@ -133,6 +142,26 @@ class MyAccount extends Component {
          });
  }
  //      <h4> Alerts : {this.state.accountAlerts}</h4>
+
+ validateForm() {
+    return this.state.newFunds > 0;
+  }
+
+  AddFunds = event => {
+    alert("State funds" + this.state.newFunds)
+    addFunds(localStorage.getItem('api_token'),this.state.newFunds)
+        .then( message => {
+          // alert("test" + arrayOfUsers);
+          // this.setState({allUsers:arrayOfUsers})
+          // alert(arrayOfUsers.length)
+          alert(message);
+        })
+        .catch( (error) => {  alert("Error Adding Funds " + error);
+        });
+
+      event.preventDefault();
+  }
+
 
   render() {
     return(
@@ -155,6 +184,9 @@ class MyAccount extends Component {
                Ratings
              </NavItem>
              <NavItem eventKey="fifth">
+               Funds
+             </NavItem>
+             <NavItem eventKey="sixth">
                Log Out
              </NavItem>
            </Nav>
@@ -189,7 +221,34 @@ class MyAccount extends Component {
              <h4> rating count : {this.state.ratingCount}</h4>
              </Tab.Pane>
 
-             <Tab.Pane eventKey="fifth" onEnter = {(evt) => this.logout()}/>
+             <Tab.Pane eventKey="fifth">
+             <h4> Funds : {this.state.newFunds}</h4>
+             <h4> Add Funds :
+
+             <form onSubmit={this.handleSubmit}>
+               <FormGroup controlId="newFunds" bsSize = "large">
+               <FormControl
+                     autoFocus
+                     type="newFunds"
+                     value={this.state.newFunds}
+                     onChange={this.handleChange}
+                   />
+                   <Button
+                     block
+                     bsSize="large"
+                     disabled={!this.validateForm()}
+                     onClick={this.AddFunds}
+                     type="submit"
+                   >
+                   Add Funds
+                 </Button>
+                  </FormGroup>
+                </form>
+                </h4>
+
+             </Tab.Pane>
+             <Tab.Pane eventKey="sixth" onEnter = {(evt) => this.logout()}/>
+
            </Tab.Content>
          </Col>
        </Row>
