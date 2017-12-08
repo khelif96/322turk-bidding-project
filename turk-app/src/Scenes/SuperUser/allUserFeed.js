@@ -4,19 +4,19 @@ import React, { Component } from 'react';
 import {PanelGroup ,Panel, Table} from 'react-bootstrap';
 import { FeedContainer } from '../../Styles/feed.style';
 import UserPanel from './userPanel';
-import {retrieveDemands} from '../../Utils/auth.js';
-import {getUnverifiedUsers} from '../../Utils/superUser/userModRequest'
+// import {retrieveDemands} from '../../Utils/auth.js';
+import {getAllUsers} from '../../Utils/superUser/userModRequest'
 
-class UnverifiedUserFeed extends Component {
+class AllUserFeed extends Component {
   constructor(props){
       super(props);
       this.state = {
-        unverifiedUsers : []
+        allUsers : []
       }
 
-      this.getUnverifiedUsers = this.getUnverifiedUsers.bind(this)
-      this.retrieveDemands = retrieveDemands.bind(this);
-      this.getUnverifiedUsers();
+      this.getAllUsers = this.getAllUsers.bind(this)
+      // this.retrieveDemands = retrieveDemands.bind(this);
+      this.getAllUsers();
 
   }
 
@@ -25,23 +25,23 @@ class UnverifiedUserFeed extends Component {
       return  (<UserPanel user = {user} />);
   }
 
-  getUnverifiedUsers(){
-    getUnverifiedUsers(localStorage.getItem('api_token'))
+  getAllUsers(){
+    getAllUsers(localStorage.getItem('api_token'))
         .then( arrayOfUsers => {
           // alert("test" + arrayOfUsers);
-          // this.setState({unverifiedUsers:arrayOfUsers})
+          // this.setState({allUsers:arrayOfUsers})
           // alert(arrayOfUsers.length)
           let tempArray = []
           for(var i = 0; i < arrayOfUsers.length; i++)  tempArray.push(this.createPanel(arrayOfUsers[i]));
-          this.setState({unverifiedUsers : tempArray})
+          this.setState({allUsers : tempArray})
         })
-        .catch( (error) => {  alert("Error " + error);
+        .catch( (error) => {  alert("Error Overhere " + error);
         });
   }
   render() {
     return (
       <div>
-          <h4> Unverified User</h4>
+          <h4> All Users</h4>
           <Table striped bordered condensed hover>
             <thead>
               <tr>
@@ -72,7 +72,7 @@ class UnverifiedUserFeed extends Component {
               </tr>
               </thead>
             <tbody>
-            {this.state.unverifiedUsers}
+            {this.state.allUsers}
             </tbody>
           </Table>
           </div>
@@ -80,4 +80,4 @@ class UnverifiedUserFeed extends Component {
   }
 }
 
-export default UnverifiedUserFeed;
+export default AllUserFeed;

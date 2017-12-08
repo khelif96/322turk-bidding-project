@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const baseUrl = "http://localhost:3001/api";
+import baseUrlDomain from '../Assets/baseUrl'
+const baseUrl = baseUrlDomain+":3001/api";
 
 export {getDemandbyID};
 function getDemandbyID(DemandId){
