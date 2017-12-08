@@ -14,6 +14,7 @@ class UserPanel extends Component {
 
   constructor(props){
       super(props);
+      // alert("TEST " + JSON.stringify(this.props));
       this.state = {
         email: this.props.user.email,
         name: this.props.user.name.first + " " + this.props.user.name.last,
@@ -69,7 +70,7 @@ class UserPanel extends Component {
 
 
        VerifyUser = () => {
-         alert("Running this")
+        //  alert("Running this")
         verifyUser(this.state.userId, localStorage.getItem('api_token'))
           .then((message) =>this.forceUpdate())
           .catch( (error) => alert(error))
