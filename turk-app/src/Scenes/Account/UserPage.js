@@ -111,9 +111,6 @@ class UserPage extends Component {
                <NavItem eventKey="second">
                  Projects
                </NavItem>
-               <NavItem eventKey="third">
-                 Messages
-               </NavItem>
                <NavItem eventKey="fourth">
                  Ratings
                </NavItem>
