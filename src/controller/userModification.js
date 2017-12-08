@@ -79,7 +79,7 @@ exports.giveRating = (req, res) =>{
                                                         res.status(404).json({error: "Can not find the owner of this demand"});
                                                     }
                                                     else{
-                                                        if(req.body.rating <= 2 && req.body.justification === undefined){
+                                                        if(req.body.rating <= 2 && (req.body.justification === undefined || req.body.justification == "")){
                                                             res.status(400).json({error: "A paragraph reason must be provided for this low reason."});
                                                         }
                                                         else{

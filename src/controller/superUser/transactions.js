@@ -18,7 +18,7 @@ exports.getTransactions = (req,res) => {
 
 exports.approveTransaction = (req, res) => {
     Transaction.findById(req.body.transactionId, function(err, transaction){
-        if(!user || err){
+        if(!transaction || err){
             res.status(400).json({error: "could not find transaction"});
         }else{
             if(transaction.transactionType == "AddFunds"){
