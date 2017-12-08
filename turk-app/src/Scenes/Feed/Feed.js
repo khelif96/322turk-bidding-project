@@ -49,7 +49,7 @@ class Feed extends Component {
         .then( arrayOfClients => {
           let tempArray = []
           for(var i = 0; i < 3; i++)  tempArray.push(this.createUserPanel(arrayOfClients[i]));
-          this.setState({topDevs : tempArray})
+          this.setState({topClients : tempArray})
         })
         .catch( (error) => {  alert("Error " + error);
         });
@@ -57,7 +57,7 @@ class Feed extends Component {
         .then( arrayOfDevs => {
           let tempArray = []
           for(var i = 0; i < 3; i++)  tempArray.push(this.createUserPanel(arrayOfDevs[i]));
-          this.setState({topClients : tempArray})
+          this.setState({topDevs : tempArray})
         })
         .catch( (error) => {  alert("Error " + error);
         });

@@ -222,7 +222,7 @@ class MyAccount extends Component {
              </Tab.Pane>
 
              <Tab.Pane eventKey="fifth">
-             <h4> Funds : {this.state.newFunds}</h4>
+             <h4> Funds : {this.state.funds}</h4>
              <h4> Add Funds :
 
              <form onSubmit={this.handleSubmit}>
