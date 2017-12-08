@@ -33,7 +33,7 @@ exports.giveRating = (req, res) =>{
         res.status(404).json({error: "Incomplete request"});
     }
     else{
-        User.findOne({userType: Super_User}, function(err, superUser){
+        User.findOne({userType: "Super_User"}, function(err, superUser){
             if(!superUser || err){
                 res.status(401).json({error: "There is a major problem. No super user"});
             }
