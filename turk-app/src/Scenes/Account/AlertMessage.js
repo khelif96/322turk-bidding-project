@@ -24,6 +24,7 @@ class AlertMessage extends Component {
           messageType : this.props.message.messageType,
           header :  "",
           showModal : false,
+          rating : 0,
           ratingMessage : "",
           demandId : this.props.message.demandID,
           demandName : ""
@@ -65,14 +66,15 @@ class AlertMessage extends Component {
     const messageType = this.state.messageType
     this.getDemandbyID(this.props.message.demandID)
       .then( (response) => {
-        alert(response)
-        if(response != null) this.setState({  demandName : this.response.title })
+
+        if(response != null) {
+          this.setState({  demandName : response.title })}
       })
 
     this.getAccountByID(this.state.senderID)
       .then( account => {
         if(messageType == "projectSubmitted") {
-          const headerMessage = " User " + account.name.first + " " + account.name.last + " submitted his product for " +  this.state.demandNme
+          const headerMessage = " User " + account.name.first + " " + account.name.last + " submitted his product for " +  this.state.demandName
           this.setState( {header  : headerMessage} )
         }
       })
@@ -89,9 +91,12 @@ class AlertMessage extends Component {
   }
 
   SubmitRating = (event) => {
-      alert(this.state.demandId)
-      this.rateUser(localStorage.getItem('api_token'),this.state.demandId,this.state.rating, this.state.ratingReason)
-        .then( response => {} )
+    alert(this.state.demandId)
+    alert(this.state.rating)
+    alert(this.state.ratingMessage)
+    alert(localStorage.getItem('api_token'))
+
+    this.rateUser(localStorage.getItem('api_token'),this.state.demandId,this.state.rating, this.state.ratingMessage)
   }
 
 render() {

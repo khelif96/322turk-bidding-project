@@ -66,3 +66,21 @@ function getAlerts(API_token){
       alert("This is an error from account alerts :" + error.response.data.error);
     });
 }
+
+export {getTopDevs};
+function getTopDevs(){
+  return axios.get(baseUrl + "/users/topDevs" )
+  .then( response => response.data )
+  .catch((error) => {
+    alert(" from USER in utils " + error.response.data.error)
+  });
+}
+
+export {getTopClients};
+function getTopClients(){
+  return axios.get(baseUrl + "/users/topClients" )
+  .then( response => response.data )
+  .catch((error) => {
+    alert(" from USER in utils " + error.response.data.error)
+  });
+}
