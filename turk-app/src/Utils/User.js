@@ -7,7 +7,7 @@ function getAccountByApiToken(apiToken){
   return axios.get(baseUrl + "/user/api_token=" + apiToken)
   .then( response => response.data)
   .catch((error) => {
-    alert(error + " from USER in utils")
+    alert(error.response.data.error+ " from USER in utils")
   });
 }
 
@@ -16,7 +16,7 @@ function getAccountByID(user_ID){
   return axios.get(baseUrl + "/user/userId=" + user_ID)
   .then( response => response.data )
   .catch((error) => {
-    alert(error + " from USER in utils")
+    alert(error.response.data.error+ " from USER in utils")
     console.log(error)
   });
 }
@@ -27,9 +27,9 @@ function addFunds(Amount, API_token){
         api_token : API_token,
         amount : Amount
     })
-    .then((response) => alert("success : " + response.message))
+    .then((response) => {})
     .catch((error) => {
-      alert("This is an error from addFunds " + error.message);
+      alert("This is an error from addFunds " + error.response.data.error);
     });
 }
 
