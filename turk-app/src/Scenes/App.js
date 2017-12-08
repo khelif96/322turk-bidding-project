@@ -15,6 +15,7 @@ import MyAccount from './Account/myAccount';
 import UserPage from './Account/UserPage';
 import RegisterDemand from './RegisterDemand';
 import SuperUserHome from './SuperUser/superUser';
+import AboutUs from './AboutUs'
 class App extends Component {
   constructor(props){
       super(props);
@@ -66,6 +67,7 @@ class App extends Component {
             <Route  path = "/MoreUsers" component = {MoreUsers}/>
 
             <Route path = "/superUserHome" component = {SuperUserHome} />
+            <Route path = "/aboutUs" component = {AboutUs}/>
           </div>
 
           </div>
