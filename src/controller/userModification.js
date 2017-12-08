@@ -142,7 +142,7 @@ exports.giveRating = (req, res) =>{
                                                         res.status(404).json({error: "Can not find the winning developer of this demand"});
                                                     }
                                                     else{
-                                                        if(req.body.ratin) <= 2 && req.body.justification === undefined){
+                                                        if(req.body.rating <= 2 && req.body.justification === undefined){
                                                             res.status(400).json({error: "A paragraph reason must be provided for this low reason."});
                                                         }
                                                         else{
