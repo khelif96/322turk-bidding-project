@@ -50,6 +50,15 @@ function retrieveVerifiedDevelopers(){
     });
 }
 
+export {retrieveVerifiedClients};
+function retrieveVerifiedClients(){
+  return axios.get(baseUrl+"/getVerifiedClients")
+    .then((response) => response.data )
+    .catch( (error) => {
+        alert( "this is an error from auth " + error.message);
+    });
+}
+
 export {registerDemand};
 function registerDemand(Title,Content,API_token, ExpDate){
   return axios.post(baseUrl+"/createDemand",{

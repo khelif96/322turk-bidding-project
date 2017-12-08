@@ -41,6 +41,7 @@ router.post('/searchDemands', demands.searchDemands);
 router.post('/searchUsers', user.searchUsers);
 
 router.get('/getVerifiedDevelopers', user.getVerifiedDevelopers);
+router.get('/getVerifiedClients', user.getVerifiedClients);
 
 router.use(userAuth.checkAuth); // Routes that require and api_token after this
 

@@ -83,6 +83,16 @@ exports.getVerifiedDevelopers = (req,res) => {
   })
 }
 
+exports.getVerifiedClients = (req,res) => {
+  User.find({accountApproved : true, userType : "Client"}, function(err,users){
+    if(!users || err){
+      res.status(400).json({error: "Could not find matching users"});
+    }else{
+      res.send(users);
+    }
+  })
+}
+
 exports.searchUsers = (req, res) => {
     if(req.body.input === undefined){
         res.status(404).json({error: "search field empty"});
