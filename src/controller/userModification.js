@@ -43,8 +43,13 @@ exports.giveRating = (req, res) =>{
                         res.status(404).json({error: "Can not find Demand"});
                     }
                     else{
+
+                        if( req.body.rating < 0 || req.body.rating > 5){
+                            res.status(401).json({error: "Invalid rating"});
+
                         if(demand.isActive){
                             res.status(404).json({error: "You can't give a rating for this demand yet"});
+
                         }
                         else{
                             User.findOne({api_token: req.body.api_token},function(err, userDoc){
