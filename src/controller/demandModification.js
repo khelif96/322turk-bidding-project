@@ -340,6 +340,12 @@ exports.submitProduct = (req,res) => {
                                                 else{
                                                    userClient.funds = userClient.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
                                                    superUser.funds = superUser.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                                   var message = {
+                                                       messageType : "projectSubmitted",
+                                                       description : req.body.finishedProduct,
+                                                       senderID : userDeveloper._id
+                                                   }
+                                                   userClient.accountAlerts.push(message);
                                                 }
                                                 userClient.save(function(err){
                                                    if(err){
@@ -351,7 +357,7 @@ exports.submitProduct = (req,res) => {
                                                             res.status(500).json({error: "Error Saving developer"});
                                                          }
                                                          else{
-                                                             userClient.save(function(err){
+                                                             superUser.save(function(err){
                                                                 if(err){
                                                                    res.status(500).json({error: "Error Saving superUser"});
                                                                 }

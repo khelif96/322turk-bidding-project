@@ -99,3 +99,14 @@ exports.searchUsers = (req, res) => {
         });
     }
 }
+
+exports.getAlerts = (req, res) =>{
+    User.findOne({api_token: req.body.api_token},function(err, userDoc){
+       if(!userDoc || err){
+          res.status(401).json({error: "Invalid api_token"});
+       }
+       else{
+           res.send(userDoc.accountAlerts);
+       }
+   });
+}

@@ -57,3 +57,14 @@ function rateUser(API_token, DemandId, Rating, Reason){
       alert("This is an error from rating :" + error.response.data.error);
     });
 }
+
+export {getAlerts};
+function getAlerts(API_token){
+    return axios.post(baseUrl + "/getAlerts", {
+        api_token : API_token
+    })
+    .then((response) => alert("success : " + response.message))
+    .catch((error) => {
+      alert("This is an error from account alerts :" + error.response.data.error);
+    });
+}
