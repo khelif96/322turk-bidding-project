@@ -21,6 +21,26 @@ function getAccountByID(user_ID){
   });
 }
 
+export {getDevCount};
+function getDevCount(){
+  return axios.get(baseUrl + "/getDevCount")
+  .then( response => response.data )
+  .catch((error) => {
+    alert(error + " DevCount")
+    console.log(error)
+  });
+}
+
+export {getClientCount};
+function getClientCount(){
+  return axios.get(baseUrl + "/getClientCount")
+  .then( response => response.data )
+  .catch((error) => {
+    alert(error + " ClientCount")
+    console.log(error)
+  });
+}
+
 export {addFunds};
 function addFunds(Amount, API_token){
     return axios.post(baseUrl + "/addFunds", {
