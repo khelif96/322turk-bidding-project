@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Row,Col,Nav,NavItem,Tab} from 'react-bootstrap';
 import {getAccountByApiToken,getAccountByID} from '../../Utils/User.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
 import { FeedContainer } from '../../Styles/feed.style';
@@ -30,6 +30,7 @@ class UserPage extends Component {
         badRatingGiven: 0,
         badRatingRecieved: 0,
         tags : [],
+        funds : 0,
       }
 
       this.getAccountByID = getAccountByID.bind(this);
@@ -86,6 +87,7 @@ class UserPage extends Component {
              ratingRecieved: account.ratingRecieved,
              ratingRecievedCount: account.ratingRecievedCount,
              tags : account.tags,
+             funds : account.funds,
             })
          })
          .catch( (error) => { localStorage.removeItem('api_token');
@@ -99,17 +101,52 @@ class UserPage extends Component {
     return(
       <div>
 
-      <h1> first name :{this.state.firstName } </h1>
-      <h1> last name : {this.state.lastName } </h1>
-      <h1> email  : {this.state.email} </h1>
-      <h1> userdID : {this.state.userId}</h1>
-      <h1> profile image : {this.state.profileImage }</h1>
-      <h1> resume  : {this.state.resume }</h1>
-      <h1> interest : {this.state.interests}</h1>
-      <h1> sample work : {this.state.sampleWork}</h1>
-      <h1> project : <FeedContainer>{ this.state.showProjects.map( object => object)} </FeedContainer></h1>
-      <h1> rating : {this.state.rating}</h1>
-      <h1> number of ratings recieved : {this.state.ratingCount}</h1>
+      <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+         <Row className="clearfix">
+           <Col sm={4}>
+             <Nav bsStyle="pills" stacked>
+               <NavItem eventKey="first">
+                 User Info
+               </NavItem>
+               <NavItem eventKey="second">
+                 Projects
+               </NavItem>
+               <NavItem eventKey="third">
+                 Messages
+               </NavItem>
+               <NavItem eventKey="fourth">
+                 Ratings
+               </NavItem>
+             </Nav>
+           </Col>
+           <Col sm={8}>
+
+
+             <Tab.Content animation>
+               <Tab.Pane eventKey="first">
+                   <h4> first name :{this.state.firstName } </h4>
+                   <h4> last name : {this.state.lastName } </h4>
+                   <h4> created date : {this.state.createdDate } </h4>
+                   <h4> email  : {this.state.email} </h4>
+                   <h4> userdID : {this.state.userId}</h4>
+                   <h4> interest : {this.state.interests}</h4>
+                   <h4> funds : {this.state.funds }</h4>
+                   <h4> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h4>
+
+               </Tab.Pane>
+               <Tab.Pane eventKey="second">
+                  <FeedContainer>{this.state.showProjects.map( object => object)} </FeedContainer>
+               </Tab.Pane>
+
+               <Tab.Pane eventKey="fourth">
+               <h4> rating : {this.state.rating}</h4>
+               <h4> rating count : {this.state.ratingCount}</h4>
+               </Tab.Pane>
+
+             </Tab.Content>
+           </Col>
+         </Row>
+       </Tab.Container>
 
       </div>
     );
