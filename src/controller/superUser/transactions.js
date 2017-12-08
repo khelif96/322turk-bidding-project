@@ -72,8 +72,18 @@ exports.approveTransaction = (req, res) => {
                         res.status(401).json({error: "Could not find user"});
                     }
                     else{
-                        client.warningCount = client.warningCount - 1;
-                        transaction.complete = true;
+                        if(client.warningCount > 0){
+                            client.warningCount = client.warningCount - 1;
+                            transaction.complete = true;
+                            var superMessage = "Removed a warning";
+                            var message = {
+                                       messageType : "superUserNotification",
+                                       description : superMessage,
+                                       senderID : "Super_User",
+                                       demandID : "No demand"
+                                   };
+                            client.accountAlerts.push(message);
+                        }
                         client.save(function(err){
                             if(err){
                                 res.status(500).json({error: "Error Saving client"});
@@ -84,7 +94,7 @@ exports.approveTransaction = (req, res) => {
                                         res.status(500).json({error: "Error Saving transaction"});
                                     }
                                     else{
-                                        res.status(200).json({message: "Successfully added funds."});
+                                        res.status(200).json({message: "Successfully Removed Warning."});
                                     }
                                 });
                             }
