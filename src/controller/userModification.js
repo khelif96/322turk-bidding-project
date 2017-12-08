@@ -43,7 +43,7 @@ exports.giveRating = (req, res) =>{
                         res.status(401).json({error: "Invalid api_token"});
                     }
                     else{
-                        if(parseInt(req.body.rating) > 0 && parseInt(req.body.rating) < 6){
+                        if( req.body.rating < 0 || req.body.rating > 5){
                             res.status(401).json({error: "Invalid rating"});
                         }
                         else{
