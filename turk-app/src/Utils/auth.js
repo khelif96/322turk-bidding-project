@@ -16,7 +16,7 @@ function login(userName,Password) {
     });
 }
 export {registerUser};
-function registerUser(Username,Password,Email,FirstName,LastName,UserType){
+function registerUser(Username,Password,Email,FirstName,LastName,UserType, Interests){
   return axios.post(baseUrl+"/registerUser",{
       email: Email,
       userName: Username,
@@ -25,7 +25,8 @@ function registerUser(Username,Password,Email,FirstName,LastName,UserType){
         first : FirstName,
         last : LastName
       },
-      userType : UserType
+      userType : UserType,
+      interests : Interests
     })
     .then((message) => alert(message + " success") )
     .catch( (error) => {

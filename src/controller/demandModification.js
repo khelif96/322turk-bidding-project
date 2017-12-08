@@ -327,6 +327,7 @@ exports.submitProduct = (req,res) => {
                                                       break;
                                                   }
                                               }
+                                              // TODO delete
                                               demand.save(function(err){
                                                  if(err) {
                                                     res.status(500).json({error: "Error Saving product"});

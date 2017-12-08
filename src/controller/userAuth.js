@@ -97,6 +97,7 @@ exports.registerUser = (req,res) => {
             tempUser.api_token = rack();
             tempUser.userType = req.body.userType;
             tempUser.name = req.body.name;
+            tempUser.interests = req.body.interests;
             tempUser.userName === req.body.userName;
             bcrypt.hash(req.body.password, saltRounds, function(err,hash){
               tempUser.password_hash = hash;
