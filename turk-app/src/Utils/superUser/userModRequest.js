@@ -16,6 +16,22 @@ function getUnverifiedUsers(API_token) {
     });
 }
 
+export {getAllUsers};
+function getAllUsers(API_token) {
+  console.log("Logging in");
+  // alert("Making request");
+  // alert("logging in ");
+  return axios.post(baseUrl+"/getAllUsers", {
+      "api_token" : API_token
+    })
+    .then((response) => response.data)
+    .catch( (error) => {
+      console.log(error);
+      alert("Error " + error.response.data.error);
+    });
+}
+
+
 
 export {verifyUser};
 function verifyUser(userId,api_token){
