@@ -30,6 +30,8 @@ router.get('/myDemands/:api_token', demands.getMyDemands);
 router.get('/demands/:demandId', demands.getDemand);
 router.get('/demands/:demandId/:expanded', demands.getDemand);
 
+router.get('/getDevCount', user.getDevCount);
+router.get('/getClientCount', user.getClientCount);
 
 router.get('/user/api_token=:api_token', user.getUserByApiToken);
 router.get('/user/userId=:userId', user.getUserById);

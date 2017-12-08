@@ -124,6 +124,28 @@ exports.searchUsers = (req, res) => {
     }
 }
 
+exports.getDevCount = (req, res) => {
+    User.find({userType : "Developer" , accountApproved : true, blacklist : false}, function(err, users){
+        if(!users || err){
+            res.json({userCount: 0});
+        }
+        else{
+            res.json({userCount: users.length});
+        }
+    });
+}
+
+exports.getClientCount = (req, res) => {
+    User.find({userType : "Client" , accountApproved : true, blacklist : false}, function(err, users){
+        if(!users || err){
+            res.json({userCount: 0});
+        }
+        else{
+            res.json({userCount: users.length});
+        }
+    });
+}
+
 exports.getAlerts = (req, res) =>{
     User.findOne({api_token: req.body.api_token},function(err, userDoc){
        if(!userDoc || err){
