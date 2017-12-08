@@ -78,6 +78,11 @@ class NavBar extends Component {
               </NavBarLink>
             }
             </MenuItem>
+            <MenuItem eventKey= "1.7">
+              <NavBarLink to = "/aboutUs">
+                About Us
+              </NavBarLink>
+            </MenuItem>
           </Dropdown>
         </Nav>
 
