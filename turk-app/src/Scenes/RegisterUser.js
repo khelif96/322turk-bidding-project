@@ -59,21 +59,15 @@ class RegisterUser extends Component {
       const LastName = this.state.lastName;
       const Email = this.state.email;
       const UserType = this.state.userType;
-
-      const currentState = this.state;
+      const Tags = this.state.tags;
 
       // alert("Your username is "+ Username + "\nPassword : " + Password +
       //       "\nYour First Name is "+ FirstName + "\nLast Name : " + LastName + "\n" + "UserType : " + UserType
       //       );
 
       //call our axios promise, then retrieve the token from axios
-      this.registerUser(Username,Password,Email,FirstName,LastName,UserType)
-          .then( message => {
-              // alert(message + " from creating user")
-          })
-          .catch( (error) => {
 
-          });
+      this.registerUser(Username,Password,Email,FirstName,LastName,UserType,Tags)
 
       event.preventDefault();
   }
@@ -168,7 +162,7 @@ class RegisterUser extends Component {
           </Button>
           <Modal show={this.state.showError} onHide={this.closePopUp}>
                     <Modal.Header closeButton>
-                      <Modal.Title>Registration Error</Modal.Title>
+                      <Modal.Title>Registration Message</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                       <p> {this.state.errorMessage} </p>

@@ -3,6 +3,8 @@ import { Button } from 'react-bootstrap';
 import {getAccountByApiToken} from '../../Utils/User.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
 import { FeedContainer } from '../../Styles/feed.style';
+import { Page,PageContainer} from '../../Styles/myAccount.style';
+
 
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
@@ -128,38 +130,38 @@ class MyAccount extends Component {
   render() {
     return(
       <div>
-        THIS IS THE MY ACCOUNT PAGE
+
+    <PageContainer defaultActiveKey={2} id="uncontrolled-tab-example">
+       <Page eventKey={1} title="User Info">
+           <h4> first name :{this.state.firstName } </h4>
+           <h4> last name : {this.state.lastName } </h4>
+           <h4> created date : {this.state.createdDate } </h4>
+           <h4> email  : {this.state.email} </h4>
+           <h4> userdID : {this.state.userId}</h4>
+           <h4> resume  : {this.state.resume }</h4>
+           <h4> interest : {this.state.interests}</h4>
+           <h4> sample work : {this.state.sampleWork}</h4>
+           <h4> funds : {this.state.funds }</h4>
+           <h4> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h4>
+           <h4> funds : {this.state.funds }</h4>
+
+       </Page>
+       <Page eventKey={2} title="Projects">
+          <FeedContainer>{this.state.showProjects.map( object => object)} </FeedContainer>
+       </Page>
+       <Page eventKey={3} title="Messages" >
+         <FeedContainer> {this.state.accountAlerts} </FeedContainer>
+       </Page>
+
+       <Page eventKey={4} title="Ratings" >
+         <h4> rating : {this.state.rating}</h4>
+         <h4> rating count : {this.state.ratingCount}</h4>
+       </Page>
+
+       <Page eventKey={5} title="Log Out" onEnter = {(evt) => this.logout()}/>
 
 
-
-      <h4> api: {this.state.api_token } </h4>
-      <h4> first name :{this.state.firstName } </h4>
-      <h4> last name : {this.state.lastName } </h4>
-      <h4> created date : {this.state.createdDate } </h4>
-      <h4> email  : {this.state.email} </h4>
-      <h4> userdID : {this.state.userId}</h4>
-      <h4> password hash : {this.state.password_hash}</h4>
-      <h4> profile image : {this.state.profileImage }</h4>
-      <h4> resume  : {this.state.resume }</h4>
-      <h4> interest : {this.state.interests}</h4>
-      <h4> sample work : {this.state.sampleWork}</h4>
-      <h4> project : <FeedContainer>{this.state.showProjects.map( object => object)} </FeedContainer></h4>
-      <h4> account approved : {this.state.accountApproved ? "approved" : "not approved"}</h4>
-
-      <h4> Alerts : <FeedContainer> {this.state.accountAlerts} </FeedContainer></h4>
-
-
-      <h4> rating : {this.state.rating}</h4>
-      <h4> rating count : {this.state.ratingCount}</h4>
-
-      <h4> warning count : {this.state.warningCount }</h4>
-      <h4> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h4>
-      <h4> usertype : {this.state.userType}</h4>
-      <h4> funds : {this.state.funds }</h4>
-      <h4> tags : {this.state.tags }</h4>
-
-      <Button onClick = { (evt) => this.logout()}> Log out </Button>
-
+    </PageContainer>
       </div>
     );
   }
