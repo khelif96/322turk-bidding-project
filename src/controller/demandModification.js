@@ -313,94 +313,111 @@ exports.submitProduct = (req,res) => {
                                           res.status(401).json({error: "Product already submitted"});
                                        }
                                        else{
-                                          demand.finishedProduct = req.body.finishedProduct;
-                                          demand.isActive = false;
-                                          if(demand.winningBid.deadline < new Date()){
-                                             userDeveloper.rating = Math.round((userDeveloper.rating + ((1 - userDeveloper.rating)/(userDeveloper.ratingCount + 1))) * 100) / 100;
-                                             userDeveloper.ratingRecieved = Math.round((userDeveloper.ratingRecieved + ((1 - userDeveloper.ratingRecieved)/(userDeveloper.ratingRecievedCount + 1))) * 100) / 100;
-                                             userDeveloper.ratingCount = userDeveloper.ratingCount + 1;
-                                             userDeveloper.ratingRecievedCount = userDeveloper.ratingRecievedCount + 1;
-                                             if(userDeveloper.ratingRecievedCount >= 5 && userDeveloper.ratingRecieved <= 2){
-                                                userDeveloper.ratingRecievedCount = 0;
-                                                userDeveloper.ratingRecievedCount = 0;
-                                                userDeveloper.warningCount = userDeveloper.warningCount + 1;
-                                                if(userDeveloper.warningCount == 2){
-                                                   userDeveloper.warningCount = 0;
-                                                   userDeveloper.blacklist = true;
-                                                }
-                                             }
-                                             userDeveloper.funds = userDeveloper.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                             userClient.funds = userClient.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                          if(userDeveloper.funds < (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100)){
+                                              var i = 0;
+                                              for(i = 0; i < userDeveloper.projects.length; i++){
+                                                  if(userDeveloper.projects[i] == demand._id){
+                                                      userDeveloper.projects.splice(i, 1);
+                                                      break;
+                                                  }
+                                              }
+                                              for(i = 0; i < userClient.projects.length; i++){
+                                                  if(userClient.projects[i] == demand._id){
+                                                      userClient.projects.splice(i, 1);
+                                                      break;
+                                                  }
+                                              }
+                                              demand.save(function(err){
+                                                 if(err) {
+                                                    res.status(500).json({error: "Error Saving product"});
+                                                 }
+                                                 else{
+                                                    userClient.save(function(err){
+                                                       if(err){
+                                                          res.status(500).json({error: "Error Saving client"});
+                                                       }
+                                                       else{
+                                                          userDeveloper.save(function(err){
+                                                             if(err){
+                                                                res.status(500).json({error: "Error Saving developer"});
+                                                             }
+                                                             else{
+                                                                 superUser.save(function(err){
+                                                                    if(err){
+                                                                       res.status(500).json({error: "Error Saving superUser"});
+                                                                    }
+                                                                    else{
+                                                                        res.status(201).json({message: "Successfully saved product."});
+                                                                    }
+                                                                });
+                                                             }
+                                                          });
+                                                       }
+                                                    });
+                                                 }
+                                              });
                                           }
                                           else{
-                                             userClient.funds = userClient.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                             superUser.funds = superUser.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                             var message = {
-                                                       messageType : "projectSubmitted",
-                                                       description : req.body.finishedProduct,
-                                                       senderID : userDeveloper._id,
-                                                       demandID : demand._id
-                                                   };
-                                             userClient.accountAlerts.push(message);
+                                              demand.finishedProduct = req.body.finishedProduct;
+                                              demand.isActive = false;
+                                              if(demand.winningBid.deadline < new Date()){
+                                                 userDeveloper.rating = Math.round((userDeveloper.rating + ((1 - userDeveloper.rating)/(userDeveloper.ratingCount + 1))) * 100) / 100;
+                                                 userDeveloper.ratingRecieved = Math.round((userDeveloper.ratingRecieved + ((1 - userDeveloper.ratingRecieved)/(userDeveloper.ratingRecievedCount + 1))) * 100) / 100;
+                                                 userDeveloper.ratingCount = userDeveloper.ratingCount + 1;
+                                                 userDeveloper.ratingRecievedCount = userDeveloper.ratingRecievedCount + 1;
+                                                 if(userDeveloper.ratingRecievedCount >= 5 && userDeveloper.ratingRecieved <= 2){
+                                                    userDeveloper.ratingRecievedCount = 0;
+                                                    userDeveloper.ratingRecievedCount = 0;
+                                                    userDeveloper.warningCount = userDeveloper.warningCount + 1;
+                                                    if(userDeveloper.warningCount == 2){
+                                                       userDeveloper.warningCount = 0;
+                                                       userDeveloper.blacklist = true;
+                                                    }
+                                                 }
+                                                 userDeveloper.funds = userDeveloper.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                                 userClient.funds = userClient.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                              }
+                                              else{
+                                                 userClient.funds = userClient.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                                 superUser.funds = superUser.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                                 var message = {
+                                                           messageType : "projectSubmitted",
+                                                           description : req.body.finishedProduct,
+                                                           senderID : userDeveloper._id,
+                                                           demandID : demand._id
+                                                       };
+                                                 userClient.accountAlerts.push(message);
+                                              }
+                                              demand.save(function(err){
+                                                 if(err) {
+                                                    res.status(500).json({error: "Error Saving product"});
+                                                 }
+                                                 else{
+                                                    userClient.save(function(err){
+                                                       if(err){
+                                                          res.status(500).json({error: "Error Saving client"});
+                                                       }
+                                                       else{
+                                                          userDeveloper.save(function(err){
+                                                             if(err){
+                                                                res.status(500).json({error: "Error Saving developer"});
+                                                             }
+                                                             else{
+                                                                 superUser.save(function(err){
+                                                                    if(err){
+                                                                       res.status(500).json({error: "Error Saving superUser"});
+                                                                    }
+                                                                    else{
+                                                                        res.status(201).json({message: "Successfully saved product."});
+                                                                    }
+                                                                });
+                                                             }
+                                                          });
+                                                       }
+                                                    });
+                                                 }
+                                              });
                                           }
-                                          demand.save(function(err){
-                                             if(err) {
-                                                res.status(500).json({error: "Error Saving product"});
-                                             }
-                                             else{
-                                                if(demand.winningBid.deadline < new Date()){
-                                                   userDeveloper.rating = Math.round((userDeveloper.rating + ((1 - userDeveloper.rating)/(userDeveloper.ratingCount + 1))) * 100) / 100;
-                                                   userDeveloper.ratingRecieved = Math.round((userDeveloper.ratingRecieved + ((1 - userDeveloper.ratingRecieved)/(userDeveloper.ratingRecievedCount + 1))) * 100) / 100;
-                                                   userDeveloper.ratingCount = userDeveloper.ratingCount + 1;
-                                                   userDeveloper.ratingRecievedCount = userDeveloper.ratingRecievedCount + 1;
-                                                   if(userDeveloper.ratingRecievedCount >= 5 && userDeveloper.ratingRecieved <= 2){
-                                                      userDeveloper.ratingRecievedCount = 0;
-                                                      userDeveloper.ratingRecievedCount = 0;
-                                                      userDeveloper.warningCount = userDeveloper.warningCount + 1;
-                                                      if(userDeveloper.warningCount == 2){
-                                                         userDeveloper.warningCount = 0;
-                                                         userDeveloper.blacklist = true;
-                                                      }
-                                                   }
-                                                   userDeveloper.funds = userDeveloper.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                                   userClient.funds = userClient.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                                }
-                                                else{
-                                                   userClient.funds = userClient.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                                   superUser.funds = superUser.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                                   var message = {
-                                                       messageType : "projectSubmitted",
-                                                       description : req.body.finishedProduct,
-                                                       senderID : userDeveloper._id,
-                                                       demandID : demand._id
-                                                   }
-                                                   userClient.accountAlerts.push(message);
-                                                }
-
-                                                userClient.save(function(err){
-                                                   if(err){
-                                                      res.status(500).json({error: "Error Saving client"});
-                                                   }
-                                                   else{
-                                                      userDeveloper.save(function(err){
-                                                         if(err){
-                                                            res.status(500).json({error: "Error Saving developer"});
-                                                         }
-                                                         else{
-                                                             superUser.save(function(err){
-                                                                if(err){
-                                                                   res.status(500).json({error: "Error Saving superUser"});
-                                                                }
-                                                                else{
-                                                                    res.status(201).json({message: "Successfully saved product."});
-                                                                }
-                                                            });
-                                                         }
-                                                      });
-                                                   }
-                                                });
-                                             }
-                                          });
                                        }
                                     }
                                  }
