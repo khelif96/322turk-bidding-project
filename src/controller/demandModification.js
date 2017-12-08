@@ -32,7 +32,7 @@ exports.createDemand = (req,res) => {
           }
         });
         doc.projects.push(tempDemand._id);
-
+        doc.projectCount = doc.projectCount + 1;
         doc.save(function(err){
           if(err){
           // console.log("ERROR");
