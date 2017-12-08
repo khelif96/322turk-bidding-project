@@ -16,7 +16,7 @@ export const ContainerBG = styled.div`
 export const DemandHeaderBG = styled.div`
   padding: 30px;
   padding-bottom: 10px;
-  background: #4c4c4c;
+  background: #39796b;
   border-radius: 8px;
   box-shadow: 2px 2px 2px gray;
 `;
