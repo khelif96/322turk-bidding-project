@@ -225,7 +225,7 @@ exports.giveRating = (req, res) =>{
                                                             userDeveloper.funds = userDeveloper.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
 
                                                             superUser.funds = superUser.funds + (Math.round(demand.winningBid.bidAmount * 0.05 * 100) / 100);
-                                                            userDoc.funds = userClient.funds - (Math.round(demand.winningBid.bidAmount * 0.05 * 100) / 100);
+                                                            userDoc.funds = userDoc.funds - (Math.round(demand.winningBid.bidAmount * 0.05 * 100) / 100);
                                                             userDeveloper.funds = userDeveloper.funds - (Math.round(demand.winningBid.bidAmount * 0.05 * 100) / 100);
 
                                                             userDoc.ratingGiven = Math.round((userDoc.ratingGiven + ((req.body.rating - userDoc.ratingGiven)/(userDoc.ratingGivenCount + 1))) * 100) / 100;
