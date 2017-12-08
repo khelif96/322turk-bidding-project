@@ -77,3 +77,15 @@ function registerDemand(Title,Content,API_token, ExpDate, Tags){
         this.openRegisterMessage(error.response.data.error)
     });
 }
+
+
+export {protestWarning};
+function protestWarning(API_token){
+  return axios.post(baseUrl+"/protestWarning",{
+      api_token: API_token,
+    })
+    .then( (response) =>  response.data  )
+    .catch( (error) => {
+        alert(error.response.data.error)
+    });
+}
