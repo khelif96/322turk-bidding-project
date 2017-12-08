@@ -89,3 +89,14 @@ function protestWarning(API_token){
         alert(error.response.data.error)
     });
 }
+
+export {addFunds};
+function addFunds(API_token,newFunds){
+  alert("adding Funds" + newFunds);
+  return axios.post(baseUrl+"/addFunds",{
+      api_token: API_token,
+      amount : newFunds
+    })
+    .then( (response) =>  alert(response.data.message)  )
+    .catch( (error) => error.response.data.error );
+}

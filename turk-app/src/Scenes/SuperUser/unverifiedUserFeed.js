@@ -38,9 +38,11 @@ class UnverifiedUserFeed extends Component {
           // alert("test" + arrayOfUsers);
           // this.setState({unverifiedUsers:arrayOfUsers})
           // alert(arrayOfUsers.length)
-          let tempArray = []
-          for(var i = 0; i < arrayOfUsers.length; i++)  tempArray.push(this.createPanel(arrayOfUsers[i]));
-          this.setState({unverifiedUsers : tempArray})
+          if(arrayOfUsers != undefined){
+            let tempArray = []
+            for(var i = 0; i < arrayOfUsers.length; i++)  tempArray.push(this.createPanel(arrayOfUsers[i]));
+            this.setState({unverifiedUsers : tempArray})
+          }
         })
         .catch( (error) => {  alert("Error " + error);
         });
