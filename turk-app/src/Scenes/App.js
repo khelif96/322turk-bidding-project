@@ -40,7 +40,6 @@ class App extends Component {
       <Router history = {history}>
           <div >
             <NavBar enableLogout = {this.state.isSignedIn} />
-              // {this.state.isSignedIn && "user is signed in with type : " + this.state.userType + "with api token : " + localStorage.getItem('api_token')}
           <div>
             <Route exact path = "/" component = {
                (routeProps) => <Home {...routeProps} userType = {this.state.userType} />

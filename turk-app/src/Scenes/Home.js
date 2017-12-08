@@ -14,8 +14,8 @@ class Home extends Component {
 
   render() {
     var style =  {
-        color : 'gray',
-        fontSize : 100,
+        color : '#00251a',
+        fontSize : 80,
         textAlign : 'center'
     }
     return (
