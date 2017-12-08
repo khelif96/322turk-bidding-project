@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {getDemandbyID,placeBid,submitProduct} from '../Utils/Demand.js';
-import {getAccountByID,getAccountByApiToken} from '../Utils/User.js';
-import {Button,Grid,Form, FormGroup, FormControl, ControlLabel,Modal} from 'react-bootstrap';
+import {getAccountByID,getAccountByApiToken,rateUser} from '../Utils/User.js';
+import {Button,Grid,Form, FormGroup, FormControl, ControlLabel,Modal,Radio,ToggleButtonGroup,ToggleButton,ButtonToolbar} from 'react-bootstrap';
 import {FormContainer,DatePicker} from '../Styles/form.style'
 import Bidder from "./Bidder"
 
@@ -58,21 +58,25 @@ class Demand extends Component {
 
 
         // chosen developer only
+        rating : 3,
         product: "",
         showProductError : false,
         productMessage : "",
+        ratingReason : "",
 
 
       }
 
       this.handleChange = this.handleChange.bind(this);
 
-      this.submitBid = this.submitBid.bind(this);
-      this.SubmitCurrentProduct = this.SubmitCurrentProduct.bind(this);
-
-      this.getDemandbyID = getDemandbyID.bind(this);
       this.placeBid = placeBid.bind(this);
       this.submitProduct = submitProduct.bind(this);
+      this.getDemandbyID = getDemandbyID.bind(this);
+      this.rateUser = rateUser.bind(this);
+
+      this.submitBid = this.submitBid.bind(this);
+      this.SubmitCurrentProduct = this.SubmitCurrentProduct.bind(this);
+      this.SubmitRating = this.SubmitRating.bind(this);
 
       this.displayContent = this.displayContent.bind(this);
       this.getAccountByID = getAccountByID.bind(this);
@@ -138,6 +142,12 @@ class Demand extends Component {
       }
       //this.openProductMessage()
       event.preventDefault();
+  }
+
+  SubmitRating = (event) => {
+      alert(this.state.rating)
+      this.rateUser(localStorage.getItem('api_token'),this.state.demandID,this.state.rating, this.state.ratingReason)
+        .then( response => {} )
   }
 
   handleChange(event) {
@@ -323,6 +333,31 @@ class Demand extends Component {
                 </Modal.Header>
                 <Modal.Body>
                   <p> {this.state.productMessage}</p>
+                  { this.state.isActive && this.state.winningBidID === this.state.currentViewerId &&
+                    <div>
+                    <ButtonToolbar>
+                       <ToggleButtonGroup type="radio" name="options"  onChange = { (event) => {this.setState({ rating : event}) } }>
+                         <ToggleButton value={1}> 1 </ToggleButton>
+                         <ToggleButton value={2}> 2 </ToggleButton>
+                         <ToggleButton value={3}> 3 </ToggleButton>
+                         <ToggleButton value={4}> 4 </ToggleButton>
+                         <ToggleButton value={5}> 5 </ToggleButton>
+                       </ToggleButtonGroup>
+                    </ButtonToolbar>
+
+                    <FormGroup controlId="ratingReason" bsSize = "large">
+                      <ControlLabel>Create your message for your rating </ControlLabel>
+                      <FormControl
+                            componentClass="textarea"
+                            value={this.state.ratingReason}
+                            onChange={this.handleChange}
+                          />
+
+                      <Button onClick = { event => {this.SubmitRating()}} >Submit Rating</Button>
+                    </FormGroup>
+                    </div>
+                   }
+
                 </Modal.Body>
               </Modal>
             </form>

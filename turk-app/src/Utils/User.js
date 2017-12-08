@@ -40,6 +40,7 @@ function searchUsers(Input){
     .then((response) => alert("success : " + response.message))
     .catch((error) => {
       alert("Error in search " + error.response.data.error);
+
   });
 }
 
@@ -53,6 +54,6 @@ function rateUser(API_token, DemandId, Rating, Reason){
     })
     .then((response) => alert("success : " + response.message))
     .catch((error) => {
-      alert("This is an error from rating " + error.message);
+      alert("This is an error from rating :" + error.response.data.error);
     });
 }
