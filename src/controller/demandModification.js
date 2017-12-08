@@ -109,36 +109,72 @@ exports.bidOnDemand = (req, res) => {
                   res.status(401).json({error: "Invalid bidAmount"});
                }
                else{
-                  if(req.body.deadline === undefined || new Date(req.body.deadline) <= new Date() || new Date(req.body.deadline) == "Invalid Date"){
-                     res.status(401).json({error: "Invalid date for promised deadline"});
-                  }
-                  else{
-                     if(demand.isActive == false){
-                        res.status(404).json({error: "This demand is closed. Can no longer place bids."});
-                     }
-                     else{
-                        var i;
-                        for(i = 0; i < demand.totalBids.length; i++){
-                           if(demand.totalBids[i].devId == userDoc._id) demand.totalBids.splice(i, 1);
-                        }
-                        var bid = {
-                           "bidAmount" : req.body.bidAmount,
-                           "devId" : userDoc._id,
-                           "deadline" : req.body.deadline
-                        }
-                        var i = demand.totalBids.length;
-                        while((i > 0) && (demand.totalBids[i - 1].bidAmount > bid.bidAmount)){
-                           i = i - 1;
-                        }
-                        demand.totalBids.splice(i, 0, bid);
-                        demand.save(function(err){
-                           if(err){
-                              res.status(500).json({error: "Error Bidding on this demand"});
-                           }
-                        });
-                        res.status(201).json({message: "Successfully Bid on Demand"});
-                     }
-                  }
+                  User.findById(demand.ownerId, function(err, demandOwner){
+                      if(!demandOwner || err){
+                          res.status(401).json({error: "Can not find demand owner"});
+                      }
+                      else{
+                          if(new Date() > demand.expDate && demand.totalBids.length == 0){
+                              demand.isActive = false;
+                              demandOwner.funds = demandOwner.funds - 10;
+                              var i = 0;
+                              for(i = 0; i < demandOwner.projects.length; i++){
+                                  if(demandOwner.projects[i] == demand._id){
+                                      demandOwner.projects.splice(i, 1);
+                                      break;
+                                  }
+                              }
+                              demand.title = "Nullified" + demand.title;
+                              demand.save(function(err){
+                                 if(err){
+                                    res.status(500).json({error: "Error saving demand"});
+                                 }
+                                 else{
+                                     demandOwner.save(function(err){
+                                        if(err){
+                                           res.status(500).json({error: "Error saving client"});
+                                        }
+                                        else{
+                                            res.status(201).json({message: "Demand removed due to no bidders"});
+                                        }
+                                    });
+                                 }
+                              });
+                          }
+                          else{
+                              if(req.body.deadline === undefined || new Date(req.body.deadline) <= new Date() || new Date(req.body.deadline) == "Invalid Date"){
+                                 res.status(401).json({error: "Invalid date for promised deadline"});
+                              }
+                              else{
+                                 if(demand.isActive == false){
+                                    res.status(404).json({error: "This demand is closed. Can no longer place bids."});
+                                 }
+                                 else{
+                                    var i;
+                                    for(i = 0; i < demand.totalBids.length; i++){
+                                       if(demand.totalBids[i].devId == userDoc._id) demand.totalBids.splice(i, 1);
+                                    }
+                                    var bid = {
+                                       "bidAmount" : req.body.bidAmount,
+                                       "devId" : userDoc._id,
+                                       "deadline" : req.body.deadline
+                                    }
+                                    var i = demand.totalBids.length;
+                                    while((i > 0) && (demand.totalBids[i - 1].bidAmount > bid.bidAmount)){
+                                       i = i - 1;
+                                    }
+                                    demand.totalBids.splice(i, 0, bid);
+                                    demand.save(function(err){
+                                       if(err){
+                                          res.status(500).json({error: "Error Bidding on this demand"});
+                                       }
+                                    });
+                                    res.status(201).json({message: "Successfully Bid on Demand"});
+                                 }
+                              }
+                          }
+                      }
+                  });
                }
             }
          });
