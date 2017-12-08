@@ -317,7 +317,7 @@ class Demand extends Component {
             <form onSubmit = {this.SubmitCurrentProduct}>
               <FormGroup controlId="product">
                  <FormControl
-                     type="product"
+                     componentClass="textarea"
                      placeholder="Product"
                      value ={this.state.product}
                      onChange = {this.handleChange}

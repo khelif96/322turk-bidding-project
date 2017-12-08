@@ -1,8 +1,10 @@
 import React, { Component} from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Row,Col,Nav,NavItem,Tab} from 'react-bootstrap';
 import {getAccountByApiToken} from '../../Utils/User.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
 import { FeedContainer } from '../../Styles/feed.style';
+import { Page,PageContainer} from '../../Styles/myAccount.style';
+
 
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
@@ -128,37 +130,64 @@ class MyAccount extends Component {
   render() {
     return(
       <div>
-        THIS IS THE MY ACCOUNT PAGE
+
+    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+       <Row className="clearfix">
+         <Col sm={4}>
+           <Nav bsStyle="pills" stacked>
+             <NavItem eventKey="first">
+               User Info
+             </NavItem>
+             <NavItem eventKey="second">
+               Projects
+             </NavItem>
+             <NavItem eventKey="third">
+               Messages
+             </NavItem>
+             <NavItem eventKey="fourth">
+               Ratings
+             </NavItem>
+             <NavItem eventKey="fifth">
+               Log Out
+             </NavItem>
+           </Nav>
+         </Col>
+         <Col sm={8}>
 
 
+           <Tab.Content animation>
+             <Tab.Pane eventKey="first">
+                 <h4> first name :{this.state.firstName } </h4>
+                 <h4> last name : {this.state.lastName } </h4>
+                 <h4> created date : {this.state.createdDate } </h4>
+                 <h4> email  : {this.state.email} </h4>
+                 <h4> userdID : {this.state.userId}</h4>
+                 <h4> resume  : {this.state.resume }</h4>
+                 <h4> interest : {this.state.interests}</h4>
+                 <h4> sample work : {this.state.sampleWork}</h4>
+                 <h4> funds : {this.state.funds }</h4>
+                 <h4> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h4>
+             </Tab.Pane>
+             <Tab.Pane eventKey="second">
+                <FeedContainer>{this.state.showProjects.map( object => object)} </FeedContainer>
+             </Tab.Pane>
 
-      <h4> api: {this.state.api_token } </h4>
-      <h4> first name :{this.state.firstName } </h4>
-      <h4> last name : {this.state.lastName } </h4>
-      <h4> created date : {this.state.createdDate } </h4>
-      <h4> email  : {this.state.email} </h4>
-      <h4> userdID : {this.state.userId}</h4>
-      <h4> password hash : {this.state.password_hash}</h4>
-      <h4> profile image : {this.state.profileImage }</h4>
-      <h4> resume  : {this.state.resume }</h4>
-      <h4> interest : {this.state.interests}</h4>
-      <h4> sample work : {this.state.sampleWork}</h4>
-      <h4> project : <FeedContainer>{this.state.showProjects.map( object => object)} </FeedContainer></h4>
-      <h4> account approved : {this.state.accountApproved ? "approved" : "not approved"}</h4>
+             <Tab.Pane eventKey="third">
+                <FeedContainer> {this.state.accountAlerts} </FeedContainer>
+             </Tab.Pane>
 
-      <h4> Alerts : <FeedContainer> {this.state.accountAlerts} </FeedContainer></h4>
+             <Tab.Pane eventKey="fourth">
+             <h4> rating : {this.state.rating}</h4>
+             <h4> rating count : {this.state.ratingCount}</h4>
+             </Tab.Pane>
 
-
-      <h4> rating : {this.state.rating}</h4>
-      <h4> rating count : {this.state.ratingCount}</h4>
-
-      <h4> warning count : {this.state.warningCount }</h4>
-      <h4> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h4>
-      <h4> usertype : {this.state.userType}</h4>
-      <h4> funds : {this.state.funds }</h4>
-      <h4> tags : {this.state.tags }</h4>
-
-      <Button onClick = { (evt) => this.logout()}> Log out </Button>
+             <Tab.Pane eventKey="fifth" onEnter = {(evt) => this.logout()}>
+                <FeedContainer> {this.state.accountAlerts} </FeedContainer>
+             </Tab.Pane>
+           </Tab.Content>
+         </Col>
+       </Row>
+     </Tab.Container>
 
       </div>
     );

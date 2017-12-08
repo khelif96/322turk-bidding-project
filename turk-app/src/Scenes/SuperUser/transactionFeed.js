@@ -3,72 +3,66 @@ import React, { Component } from 'react';
 // import '../../Styles/App.css';
 import {PanelGroup ,Panel, Table} from 'react-bootstrap';
 import { FeedContainer } from '../../Styles/feed.style';
-import UserPanel from './userPanel';
-import {retrieveDemands} from '../../Utils/auth.js';
-import {getUnverifiedUsers} from '../../Utils/superUser/userModRequest'
+import TransactionPanel from './transactionPanel';
+// import {retrieveDemands} from '../../Utils/auth.js';
+import {getTransactions} from '../../Utils/superUser/userModRequest'
 
-class UnverifiedUserFeed extends Component {
+class TransactionFeed extends Component {
   constructor(props){
       super(props);
       this.state = {
-        unverifiedUsers : [],
-        currentCount : 10
+        allTransactions : []
       }
 
-      this.getUnverifiedUsers = this.getUnverifiedUsers.bind(this)
-      this.retrieveDemands = retrieveDemands.bind(this);
-      this.getUnverifiedUsers();
+      this.getTransactions = this.getTransactions.bind(this)
+      // this.retrieveDemands = retrieveDemands.bind(this);
+      this.getTransactions();
 
   }
-
-  componentDidMount(){
-   var intervalId = setInterval(this.getUnverifiedUsers, 1000);
-   // store intervalId in the state so it can be accessed later:
-   this.setState({intervalId: intervalId});
-}
 
 //takes a demand and creates a UserPanel and passes the demands title, demandID and description
   createPanel(user){
-      return  (<UserPanel user = {user} />);
+      return  (<TransactionPanel user = {user} />);
   }
 
-  getUnverifiedUsers(){
-    getUnverifiedUsers(localStorage.getItem('api_token'))
+  getTransactions(){
+    getTransactions(localStorage.getItem('api_token'))
         .then( arrayOfUsers => {
+          // alert("Overhe")
           // alert("test" + arrayOfUsers);
-          // this.setState({unverifiedUsers:arrayOfUsers})
+          // this.setState({allTransactions:arrayOfUsers})
           // alert(arrayOfUsers.length)
           let tempArray = []
           for(var i = 0; i < arrayOfUsers.length; i++)  tempArray.push(this.createPanel(arrayOfUsers[i]));
-          this.setState({unverifiedUsers : tempArray})
+          this.setState({allTransactions : tempArray})
         })
-        .catch( (error) => {  alert("Error " + error);
+        .catch( (error) => {  alert("Error Overhere " + error);
         });
   }
   render() {
     return (
       <div>
-          <h4> Unverified User</h4>
+          <h4> Pending Transactions</h4>
           <Table striped bordered condensed hover>
             <thead>
               <tr>
                 <th>
-                  UserName
+                  Transaction Date
                 </th>
                 <th>
-                  Email
+                  origin_id
                 </th>
                 <th>
-                  Name
+                  destination_id
                 </th>
                 <th>
-                  Account Type
+                  Amount
                 </th>
                 <th>
-                  Account Creation Date
+                  transactionType
                 </th>
                 <th>
-                  Approve
+                  Status
                 </th>
                 <th>
                   Decline
@@ -79,7 +73,7 @@ class UnverifiedUserFeed extends Component {
               </tr>
               </thead>
             <tbody>
-            {this.state.unverifiedUsers}
+            {this.state.allTransactions}
             </tbody>
           </Table>
           </div>
@@ -87,4 +81,4 @@ class UnverifiedUserFeed extends Component {
   }
 }
 
-export default UnverifiedUserFeed;
+export default TransactionFeed;

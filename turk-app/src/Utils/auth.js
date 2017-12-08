@@ -28,7 +28,7 @@ function registerUser(Username,Password,Email,FirstName,LastName,UserType, Inter
       userType : UserType,
       interests : Interests
     })
-    .then((message) => alert(message + " success") )
+    .then((message) => this.OpenPopUp( "Your account is waiting for Approval") )
     .catch( (error) => {
       this.OpenPopUp(error.response.data.error)
     });
