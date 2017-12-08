@@ -20,6 +20,7 @@ class UserPanel extends Component {
         accountType : this.props.user.userType,
         signUpDate: this.props.user.createdDate,
         userId: this.props.user._id,
+        userName: this.props.user.userName,
         denyMessage : ""
 
       }
@@ -65,7 +66,7 @@ class UserPanel extends Component {
           })
         })
         .catch( (error) => {alert("Error from : demand panel page" + error);} )*/
-  
+
 
        VerifyUser = () => {
          alert("Running this")
@@ -87,11 +88,7 @@ class UserPanel extends Component {
   render() {
     const convertedCreated = this.convertDate(this.state.signUpDate);
     const createdDate = convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year
-    const buttons = (
-      <Button bsStyle="success">Approve</Button>,
-      <Button bsStyle="danger">Decline</Button>
 
-    )
 
     // modal = (props) => {
     //   return(
@@ -107,7 +104,7 @@ class UserPanel extends Component {
     // }
     return (
       <tr>
-
+        <td>{this.state.userName}</td>
         <td>{this.state.email}</td>
         <td>{this.state.name}</td>
         <td>{this.state.accountType}</td>

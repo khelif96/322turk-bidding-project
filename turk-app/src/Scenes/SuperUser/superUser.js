@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 // import '../Styles/App.css';
 import UnverifiedUserFeed from './unverifiedUserFeed'
+import AllUserFeed from './allUserFeed'
 // import { browserHistory } from 'react-router'
 
 
@@ -28,6 +29,8 @@ class SuperUserHome extends Component {
           <div >
             <div style = {style}> Super User Home Page </div>
             <UnverifiedUserFeed />
+            <AllUserFeed/>
+
           </div>
     );
   }
