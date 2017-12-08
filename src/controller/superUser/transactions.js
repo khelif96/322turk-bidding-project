@@ -114,7 +114,8 @@ exports.approveTransaction = (req, res) => {
                                                         var message = {
                                                                    messageType : "superUserNotification",
                                                                    description : superMessage,
-                                                                   senderID : userDeveloper._id
+                                                                   senderID : userDeveloper._id,
+                                                                   demandID : demand._id
                                                                };
                                                         userDeveloper.accountAlerts.push(message);
                                                         userClient.accountAlerts.push(message);
