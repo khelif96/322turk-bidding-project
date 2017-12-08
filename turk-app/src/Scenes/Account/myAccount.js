@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import { Button, Row,Col,Nav,NavItem,Tab} from 'react-bootstrap';
 import {getAccountByApiToken} from '../../Utils/User.js';
+import {protestWarning} from '../../Utils/auth.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
 import { FeedContainer } from '../../Styles/feed.style';
 import { Page,PageContainer} from '../../Styles/myAccount.style';
@@ -47,15 +48,14 @@ class MyAccount extends Component {
         funds : 0,
         tags : "",
       }
-
+      this.protestWarning = protestWarning.bind(this);
       this.getAccountByApiToken = getAccountByApiToken.bind(this);
       this.getAccountInfo();
       this.getDemandbyID = getDemandbyID.bind(this);
 
+      this.sendProtestWarning = this.sendProtestWarning.bind(this);
       this.createDemands = this.createDemands.bind(this);
       this.createMessages = this.createMessages.bind(this);
-
-
 
   }
 
@@ -86,6 +86,10 @@ class MyAccount extends Component {
 
   }
 
+  sendProtestWarning = (event) => {
+      this.protestWarning(this.state.api_token)
+        .then( response => alert(JSON.stringify(response)))
+  }
   getAccountInfo(){
      const API_token = this.state.api_token;
      //call our axios promise, then retrieve the token from axios
@@ -162,11 +166,12 @@ class MyAccount extends Component {
                  <h4> created date : {this.state.createdDate } </h4>
                  <h4> email  : {this.state.email} </h4>
                  <h4> userdID : {this.state.userId}</h4>
-                 <h4> resume  : {this.state.resume }</h4>
                  <h4> interest : {this.state.interests}</h4>
-                 <h4> sample work : {this.state.sampleWork}</h4>
                  <h4> funds : {this.state.funds }</h4>
                  <h4> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h4>
+                 {this.state.warningCount>0 && alert("You have one warning !")}
+
+                 {this.state.warningCount>0 && <Button onClick = {event => {this.sendProtestWarning()}}> Protest Warning ! </Button>}
              </Tab.Pane>
              <Tab.Pane eventKey="second">
                 <FeedContainer>{this.state.showProjects.map( object => object)} </FeedContainer>
@@ -181,9 +186,7 @@ class MyAccount extends Component {
              <h4> rating count : {this.state.ratingCount}</h4>
              </Tab.Pane>
 
-             <Tab.Pane eventKey="fifth" onEnter = {(evt) => this.logout()}>
-                <FeedContainer> {this.state.accountAlerts} </FeedContainer>
-             </Tab.Pane>
+             <Tab.Pane eventKey="fifth" onEnter = {(evt) => this.logout()}/>
            </Tab.Content>
          </Col>
        </Row>

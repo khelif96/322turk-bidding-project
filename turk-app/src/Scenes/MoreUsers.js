@@ -60,7 +60,8 @@ class MoreUsers extends Component {
 
         if(response != null){
           let tempArray = this.state.searchUsers;
-          tempArray = response.map( user => this.createPanel(user))
+          tempArray = response.map( user => this.createPanel(user) )
+
           this.setState({
             searchUsers : tempArray
           })
@@ -111,6 +112,8 @@ class MoreUsers extends Component {
                    onChange = {this.handleChange}
                 />
             </FormGroup>
+
+            {this.state.searchUsers }
           <SwitchDemands>
               <Button onClick={ (event) => {this.setState({showDeveloper : true})} }> Show Developers </Button>
               <Button onClick={ (event) => {this.setState({showDeveloper : false})}}> Show Clients </Button>

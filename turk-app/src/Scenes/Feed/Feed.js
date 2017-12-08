@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import '../../Styles/App.css';
-import {PanelGroup ,Panel} from 'react-bootstrap';
+import {PanelGroup ,Panel,ControlLabel} from 'react-bootstrap';
 import { FeedContainer } from '../../Styles/feed.style';
 import DemandPanel from './DemandPanel';
 import UserPanel from './UserPanel';
@@ -68,17 +68,17 @@ class Feed extends Component {
     return (
       <FeedContainer>
           <PanelGroup>
-          "Highest Rated Clients : "
+          <ControlLabel> Busiest Clients : </ControlLabel>
           {this.state.topClients}
           </PanelGroup>
 
           <PanelGroup>
-          "Highest Rated Developers : "
+          <ControlLabel> Wealthiest Developers : </ControlLabel>
           {this.state.topDevs}
           </PanelGroup>
 
           <PanelGroup>
-          "Active Demands : "
+          <ControlLabel> Active Demands : </ControlLabel>
           { showDemands }
           </PanelGroup>
 
