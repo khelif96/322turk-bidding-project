@@ -1,5 +1,6 @@
 import axios from 'axios';
-const baseUrl = "http://localhost:3001/sudoApi";
+import baseUrlDomain from '../../Assets/baseUrl'
+const baseUrl = baseUrlDomain+":3001/sudoApi";
 
 export {getUnverifiedUsers};
 function getUnverifiedUsers(API_token) {
@@ -15,6 +16,22 @@ function getUnverifiedUsers(API_token) {
       alert("Error " + error.response.data.error);
     });
 }
+
+export {getAllUsers};
+function getAllUsers(API_token) {
+  console.log("Logging in");
+  // alert("Making request");
+  // alert("logging in ");
+  return axios.post(baseUrl+"/getAllUsers", {
+      "api_token" : API_token
+    })
+    .then((response) => response.data)
+    .catch( (error) => {
+      console.log(error);
+      alert("Error " + error.response.data.error);
+    });
+}
+
 
 
 export {verifyUser};

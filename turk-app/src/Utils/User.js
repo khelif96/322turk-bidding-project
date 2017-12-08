@@ -1,5 +1,6 @@
 import axios from 'axios';
-const baseUrl = "http://localhost:3001/api";
+import baseUrlDomain from '../Assets/baseUrl'
+const baseUrl = baseUrlDomain+":3001/api";
 
 export {getAccountByApiToken};
 function getAccountByApiToken(apiToken){
@@ -37,11 +38,8 @@ function searchUsers(Input){
     return axios.post(baseUrl + "/searchUsers", {
         input : Input
     })
-    .then((response) => alert("success : " + response.message))
-    .catch((error) => {
-      alert("Error in search " + error.response.data.error);
-
-  });
+    .then((response) => response.data )
+    .catch((error) => { });
 }
 
 export {rateUser};
@@ -55,5 +53,16 @@ function rateUser(API_token, DemandId, Rating, Reason){
     .then((response) => alert("success : " + response.message))
     .catch((error) => {
       alert("This is an error from rating :" + error.response.data.error);
+    });
+}
+
+export {getAlerts};
+function getAlerts(API_token){
+    return axios.post(baseUrl + "/getAlerts", {
+        api_token : API_token
+    })
+    .then((response) => alert("success : " + response.message))
+    .catch((error) => {
+      alert("This is an error from account alerts :" + error.response.data.error);
     });
 }

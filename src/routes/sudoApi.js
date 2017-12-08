@@ -21,9 +21,10 @@ router.use(userAuth.checkAuth);
 router.post('/unverifiedUsers', users.getUnverifiedUsers);
 router.post('/verifyUser', users.verifyUser);
 router.post('/rejectUser', users.rejectUser);
-router.get('/getAllUsers', users.getAllUsers);
+router.post('/getAllUsers', users.getAllUsers);
 router.post('/getTransactions', transactions.getTransactions);
 router.post('/approveTransaction', transactions.approveTransaction);
+router.post('/getAllUsers', users.getAllUsers);
 
 
 // Return Router

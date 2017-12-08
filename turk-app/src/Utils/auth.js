@@ -1,6 +1,7 @@
 import axios from 'axios';
-const baseUrl = "http://localhost:3001/api";
-
+import baseUrlDomain from '../Assets/baseUrl'
+const baseUrl = baseUrlDomain+":3001/api";
+console.log(baseUrl);
 export {login};
 function login(userName,Password) {
   console.log("Logging in");
@@ -44,6 +45,15 @@ function retrieveDemands(){
 export {retrieveVerifiedDevelopers};
 function retrieveVerifiedDevelopers(){
   return axios.get(baseUrl+"/getVerifiedDevelopers")
+    .then((response) => response.data )
+    .catch( (error) => {
+        alert( "this is an error from auth " + error.message);
+    });
+}
+
+export {retrieveVerifiedClients};
+function retrieveVerifiedClients(){
+  return axios.get(baseUrl+"/getVerifiedClients")
     .then((response) => response.data )
     .catch( (error) => {
         alert( "this is an error from auth " + error.message);

@@ -41,6 +41,7 @@ router.post('/searchDemands', demands.searchDemands);
 router.post('/searchUsers', user.searchUsers);
 
 router.get('/getVerifiedDevelopers', user.getVerifiedDevelopers);
+router.get('/getVerifiedClients', user.getVerifiedClients);
 
 router.use(userAuth.checkAuth); // Routes that require and api_token after this
 
@@ -62,6 +63,8 @@ router.post('/submitProduct', user.isDeveloper, demandModification.submitProduct
 router.post('/addFunds', user.isClient, userModification.addFunds);
 
 router.post('/rate', userModification.giveRating);
+
+router.post('/getAlerts',user.getAlerts);
 
 router.use(apiHome.invalidPath);
 // Return Router

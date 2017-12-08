@@ -97,6 +97,16 @@ exports.getVerifiedDevelopers = (req,res) => {
   })
 }
 
+exports.getVerifiedClients = (req,res) => {
+  User.find({accountApproved : true, userType : "Client"}, function(err,users){
+    if(!users || err){
+      res.status(400).json({error: "Could not find matching users"});
+    }else{
+      res.send(users);
+    }
+  })
+}
+
 exports.searchUsers = (req, res) => {
     if(req.body.input === undefined){
         res.status(404).json({error: "search field empty"});
@@ -112,4 +122,15 @@ exports.searchUsers = (req, res) => {
             }
         });
     }
+}
+
+exports.getAlerts = (req, res) =>{
+    User.findOne({api_token: req.body.api_token},function(err, userDoc){
+       if(!userDoc || err){
+          res.status(401).json({error: "Invalid api_token"});
+       }
+       else{
+           res.send(userDoc.accountAlerts);
+       }
+   });
 }

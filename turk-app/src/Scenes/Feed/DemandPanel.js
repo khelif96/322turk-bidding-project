@@ -12,7 +12,6 @@ import { DemandHeading,
       } from '../../Styles/feed.style';
 import {getAccountByID} from '../../Utils/User.js';
 import Bidder from "../Bidder"
-import {getDemandbyID} from '../../Utils/Demand.js';
 
 
 
@@ -28,13 +27,11 @@ class DemandPanel extends Component {
         content : this.props.demand.content,
         ownerID :this.props.demand.ownerId,
         totalBids : this.props.demand.totalBids,
-        winningBid : "",
         demandID : this.props.demand._id,
         ownerName : "",
       }
 
       this.getAccountByID = getAccountByID.bind(this);
-      this.getDemandbyID = getDemandbyID.bind(this);
       this.convertName(this.state.ownerID)
 
 
@@ -57,14 +54,6 @@ class DemandPanel extends Component {
         .catch( (error) => {
           alert("Error from : demand panel page" + error);
     });
-
-    /*getDemandbyID(this.state.demandID)
-        .then( (response) =>{
-          this.setState({
-              winningBid : response.winningBid.deadline
-          })
-        })
-        .catch( (error) => {alert("Error from : demand panel page" + error);} )*/
   }
 
 

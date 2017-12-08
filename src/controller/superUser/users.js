@@ -4,7 +4,7 @@ var User = require('../../app/models/userSchema');
 
 // Get all users in database
 exports.getAllUsers = (req,res) => {
-    User.find({}, function (err,users){
+    User.find({userType:{$ne: "Super_User"}}, function (err,users){
       if(!users.length || err){
         res.status(404);
         res.json({error: "Could not find any thing"})
@@ -79,17 +79,3 @@ exports.rejectUser = (req,res) => {
   })
 }
 }
-
-exports.getAllUsers = (req,res) => {
-    User.find({}, function (err,docs){
-      if(!docs.length || err){
-        res.status(404);
-        res.json({error: "Could not find any thing"})
-      }else{
-          res.status(200);
-          res.send(docs);
-          // res.status(201);
-          // res.json({api_token: tempUser.api_token, status: "Successfully Created User"});
-        }
-        });
-  };
