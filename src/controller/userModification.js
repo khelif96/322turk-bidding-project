@@ -1,5 +1,6 @@
 var User = require('../app/models/userSchema');
 var Demand = require('../app/models/demandSchema');
+var Transaction = require('../app/models/transactionSchema');
 
 exports.addFunds = (req, res) =>{
    if(req.body.amount === undefined){
@@ -11,18 +12,24 @@ exports.addFunds = (req, res) =>{
             res.status(401).json({error: "Invalid api_token"});
          }
          else{
-            if(req.body.amount > 0){
-               userDoc.funds = userDoc.funds + req.body.amount;
-               userDoc.save(function(err){
-                  if(err){
-                     res.status(500).json({error: "Error adding funds"});
-                  }
-               });
-               res.status(201).json({message: "Successfully added funds"});
-            }
-            else{
-               res.status(400).json({error: "Invalid amount"});
-            }
+             var tempTransaction = new Transaction();
+             tempTransaction.origin_id = userDoc._id;
+             tempTransaction.destination_id = userDoc._id;
+             tempTransaction.amount = req.body.amount;
+             tempTransaction.transactionType = "AddFunds";
+             tempTransaction.complete = false;
+             tempTransaction.message = "Requesting funds.";
+             tempTransaction.save(function(err){
+               if(err){
+                 res.send(err);
+               }
+             });
+             userDoc.save(function(err){
+                 if(err){
+                     res.send(err);
+                 }
+                 else res.status(200).json({message: "Sent request to super user."});
+             });
          }
       });
    }
@@ -148,8 +155,54 @@ exports.giveRating = (req, res) =>{
                                                         res.status(404).json({error: "Can not find the winning developer of this demand"});
                                                     }
                                                     else{
-                                                        if(req.body.rating <= 2 && req.body.justification === undefined){
-                                                            res.status(400).json({error: "A paragraph reason must be provided for this low reason."});
+                                                        if(req.body.rating <= 2){
+                                                            if(req.body.justification === undefined){
+                                                                res.status(400).json({error: "A paragraph reason must be provided for this low reason."});
+                                                            }
+                                                            else{
+                                                                var tempTransaction = new Transaction();
+                                                                tempTransaction.origin_id = userDoc._id;
+                                                                tempTransaction.destination_id = userDeveloper._id;
+                                                                tempTransaction.amount = demand.winningBid.bidAmount;
+                                                                tempTransaction.transactionType = "Payments";
+                                                                tempTransaction.complete = false;
+                                                                tempTransaction.message = req.body.justification;
+                                                                tempTransaction.rating = req.body.rating;
+                                                                tempTransaction.save(function(err){
+                                                                  if(err){
+                                                                    res.send(err);
+                                                                  }
+                                                                });
+                                                                userDeveloper.save(function(err){
+                                                                    if(err){
+                                                                        res.status(500).json({error: "Error Saving developer"});
+                                                                    }
+                                                                    else{
+                                                                        userDoc.save(function(err){
+                                                                            if(err){
+                                                                                res.status(500).json({error: "Error Saving client"});
+                                                                            }
+                                                                            else{
+                                                                                demand.save(function(err){
+                                                                                    if(err){
+                                                                                        res.status(500).json({error: "Error Saving demand"});
+                                                                                    }
+                                                                                    else{
+                                                                                        superUser.save(function(err){
+                                                                                            if(err){
+                                                                                                res.status(500).json({error: "Error Saving superUser"});
+                                                                                            }
+                                                                                            else{
+                                                                                                res.status(201).json({message: "Successfully contact super user."});
+                                                                                            }
+                                                                                        });
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+                                                            }
                                                         }
                                                         else{
                                                             if(req.body.justification !== undefined) demand.clientRating.reason = req.body.justification;
@@ -168,13 +221,8 @@ exports.giveRating = (req, res) =>{
                                                                   userDeveloper.blacklist = true;
                                                                }
                                                             }
-                                                            if(req.body.rating >= 3){
-                                                                superUser.funds = superUser.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                                                userDeveloper.funds = userDeveloper.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
-                                                            }
-                                                            else{
-                                                                // TODO contact super user
-                                                            }
+                                                            superUser.funds = superUser.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+                                                            userDeveloper.funds = userDeveloper.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
                                                             userDoc.ratingGiven = Math.round((userDoc.ratingGiven + ((req.body.rating - userDoc.ratingGiven)/(userDoc.ratingGivenCount + 1))) * 100) / 100;
                                                             userDoc.ratingGivenCount = userDoc.ratingGivenCount + 1;
                                                             if((userDoc.ratingGiven < 2 || userDoc.ratingGiven > 4) && (userDoc.ratingGivenCount >= 8)){
