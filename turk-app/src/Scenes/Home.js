@@ -22,7 +22,7 @@ class Home extends Component {
 
           <div >
             <div style = {style}> HOME </div>
-            <UserFeed />
+            <Feed />
           </div>
     );
   }
