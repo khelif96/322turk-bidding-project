@@ -94,7 +94,7 @@ exports.approveTransaction = (req, res) => {
                                         res.status(500).json({error: "Error Saving transaction"});
                                     }
                                     else{
-                                        res.status(200).json({message: "Successfully added funds."});
+                                        res.status(200).json({message: "Successfully Removed Warning."});
                                     }
                                 });
                             }
