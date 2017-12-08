@@ -31,6 +31,20 @@ exports.isClient = (req,res,next) => {
       }
   });
 }
+exports.isBlacklist = (req,res,next) => {
+  User.findOne({api_token: req.body.api_token}, '-password_hash' ,function(err,userDoc){
+      if(!userDoc || err){
+          res.status(401).json({error: "Invalid api_token"});
+      }
+      else{
+        if(userDoc.blacklist === false){
+          next();
+        }else{
+          res.status(400).json({error: "Your account is Blacklisted "});
+        }
+      }
+  });
+}
 
 exports.getUserByApiToken = (req,res) => {
     User.findOne({api_token: req.params.api_token}, '-password_hash' ,function(err,userDoc){
