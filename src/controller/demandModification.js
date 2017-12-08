@@ -21,6 +21,7 @@ exports.createDemand = (req,res) => {
       }else{
         var tempDemand = new Demand();
         tempDemand.title = req.body.title;
+        tempDemand.createdNum = Number(tempDemand.createdDate);
         tempDemand.content = req.body.content;
         tempDemand.ownerId = doc._id;
         tempDemand.expDate = req.body.date;

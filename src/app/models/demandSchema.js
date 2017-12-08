@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 // Schema
 var demandSchema = new Schema({
   createdDate : {type : Date, default:Date.now},
+  createdNum : {type : Number, default: 0},
   title : String,
   content: String,
   ownerId : String,

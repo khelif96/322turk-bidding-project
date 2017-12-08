@@ -19,7 +19,7 @@ exports.getAllDemands = (req,res) => {
   };
 
 exports.getDemand = (req,res) => {
-  Demand.findById(req.params.demandId,function(err,doc){
+  Demand.findById(req.params.demandId).sort({createdNum:-1}).exec(function(err,users){
     if(!doc || err){
       res.status(404).json({error: "Could not find Demand"});
     }else{
