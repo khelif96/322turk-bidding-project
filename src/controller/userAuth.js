@@ -102,6 +102,7 @@ exports.registerUser = (req,res) => {
                 tempUser.tags = (req.body.interests).split(/\s* \s*/);
             }
             tempUser.userName === req.body.userName;
+            tempUser.tags.push(req.body.userName);
             bcrypt.hash(req.body.password, saltRounds, function(err,hash){
               tempUser.password_hash = hash;
               tempUser.save(function(err){

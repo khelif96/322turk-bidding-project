@@ -26,6 +26,7 @@ exports.createDemand = (req,res) => {
         tempDemand.ownerId = doc._id;
         tempDemand.expDate = req.body.date;
         if(req.body.tags !== undefined) tempDemand.tags = (req.body.tags).split(/\s* \s*/);
+        tempDemand.tags.push((req.body.title).split(/\s* \s*/))
         tempDemand.save(function(err){
           if(err){
             res.send(err);
@@ -328,36 +329,9 @@ exports.submitProduct = (req,res) => {
                                                       break;
                                                   }
                                               }
-                                              // TODO delete
-                                              demand.save(function(err){
-                                                 if(err) {
-                                                    res.status(500).json({error: "Error Saving product"});
-                                                 }
-                                                 else{
-                                                    userClient.save(function(err){
-                                                       if(err){
-                                                          res.status(500).json({error: "Error Saving client"});
-                                                       }
-                                                       else{
-                                                          userDeveloper.save(function(err){
-                                                             if(err){
-                                                                res.status(500).json({error: "Error Saving developer"});
-                                                             }
-                                                             else{
-                                                                 superUser.save(function(err){
-                                                                    if(err){
-                                                                       res.status(500).json({error: "Error Saving superUser"});
-                                                                    }
-                                                                    else{
-                                                                        res.status(201).json({message: "Successfully saved product."});
-                                                                    }
-                                                                });
-                                                             }
-                                                          });
-                                                       }
-                                                    });
-                                                 }
-                                              });
+                                              // TODO delete demand which was found with demandId
+                                              // but save userDeveloper and userClient
+
                                           }
                                           else{
                                               demand.finishedProduct = req.body.finishedProduct;

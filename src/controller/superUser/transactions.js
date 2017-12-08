@@ -16,6 +16,25 @@ exports.getTransactions = (req,res) => {
     });
 };
 
+exports.rejectTransaction = (req, res) => {
+    Transaction.findById(req.body.transactionId, function(err, transaction){
+        if(!docs.length || err){
+            res.status(404);
+            res.json({error: "Could not find any thing"})
+        }else{
+            transaction.complete = true;
+            transaction.save(function(err){
+                if(err){
+                    res.status(500).json({error: "Error Saving transaction"});
+                }
+                else{
+                    res.status(200).json({message: "Rejected funds."});
+                }
+            });
+        }
+    });
+}
+
 exports.approveTransaction = (req, res) => {
     Transaction.findById(req.body.transactionId, function(err, transaction){
         if(!transaction || err){
