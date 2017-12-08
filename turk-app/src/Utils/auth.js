@@ -62,12 +62,13 @@ function retrieveVerifiedClients(){
 }
 
 export {registerDemand};
-function registerDemand(Title,Content,API_token, ExpDate){
+function registerDemand(Title,Content,API_token, ExpDate, Tags){
   return axios.post(baseUrl+"/createDemand",{
       title: Title,
       content: Content,
       api_token: API_token,
-      date : ExpDate
+      date : ExpDate,
+      tags : Tags
     })
     .then( (response) => {
       this.props.history.push(`/demands/${response.data.demandId}`)
