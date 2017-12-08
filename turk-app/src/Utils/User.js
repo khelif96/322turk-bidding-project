@@ -40,7 +40,8 @@ function searchUsers(Input){
     .then((response) => alert("success : " + response.message))
     .catch((error) => {
       alert("Error in search " + error.response.data.error);
-    })
+
+  });
 }
 
 export {rateUser};
