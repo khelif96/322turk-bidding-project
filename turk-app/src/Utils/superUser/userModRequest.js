@@ -1,5 +1,6 @@
 import axios from 'axios';
-const baseUrl = "http://localhost:3001/sudoApi";
+import baseUrlDomain from '../../Assets/baseUrl'
+const baseUrl = baseUrlDomain+":3001/sudoApi";
 
 export {getUnverifiedUsers};
 function getUnverifiedUsers(API_token) {
