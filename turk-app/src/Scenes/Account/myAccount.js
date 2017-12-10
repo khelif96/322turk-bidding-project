@@ -100,7 +100,7 @@ class MyAccount extends Component {
 
   sendProtestWarning = (event) => {
       this.protestWarning(this.state.api_token)
-        .then( response => alert(JSON.stringify(response)))
+        .then( response => {})
   }
   getAccountInfo(){
      const API_token = this.state.api_token;
@@ -148,13 +148,13 @@ class MyAccount extends Component {
   }
 
   AddFunds = event => {
-    alert("State funds" + this.state.newFunds)
+    // alert("State funds" + this.state.newFunds)
     addFunds(localStorage.getItem('api_token'),this.state.newFunds)
         .then( message => {
           // alert("test" + arrayOfUsers);
           // this.setState({allUsers:arrayOfUsers})
           // alert(arrayOfUsers.length)
-          alert(message);
+          alert("Funds transfer requested Successfully");
         })
         .catch( (error) => {  alert("Error Adding Funds " + error);
         });
@@ -222,7 +222,7 @@ class MyAccount extends Component {
              </Tab.Pane>
 
              <Tab.Pane eventKey="fifth">
-             <h4> Funds : {this.state.newFunds}</h4>
+             <h4> Funds : {this.state.funds}</h4>
              <h4> Add Funds :
 
              <form onSubmit={this.handleSubmit}>

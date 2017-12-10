@@ -25,7 +25,7 @@ export const Logo = styled.div`
   color : white;
 `
 export const OurNavBar = styled(Navbar)`
-  background-color : gray;
+  background-color : #004d40;
   color : white;
   &:hover{ cursor : pointer }
 `;

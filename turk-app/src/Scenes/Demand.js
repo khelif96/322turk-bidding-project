@@ -145,7 +145,7 @@ class Demand extends Component {
   }
 
   SubmitRating = (event) => {
-      alert(this.state.rating)
+      // alert(this.state.rating)
       this.rateUser(localStorage.getItem('api_token'),this.state.demandID,this.state.rating, this.state.ratingReason)
         .then( response => {} )
   }

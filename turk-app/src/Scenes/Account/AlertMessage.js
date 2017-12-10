@@ -84,10 +84,10 @@ class AlertMessage extends Component {
   }
 
   SubmitRating = (event) => {
-    alert(this.state.demandId)
-    alert(this.state.rating)
-    alert(this.state.ratingMessage)
-    alert(localStorage.getItem('api_token'))
+    // alert(this.state.demandId)
+    // alert(this.state.rating)
+    // alert(this.state.ratingMessage)
+    // alert(localStorage.getItem('api_token'))
 
     this.rateUser(localStorage.getItem('api_token'),this.state.demandId,this.state.rating, this.state.ratingMessage)
   }
