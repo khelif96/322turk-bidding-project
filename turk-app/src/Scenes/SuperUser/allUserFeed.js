@@ -21,7 +21,7 @@ class AllUserFeed extends Component {
   }
 
   componentDidMount(){
-   var intervalId = setInterval(this.getAllUsers, 1000);
+   var intervalId = setInterval(this.getAllUsers, 10000);
    // store intervalId in the state so it can be accessed later:
    this.setState({intervalId: intervalId});
 }

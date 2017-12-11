@@ -105,7 +105,7 @@ class UserPanel extends Component {
     // }
     return (
       <tr>
-        <td>{this.state.userName}</td>
+        <td><Link to = {`/user/userId=${this.state.userId}`}>{this.state.userName}</Link></td>
         <td>{this.state.email}</td>
         <td>{this.state.name}</td>
         <td>{this.state.accountType}</td>
