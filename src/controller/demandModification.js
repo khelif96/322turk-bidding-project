@@ -136,6 +136,8 @@ exports.bidOnDemand = (req, res) => {
                                               break;
                                           }
                                       }
+                                      superUser.funds = Math.round(superUser.funds * 100) / 100;
+                                      demandOwner.funds = Math.round(demandOwner.funds * 100) / 100;
                                       demand.title = "Nullified " + demand.title;
                                       demand.save(function(err){
                                          if(err){
@@ -255,6 +257,8 @@ exports.approveBidder = (req, res) =>{
                                              demand.winningBid = winner;
                                              demand.devChosen = true;
                                              userDeveloper.projects.push(demand._id);
+                                             userClient.funds = Math.round(userClient.funds * 100) / 100;
+                                             userDeveloper.funds = Math.found(userDeveloper.funds * 100) / 100;
                                              demand.save(function(err){
                                                 if(err) {
                                                    res.status(500).json({error: "Error saving winning bid"});
@@ -290,6 +294,8 @@ exports.approveBidder = (req, res) =>{
                                            demand.winningBid = winner;
                                            demand.devChosen = true;
                                            userDeveloper.projects.push(demand._id);
+                                           userClient.funds = Math.round(userClient.funds * 100) / 100;
+                                           userDeveloper.funds = Math.found(userDeveloper.funds * 100) / 100;
                                            demand.save(function(err){
                                               if(err) {
                                                  res.status(500).json({error: "Error saving winning bid"});
@@ -447,6 +453,15 @@ exports.submitProduct = (req,res) => {
                                                  }
                                                  userDeveloper.funds = userDeveloper.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
                                                  userClient.funds = userClient.funds + (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);
+
+                                                 if(userDeveloper.funds > (Math.round((0.02 * demand.winningBid.bidAmount) * 100) / 100)){
+                                                     userDeveloper.funds = userDeveloper.funds - (Math.round((0.02 * demand.winningBid.bidAmount) * 100) / 100);
+                                                     superUser.funds = superUser.funds + (Math.round((0.02 * demand.winningBid.bidAmount) * 100) / 100);
+                                                 }
+                                                 else{
+                                                     superUser.funds = superUser.funds + userDeveloper.funds;
+                                                     userDeveloper.funds = 0;
+                                                 }
                                               }
                                               else{
                                                  userClient.funds = userClient.funds - (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100);

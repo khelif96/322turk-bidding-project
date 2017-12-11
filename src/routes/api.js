@@ -69,6 +69,7 @@ router.post('/rate', user.isBlacklist, userModification.giveRating);
 
 router.post('/getAlerts',user.getAlerts);
 router.post('/protestWarning',userModification.protest);
+router.post('/updateUser', userAuth.updateUser);
 
 router.use(apiHome.invalidPath);
 // Return Router
