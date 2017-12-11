@@ -92,11 +92,24 @@ function protestWarning(API_token){
 
 export {addFunds};
 function addFunds(API_token,newFunds){
-  alert("adding Funds" + newFunds);
   return axios.post(baseUrl+"/addFunds",{
       api_token: API_token,
       amount : newFunds
     })
-    .then( (response) =>  alert(response.data.message)  )
+    .then( (response) =>  alert("Successful Admission")  )
+    .catch( (error) => error.response.data.error );
+}
+
+export {updateUser};
+function updateUser(API_token,UserName,Email,Interests,SampleWork,Resume){
+  return axios.post(baseUrl+"/updateUser",{
+      api_token: API_token,
+      userName : UserName,
+      email : Email,
+      interests : Interests,
+      sampleWork : SampleWork,
+      resume : Resume
+    })
+    .then( (response) =>  alert("Successful Update")  )
     .catch( (error) => error.response.data.error );
 }
