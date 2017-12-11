@@ -93,7 +93,7 @@ exports.updateUser = (req, res) => {
           res.status(401).json({error: "Invalid api_token"});
        }
        else{
-           if(req.body.userName !== undefined || req.body.userName != ""){
+           if(req.body.userName != ""){
                User.findOne({userName: req.body.userName}, function(err, tempDoc){
                    if(!tempDoc || err){
                        userDoc.userName = req.body.userName;
@@ -103,7 +103,7 @@ exports.updateUser = (req, res) => {
                    }
                });
            }
-           if(req.body.email !== undefined || req.body.email != ""){
+           if(req.body.email != ""){
                User.findOne({email: req.body.email}, function(err, tempDoc){
                    if(!tempDoc || err){
                        userDoc.email = req.body.email;
@@ -113,14 +113,14 @@ exports.updateUser = (req, res) => {
                    }
                });
            }
-           if(req.body.interests !== undefined || req.body.interests != ""){
+           if(req.body.interests != ""){
                userDoc.interests = req.body.interests;
                userDoc.tags = (req.body.interests).split(/\s* \s*/);
            }
-           if(req.body.resume !== undefined || req.body.resume != ""){
+           if(req.body.resume != ""){
                userDoc.resume = req.body.resume;
            }
-           if(req.body.sampleWork !== undefined || req.body.sampleWork != ""){
+           if(req.body.sampleWork != ""){
                userDoc.sampleWork = req.body.sampleWork;
            }
            userDoc.save(function(err){
