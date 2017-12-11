@@ -30,13 +30,13 @@ class SuperUserHome extends Component {
   render() {
     var style =  {
         color : 'gray',
-        fontSize : 100,
+        fontSize : 80,
         textAlign : 'center'
     }
     return (
 
-          <div >
-            <div style = {style}> Super User Home Page </div>
+          <div style={{margin:"25px"}}>
+            <div style = {style}> Super User Panel </div>
             <UnverifiedUserFeed />
             <AllUserFeed/>
             <TransactionFeed/>
