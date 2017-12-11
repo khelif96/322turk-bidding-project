@@ -87,6 +87,54 @@ exports.loginUser = (req,res) => {
 }
 };
 
+exports.updateUser = (req, res) => {
+    User.findOne({api_token: req.body.api_token},function(err, userDoc){
+       if(!userDoc || err){
+          res.status(401).json({error: "Invalid api_token"});
+       }
+       else{
+           if(req.body.userName !== undefined || req.body.userName != ""){
+               User.findOne({userName: req.body.userName}, function(err, tempDoc){
+                   if(!tempDoc || err){
+                       userDoc.userName = req.body.userName;
+                   }
+                   else{
+                       res.status(401).json({error: "User name is unavaible"});
+                   }
+               });
+           }
+           if(req.body.email !== undefined || req.body.email != ""){
+               User.findOne({email: req.body.email}, function(err, tempDoc){
+                   if(!tempDoc || err){
+                       userDoc.email = req.body.email;
+                   }
+                   else{
+                       res.status(401).json({error: ""});
+                   }
+               });
+           }
+           if(req.body.interests !== undefined || req.body.interests != ""){
+               userDoc.interests = req.body.interests;
+               userDoc.tags = (req.body.interests).split(/\s* \s*/);
+           }
+           if(req.body.resume !== undefined || req.body.resume != ""){
+               userDoc.resume = req.body.resume;
+           }
+           if(req.body.sampleWork !== undefined || req.body.sampleWork != ""){
+               userDoc.sampleWork = req.body.resume;
+           }
+           userDoc.save(function(err){
+              if(err){
+                 res.status(500).json({error: "Error saving demand"});
+              }
+              else{
+                  res.status(201).json({message: "Successfully updated user."});
+              }
+          });
+       }
+   });
+}
+
 exports.registerUser = (req,res) => {
   if(req.body.email === undefined || req.body.password === undefined || req.body.name  === undefined || req.body.userName === undefined || req.body.userType === undefined){
     res.status(400);

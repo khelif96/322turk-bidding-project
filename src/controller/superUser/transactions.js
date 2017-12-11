@@ -48,6 +48,7 @@ exports.approveTransaction = (req, res) => {
                     else{
                         client.funds = client.funds + transaction.amount;
                         transaction.complete = true;
+                        client.funds = Math.round(client.funds * 100) / 100;
                         client.save(function(err){
                             if(err){
                                 res.status(500).json({error: "Error Saving client"});
