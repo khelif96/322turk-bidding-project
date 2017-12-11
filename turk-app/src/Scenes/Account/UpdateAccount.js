@@ -68,7 +68,7 @@ class RegisterUser extends Component {
 
       //call our axios promise, then retrieve the token from axios
 
-      //this.updateUser(API_token,UserName,Email,Interests,SampleWork,Resume)
+      this.updateUser(API_token,UserName,Email,Interests,SampleWork,Resume)
 
       event.preventDefault();
   }
