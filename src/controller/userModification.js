@@ -82,6 +82,7 @@ exports.giveRating = (req, res) =>{
                         }
 
                         if(demand.isActive){
+                            // Developer still hasn't submitted a product 
                             res.status(404).json({error: "You can't give a rating for this demand yet"});
 
                         }

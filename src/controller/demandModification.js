@@ -174,6 +174,7 @@ exports.bidOnDemand = (req, res) => {
                                  }
                                  else{
                                     var i;
+                                    // First, if the developer placed a bid previously, we remove that bid
                                     for(i = 0; i < demand.totalBids.length; i++){
                                        if(demand.totalBids[i].devId == userDoc._id) demand.totalBids.splice(i, 1);
                                     }
@@ -183,6 +184,7 @@ exports.bidOnDemand = (req, res) => {
                                        "deadline" : req.body.deadline
                                     }
                                     var i = demand.totalBids.length;
+                                    // Now when we insert the new bid, we ensure that the bids are ordered from least to greatest
                                     while((i > 0) && (demand.totalBids[i - 1].bidAmount > bid.bidAmount)){
                                        i = i - 1;
                                     }
@@ -382,6 +384,7 @@ exports.submitProduct = (req,res) => {
                                           res.status(401).json({error: "Product already submitted"});
                                        }
                                        else{
+                                           // If the client doesn't have enough funds to pay the developer
                                           if(userClient.funds < (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100)){
                                               var i = 0;
                                               for(i = 0; i < userDeveloper.projects.length; i++){
@@ -437,6 +440,7 @@ exports.submitProduct = (req,res) => {
                                           else{
                                               demand.finishedProduct = req.body.finishedProduct;
                                               demand.isActive = false;
+                                              // If the deadline has already passed
                                               if(demand.winningBid.deadline < new Date()){
                                                  userDeveloper.rating = Math.round((userDeveloper.rating + ((1 - userDeveloper.rating)/(userDeveloper.ratingCount + 1))) * 100) / 100;
                                                  userDeveloper.ratingRecieved = Math.round((userDeveloper.ratingRecieved + ((1 - userDeveloper.ratingRecieved)/(userDeveloper.ratingRecievedCount + 1))) * 100) / 100;
