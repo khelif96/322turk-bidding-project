@@ -101,11 +101,9 @@ function addFunds(API_token,newFunds){
 }
 
 export {updateUser};
-function updateUser(API_token,UserName,Email,Interests,SampleWork,Resume){
+function updateUser(API_token,Interests,SampleWork,Resume){
   return axios.post(baseUrl+"/updateUser",{
       api_token: API_token,
-      userName : UserName,
-      email : Email,
       interests : Interests,
       sampleWork : SampleWork,
       resume : Resume

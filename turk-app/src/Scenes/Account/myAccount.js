@@ -32,6 +32,7 @@ class MyAccount extends Component {
         showProjects : [],
         accountApproved: false,
         convertedDate: "",
+        userName : "",
 
         accountAlerts : [],
         showAlerts : [],
@@ -146,6 +147,7 @@ class MyAccount extends Component {
              accountAlerts : account.accountAlerts.map( messages => <AlertMessage message = {messages} />  ),
              newFunds : 0,
              convertedDate :  convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
+             userName : account.userName
             })
          })
          .catch( (error) => {
@@ -210,6 +212,7 @@ class MyAccount extends Component {
              <Tab.Pane eventKey="first">
                  <h4> <b>First name </b>:{this.state.firstName } </h4>
                  <h4> <b>Last name </b>: {this.state.lastName } </h4>
+                 <h4> <b>User name </b>: {this.state.userName } </h4>
                  <h4> <b>Member Since </b>: {this.state.convertedDate } </h4>
                  <h4> <b>Email  </b>: {this.state.email} </h4>
                  <h4> <b>userID </b>: <Link to = {`/user/userId=${this.state.userId}`}>{this.state.userId}</Link></h4>
