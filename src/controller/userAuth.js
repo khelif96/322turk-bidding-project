@@ -47,6 +47,10 @@ exports.loginUser = (req,res) => {
                             res.status(201);
                             res.json({"api_token":docs[0].api_token });
                         }
+                        else if(!docs[0].accountApproved && docs[0].accountAlerts !== undefined){
+                            res.status(401);
+                            res.json({error: "Account rejected with reason: " + docs[0].accountAlerts[0].message});
+                        }
                         else{
                             res.status(401);
                             res.json({error: "Account needs to be verified."});

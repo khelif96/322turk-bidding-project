@@ -355,23 +355,23 @@ exports.submitProduct = (req,res) => {
                                           res.status(401).json({error: "Product already submitted"});
                                        }
                                        else{
-                                          if(userDeveloper.funds < (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100)){
+                                          if(userClient.funds < (Math.round((0.5 * demand.winningBid.bidAmount) * 100) / 100)){
                                               var i = 0;
                                               for(i = 0; i < userDeveloper.projects.length; i++){
-                                                  if(userDeveloper.projects[i] == demand._id){
+                                                  if(userDeveloper.projects[i] == req.body.demandId){
                                                       userDeveloper.projects.splice(i, 1);
                                                       break;
                                                   }
                                               }
                                               for(i = 0; i < userClient.projects.length; i++){
-                                                  if(userClient.projects[i] == demand._id){
+                                                  if(userClient.projects[i] == req.body.demandId){
                                                       userClient.projects.splice(i, 1);
                                                       break;
                                                   }
                                               }
                                               demand.isActive = false;
                                               demand.devChosen = true;
-                                              demand.title = "Nullified" + demand.title;
+                                              demand.title = "Nullified " + demand.title;
                                               demand.save(function(err){
                                                  if(err) {
                                                     res.status(500).json({error: "Error Saving product"});
