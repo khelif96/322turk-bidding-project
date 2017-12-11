@@ -33,9 +33,9 @@ exports.loginUser = (req,res) => {
 
   }else{
     console.log("Trying to find email");
-    User.find({email: new RegExp(req.body.email, 'i')}, function (err,docs){ // Search User Database for User with matching Email
+    User.find({email : {$regex : new RegExp("^" + req.body.email + "$", "i")}}, function (err,docs){ // Search User Database for User with matching Email
       if(!docs.length || err){
-          User.find({userName : new RegExp(req.body.email, 'i')}, function (err,docs){
+          User.find({userName : {$regex : new RegExp("^" + req.body.email + "$", "i")}}, function (err,docs){
               if(!docs.length || err){
                   res.status(401);
                   res.json({error: "Could not find account"});
@@ -92,9 +92,9 @@ exports.registerUser = (req,res) => {
     res.status(400);
     res.json({error: "Incomplete request"});
   }else{
-    User.find({email: new RegExp(req.body.email, 'i')}, function (err,docs){
+    User.find({email : {$regex : new RegExp("^" + req.body.email + "$", "i")}}, function (err,docs){
       if(!docs.length){
-        User.find({userName : new RegExp(req.body.userName, 'i')}, function (err,docs){
+        User.find({userName : {$regex : new RegExp("^" + req.body.userName + "$", "i")}}, function (err,docs){
           if(!docs.length){
             var tempUser = new User();
             tempUser.email = req.body.email;
