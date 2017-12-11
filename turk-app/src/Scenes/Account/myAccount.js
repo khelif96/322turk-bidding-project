@@ -210,15 +210,18 @@ class MyAccount extends Component {
              <Tab.Pane eventKey="first">
                  <h4> <b>First name </b>:{this.state.firstName } </h4>
                  <h4> <b>Last name </b>: {this.state.lastName } </h4>
-                 <h4> <b>Member Since </b>: {this.state.createdDate } </h4>
+                 <h4> <b>Member Since </b>: {this.state.convertedDate } </h4>
                  <h4> <b>Email  </b>: {this.state.email} </h4>
                  <h4> <b>userID </b>: <Link to = {`/user/userId=${this.state.userId}`}>{this.state.userId}</Link></h4>
                  <h4> <b>Interests </b>: {this.state.interests}</h4>
+                 <h4> <b>Resume </b>: {this.state.resume}</h4>
+                 <h4> <b>SampleWork </b>: <a href ={`${this.state.resume}`}>{this.state.resume} </a> </h4>
                  <h4> <b>Funds </b>: $ {this.state.funds }</h4>
                  <h4> <b>Account Status </b>:{this.state.blacklist ? "Blacklisted"  : "OK"}</h4>
 
                  {this.state.warningCount>0 && alert("You have one warning !")}
 
+                  <Button onClick = { event => this.props.history.push(`/UpdateAccount`) }> Update Account </Button>
                  {this.state.warningCount>0 && <Button onClick = {event => {this.sendProtestWarning()}}> Protest Warning ! </Button>}
              </Tab.Pane>
              <Tab.Pane eventKey="second">
