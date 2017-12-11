@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import { Button, FormControl, FormGroup, Row,Col,Nav,NavItem,Tab} from 'react-bootstrap';
 import {FormContainer} from '../../Styles/form.style'
-
+import {Link} from 'react-router-dom';
 import {getAccountByApiToken} from '../../Utils/User.js';
 import {protestWarning,addFunds} from '../../Utils/auth.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
@@ -196,14 +196,14 @@ class MyAccount extends Component {
 
            <Tab.Content animation>
              <Tab.Pane eventKey="first">
-                 <h4> first name :{this.state.firstName } </h4>
-                 <h4> last name : {this.state.lastName } </h4>
-                 <h4> created date : {this.state.createdDate } </h4>
-                 <h4> email  : {this.state.email} </h4>
-                 <h4> userdID : {this.state.userId}</h4>
-                 <h4> interest : {this.state.interests}</h4>
-                 <h4> funds : {this.state.funds }</h4>
-                 <h4> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h4>
+                 <h4> <b>First name </b>:{this.state.firstName } </h4>
+                 <h4> <b>Last name </b>: {this.state.lastName } </h4>
+                 <h4> <b>Member Since </b>: {this.state.createdDate } </h4>
+                 <h4> <b>Email  </b>: {this.state.email} </h4>
+                 <h4> <b>userID </b>: <Link to = {`/user/userId=${this.state.userId}`}>{this.state.userId}</Link></h4>
+                 <h4> <b>Interests </b>: {this.state.interests}</h4>
+                 <h4> <b>Funds </b>: ${this.state.funds }</h4>
+                 <h4> <b>Account Status </b>:{this.state.blacklist ? "Blacklisted"  : "OK"}</h4>
                  {this.state.warningCount>0 && alert("You have one warning !")}
 
                  {this.state.warningCount>0 && <Button onClick = {event => {this.sendProtestWarning()}}> Protest Warning ! </Button>}
@@ -217,13 +217,13 @@ class MyAccount extends Component {
              </Tab.Pane>
 
              <Tab.Pane eventKey="fourth">
-             <h4> rating : {this.state.rating}</h4>
-             <h4> rating count : {this.state.ratingCount}</h4>
+             <h4> <b>Rating</b>: {this.state.rating}</h4>
+             <h4> <b>Rating count </b>: {this.state.ratingCount}</h4>
              </Tab.Pane>
 
              <Tab.Pane eventKey="fifth">
-             <h4> Funds : {this.state.funds}</h4>
-             <h4> Add Funds :
+             <h4> <b>Current Account Balance</b> : $ {this.state.funds}</h4>
+             <h4> <b>Add Funds</b> :
 
              <form onSubmit={this.handleSubmit}>
                <FormGroup controlId="newFunds" bsSize = "large">
