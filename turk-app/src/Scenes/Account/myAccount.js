@@ -236,7 +236,7 @@ class MyAccount extends Component {
 
              <Tab.Pane eventKey="fifth">
              <h4> <b>Current Account Balance</b> : $ {this.state.funds}</h4>
-             <h4> <b>Add Funds</b> :
+             <h4> <b>Add Funds</b> </h4>:
 
 
              <form onSubmit={this.handleSubmit}>
@@ -258,7 +258,6 @@ class MyAccount extends Component {
                  </Button>
                   </FormGroup>
                 </form>
-                </AttributeHeader>
 
              </Tab.Pane>
              <Tab.Pane eventKey="sixth" onEnter = {(evt) => this.logout()}/>
