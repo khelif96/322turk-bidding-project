@@ -121,7 +121,7 @@ exports.updateUser = (req, res) => {
                userDoc.resume = req.body.resume;
            }
            if(req.body.sampleWork !== undefined || req.body.sampleWork != ""){
-               userDoc.sampleWork = req.body.resume;
+               userDoc.sampleWork = req.body.sampleWork;
            }
            userDoc.save(function(err){
               if(err){
