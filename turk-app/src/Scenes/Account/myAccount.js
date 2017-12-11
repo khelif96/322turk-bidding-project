@@ -74,7 +74,7 @@ class MyAccount extends Component {
   logout = () => {
       this.props.isTheUserSignedIn(false,"noUser");
       localStorage.removeItem('api_token');
-      localStorage.setItem('userType',"");
+      localStorage.removeItem('userType');
       this.props.history.push('/')
   }
 
