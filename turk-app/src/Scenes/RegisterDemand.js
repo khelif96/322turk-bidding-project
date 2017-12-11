@@ -55,7 +55,7 @@ class RegisterDemand extends Component {
       //alert(this.state.dueDate);
       //call our axios promise, then retrieve the token from axios
       this.registerDemand(TitleOfEvent,Content,API_token,this.state.dueDate,this.state.tags)
-        .then( (response) => { this.props.history.push(`/demands/${response}`) } )
+
       //this.props.push
       event.preventDefault();
   }
