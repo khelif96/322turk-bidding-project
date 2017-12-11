@@ -32,6 +32,7 @@ router.get('/demands/:demandId/:expanded', demands.getDemand);
 
 router.get('/getDevCount', user.getDevCount);
 router.get('/getClientCount', user.getClientCount);
+router.get('/getSiteStats', apiHome.getSiteStats);
 
 router.get('/user/api_token=:api_token', user.getUserByApiToken);
 router.get('/user/userId=:userId', user.getUserById);
