@@ -129,11 +129,6 @@ exports.bidOnDemand = (req, res) => {
                                           superUser.funds = superUser.funds + demandOwner.funds;
                                           demandOwner.funds = 0;
                                       }
-                                      demandOwner.warningCount = demandOwner.warningCount + 1;
-                                      if(demandOwner.warningCount == 2){
-                                         demandOwner.warningCount = 0;
-                                         demandOwner.blacklist = true;
-                                      }
                                       var i = 0;
                                       for(i = 0; i < demandOwner.projects.length; i++){
                                           if(demandOwner.projects[i] == demand._id){
@@ -394,6 +389,11 @@ exports.submitProduct = (req,res) => {
                                                       userClient.projects.splice(i, 1);
                                                       break;
                                                   }
+                                              }
+                                              userClient.warningCount = userClient.warningCount + 1;
+                                              if(userClient.warningCount == 2){
+                                                 userClient.warningCount = 0;
+                                                 userClient.blacklist = true;
                                               }
                                               demand.isActive = false;
                                               demand.devChosen = true;
