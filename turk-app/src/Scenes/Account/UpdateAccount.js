@@ -11,10 +11,6 @@ class RegisterUser extends Component {
   constructor(props){
       super(props);
       this.state = {
-        username : "",
-        firstName : "",
-        lastName : "",
-        email: "",
         showError: false,
         errorMessage: "Problem",
         tags : "",
@@ -55,8 +51,6 @@ class RegisterUser extends Component {
   handleSubmit(event) {
 
       const API_token = localStorage.getItem('api_token');
-      const UserName = this.state.username;
-      const Email = this.state.email;
       const Interests = this.state.interests;
       const SampleWork = this.state.sampleWork;
       const Resume = this.state.resume;
@@ -68,7 +62,7 @@ class RegisterUser extends Component {
 
       //call our axios promise, then retrieve the token from axios
 
-      this.updateUser(API_token,UserName,Email,Interests,SampleWork,Resume)
+      this.updateUser(API_token,Interests,SampleWork,Resume)
 
       event.preventDefault();
   }
@@ -79,45 +73,6 @@ class RegisterUser extends Component {
 
       <FormContainer>
           <form onSubmit ={this.handleSubmit}>
-
-          <FormGroup controlId="firstName" bsSize = "large">
-            <ControlLabel>Update your first name</ControlLabel>
-            <FormControl
-                  autoFocus
-                  type="firstName"
-                  value={this.state.firstName}
-                  onChange={this.handleChange}
-                />
-          </FormGroup>
-
-          <FormGroup controlId="lastName" bsSize = "large">
-            <ControlLabel>Update your last name</ControlLabel>
-            <FormControl
-                  autoFocus
-                  type="lastName"
-                  value={this.state.lastName}
-                  onChange={this.handleChange}
-                />
-          </FormGroup>
-
-          <FormGroup controlId="username" bsSize = "large">
-            <ControlLabel>Update your username</ControlLabel>
-            <FormControl
-                  autoFocus
-                  type="username"
-                  value={this.state.username}
-                  onChange={this.handleChange}
-                />
-          </FormGroup>
-          <FormGroup controlId="email" bsSize = "large">
-            <ControlLabel>Update your email</ControlLabel>
-            <FormControl
-                  autoFocus
-                  type="email"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                />
-          </FormGroup>
 
           <FormGroup controlId="interests" bsSize = "large">
             <ControlLabel>Add new tags</ControlLabel>
