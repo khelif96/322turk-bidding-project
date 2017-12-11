@@ -23,7 +23,6 @@ export const Organization = styled.div`
     font-size : 20px;
     color : BLACK;
     text-align : center;
-
 `;
 
 export const DatePosted = styled.div`
@@ -42,28 +41,19 @@ export const Description = styled.p`
 `;
 
 export const SectionHeadings = styled.p`
-    font-size : 18px;
-    color : BLACK;
+    color : black;
+    font-weight: bold;
+    font-size : 15px;
     text-align : left;
-
 `;
 export const MoreDetails = styled.div`
     font-size : 18px;
-    color : orange;
+    color : #004d40;
     text-align : right;
-    :hover{ text-decoration : none;
-            }
+    :hover{ text-decoration : none; }
 `;
 
-export const ChooseBidder = styled.button`
-    font-size : 18px;
-    color : orange;
-    display: flex;
-    justify-content: right;
-    align-items: right;
-    :hover{ text-decoration : none;
-            }
-`;
+
 export const SwitchDemands = styled(ButtonGroup)`
     display: flex;
     justify-content: center;

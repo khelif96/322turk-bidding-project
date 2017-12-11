@@ -1,11 +1,13 @@
 import React, { Component} from 'react';
-import { Button, Row,Col,Nav,NavItem,Tab} from 'react-bootstrap';
+import { Button, Row,Col,Tab} from 'react-bootstrap';
 import {getAccountByApiToken,getAccountByID} from '../../Utils/User.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
 import { FeedContainer } from '../../Styles/feed.style';
 import '../../Styles/App.css';
 import AlertMessage from './AlertMessage'
 import DemandPanel from '../Feed/DemandPanel';
+import { AttributeHeader,Attribute,CustomNavItem,CustomNav} from '../../Styles/myAccount.style';
+
 
 class UserPage extends Component {
   constructor(props){
@@ -31,6 +33,8 @@ class UserPage extends Component {
         badRatingRecieved: 0,
         tags : [],
         funds : 0,
+        createdDate : "",
+        convertedDate : "",
       }
 
       this.getAccountByID = getAccountByID.bind(this);
@@ -69,7 +73,7 @@ class UserPage extends Component {
      //call our axios promise, then retrieve the token from axios
      getAccountByID(UserID)
          .then( (account) => {
-           //console.log(UserID);
+           const convertedCreated = this.convertDate(account.createdDate);
            this.setState({
              firstName : account.name.first ,
              lastName : account.name.last ,
@@ -88,6 +92,8 @@ class UserPage extends Component {
              ratingRecievedCount: account.ratingRecievedCount,
              tags : account.tags,
              funds : account.funds,
+             createdDate : account.createdDate,
+             convertedDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
             })
          })
          .catch( (error) => { localStorage.removeItem('api_token');
@@ -97,6 +103,15 @@ class UserPage extends Component {
 
  }
 
+ convertDate = (date) => ({
+     year : date.substr(0,4),
+     month : date.substr(5,2) ,
+     day : date.substr(8,2) ,
+     hour : date.substr(11,2) ,
+     minutes : date.substr(14,2) ,
+     seconds : date.substr(17,2)
+ })
+
   render() {
     return(
       <div>
@@ -104,31 +119,31 @@ class UserPage extends Component {
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
          <Row className="clearfix">
            <Col sm={4}>
-             <Nav bsStyle="pills" stacked>
-               <NavItem eventKey="first">
+             <CustomNav bsStyle="pills" stacked>
+               <CustomNavItem eventKey="first">
                  User Info
-               </NavItem>
-               <NavItem eventKey="second">
+               </CustomNavItem>
+               <CustomNavItem eventKey="second">
                  Projects
-               </NavItem>
-               <NavItem eventKey="fourth">
+               </CustomNavItem>
+               <CustomNavItem eventKey="fourth">
                  Ratings
-               </NavItem>
-             </Nav>
+               </CustomNavItem>
+             </CustomNav>
            </Col>
            <Col sm={8}>
 
 
              <Tab.Content animation>
                <Tab.Pane eventKey="first">
-                   <h4> first name :{this.state.firstName } </h4>
-                   <h4> last name : {this.state.lastName } </h4>
-                   <h4> created date : {this.state.createdDate } </h4>
-                   <h4> email  : {this.state.email} </h4>
-                   <h4> userdID : {this.state.userId}</h4>
-                   <h4> interest : {this.state.interests}</h4>
-                   <h4> funds : {this.state.funds }</h4>
-                   <h4> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h4>
+                   <AttributeHeader> First Name :{this.state.firstName } </AttributeHeader>
+                   <AttributeHeader> Last Name : {this.state.lastName } </AttributeHeader>
+                   <AttributeHeader> Created Date : {this.state.convertedDate } </AttributeHeader>
+                   <AttributeHeader> Email  : {this.state.email} </AttributeHeader>
+                   <AttributeHeader> Userd ID : {this.state.userId}</AttributeHeader>
+                   <AttributeHeader> Interest : {this.state.interests}</AttributeHeader>
+                   <AttributeHeader> Funds : {this.state.funds }</AttributeHeader>
+                   <AttributeHeader> Blacklist :{this.state.blacklist ? " blacklisted"  : " not black listed"}</AttributeHeader>
 
                </Tab.Pane>
                <Tab.Pane eventKey="second">
@@ -136,8 +151,8 @@ class UserPage extends Component {
                </Tab.Pane>
 
                <Tab.Pane eventKey="fourth">
-               <h4> rating : {this.state.rating}</h4>
-               <h4> rating count : {this.state.ratingCount}</h4>
+               <AttributeHeader> rating : {this.state.rating}</AttributeHeader>
+               <AttributeHeader> rating count : {this.state.ratingCount}</AttributeHeader>
                </Tab.Pane>
 
              </Tab.Content>
