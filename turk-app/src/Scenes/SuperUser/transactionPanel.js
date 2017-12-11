@@ -22,7 +22,10 @@ class TransactionPanel extends Component {
         destination_id: this.props.user.destination_id,
         transactionType: this.props.user.transactionType,
         transactionId: this.props.user._id,
-        denyMessage : ""
+        denyMessage : "",
+        message: this.props.user.message,
+        rating: this.props.user.rating,
+        newRating: this.props.user.rating
 
       }
 
@@ -38,7 +41,7 @@ class TransactionPanel extends Component {
     );
   }
   validateForm() {
-     return this.state.denyMessage.length > 0 ;
+     return (this.state.denyMessage.length > 0 );
    }
    OpenPopUp = (message) => {
      this.setState({ showError : true, errorMessage : message })
@@ -77,7 +80,7 @@ class TransactionPanel extends Component {
       }
       approveTransactionPayment = () => {
         // alert("Running this")
-       approveTransactionPayment(this.state.transactionId, localStorage.getItem('api_token'), this.state.denyMessage, this.state.Amount)
+       approveTransactionPayment(this.state.transactionId, localStorage.getItem('api_token'), this.state.denyMessage, this.state.Amount,this.state.newRating)
          .then((message) =>alert(message.message))
          .catch( (error) => alert(error))
      }
@@ -119,7 +122,15 @@ class TransactionPanel extends Component {
         <td>{this.state.Amount}</td>
         <td>{this.state.transactionType}</td>
         <td><Button bsStyle="success" onClick={this.approveTransactionPayment} disabled={!this.validateForm()}>Approve</Button></td>
-        <td><Button bsStyle="danger" onClick={this.DenyUser} disabled={!this.validateForm()}
+        <td><FormGroup controlId="newRating" bsSize = "large">
+          <FormControl
+            type="newRating"
+            value={this.state.newRating}
+            placeholder="Enter Rating"
+            onChange={this.handleChange}
+          />
+          </FormGroup>
+          <Button bsStyle="danger" onClick={this.DenyUser} disabled={!this.validateForm()}
 >Decline</Button></td>
         <td>
         <FormGroup controlId="denyMessage" bsSize = "large">
@@ -130,11 +141,13 @@ class TransactionPanel extends Component {
             onChange={this.handleChange}
           />
           </FormGroup></td>
+          <td><b>Messages</b> : {this.state.message}<br/>
+              <b>Rating</b> : {this.state.rating}</td>
 
 
       </tr>
     );
-  }else{
+  }else if(this.state.transactionType == "AddFunds"){
     return (
   <tr>
     <td>{createdDate}</td>
@@ -158,6 +171,35 @@ class TransactionPanel extends Component {
 
   </tr>
 );
+  }else{
+    {
+      return (
+    <tr>
+      <td>{createdDate}</td>
+      <td><Link to = {`/user/userId=${this.state.origin_id}`}>{this.state.origin_id}</Link></td>
+      <td><Link to = {`/user/userId=${this.state.destination_id}`}>{this.state.destination_id}</Link></td>
+      <td>{this.state.Amount}</td>
+      <td>{this.state.transactionType}</td>
+      <td><Button bsStyle="success" onClick={this.approveTransactionFunds}>Approve</Button></td>
+      <td><Button bsStyle="danger" onClick={this.DenyUser} disabled={!this.validateForm()}
+  >Decline</Button></td>
+      <td>
+      <FormGroup controlId="denyMessage" bsSize = "large">
+        <FormControl
+          type="denyMessage"
+          value={this.state.denyMessage}
+          placeholder="Enter text"
+          onChange={this.handleChange}
+        />
+        </FormGroup></td>
+        <td><b>Messages</b> : {this.state.message}<br/>
+            <b>Rating</b> : {this.state.rating}</td>
+
+
+
+    </tr>
+  );
+}
   }
   }
 }

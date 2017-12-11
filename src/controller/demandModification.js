@@ -258,7 +258,7 @@ exports.approveBidder = (req, res) =>{
                                              demand.devChosen = true;
                                              userDeveloper.projects.push(demand._id);
                                              userClient.funds = Math.round(userClient.funds * 100) / 100;
-                                             userDeveloper.funds = Math.found(userDeveloper.funds * 100) / 100;
+                                             userDeveloper.funds = Math.round(userDeveloper.funds * 100) / 100;
                                              demand.save(function(err){
                                                 if(err) {
                                                    res.status(500).json({error: "Error saving winning bid"});
@@ -295,7 +295,7 @@ exports.approveBidder = (req, res) =>{
                                            demand.devChosen = true;
                                            userDeveloper.projects.push(demand._id);
                                            userClient.funds = Math.round(userClient.funds * 100) / 100;
-                                           userDeveloper.funds = Math.found(userDeveloper.funds * 100) / 100;
+                                           userDeveloper.funds = Math.round(userDeveloper.funds * 100) / 100;
                                            demand.save(function(err){
                                               if(err) {
                                                  res.status(500).json({error: "Error saving winning bid"});
