@@ -1,17 +1,21 @@
 import React, { Component} from 'react';
+import {Link} from 'react-router-dom';
+
 import { Button, Row,Col,Nav,NavItem,Tab} from 'react-bootstrap';
-import {getDevCount,getClientCount} from '../Utils/User.js';
-// import { FeedContainer } from '../../Styles/feed.style';
-// import '../../Styles/App.css';
-// import AlertMessage from './AlertMessage'
-// import DemandPanel from '../Feed/DemandPanel';
+import {getSiteStats} from '../Utils/User.js';
+import {BarChart, Bar, Brush, Cell, CartesianGrid, ReferenceLine, ReferenceDot,
+  XAxis, YAxis, Tooltip, Legend, ErrorBar, LabelList,Line} from 'recharts';
+
+
 
 class AboutUs extends Component {
   constructor(props){
       super(props);
       this.state = {
         devCount : 0,
-        clientCount : 0
+        clientCount : 0,
+        siteStats : []
+
       }
 
 
@@ -25,41 +29,55 @@ class AboutUs extends Component {
 
   aboutUs(){
      //call our axios promise, then retrieve the token from axios
-     getDevCount()
+     getSiteStats()
          .then( (count) => {
            //console.log(UserID);
+
            this.setState({
-             devCount : count.userCount
+             devCount: count[0].value,
+             clientCount : count[1].value,
+             siteStats : count
             })
          })
          .catch( (error) => {
            alert("Error from : aboutUs page" + error);
          });
-         getClientCount()
-             .then( (count) => {
-               //console.log(UserID);
-               this.setState({
-                 clientCount : count.userCount
-                })
-             })
-             .catch( (error) => {
-               alert("Error from : aboutUs page" + error);
-             });
-
-
  }
+
+
 
   render() {
     return(
       <div>
-        <h1> We have {this.state.devCount} Developers</h1>
-        <h1> We have {this.state.clientCount} Customers</h1>
+        <center>
+        <h1> Welcome To AMM </h1>
+        <h2>A system that connects individuals with Big ideas with experts to help
+        them make their ideas a reality</h2>
+        <h3> We have {this.state.devCount} Developers</h3>
+        <h3> We have {this.state.clientCount} Customers</h3>
+        <BarChart
+          width={700}
+          height={500}
+          data={this.state.siteStats}
+          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+        >
+          <XAxis dataKey="name" />
+          <Tooltip />
+          <CartesianGrid stroke="#f5f5f5" />
+          <Bar fill="#004d40" dataKey="value"  yAxisId={0} />
+          <Bar fill="ORANGE" dataKey="value"  yAxisId={0} />
 
-
-
+        </BarChart>
+        <Link to="/registerUser">
+          <Button>
+            Get Started
+          </Button>
+        </Link>
+        </center>
       </div>
     );
   }
 }
+
 
 export default AboutUs;
