@@ -6,7 +6,7 @@ import {getAccountByApiToken} from '../../Utils/User.js';
 import {protestWarning,addFunds} from '../../Utils/auth.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
 import { FeedContainer } from '../../Styles/feed.style';
-import { Page,PageContainer} from '../../Styles/myAccount.style';
+import { AttributeHeader,Attribute} from '../../Styles/myAccount.style';
 
 
 import '../../Styles/App.css';
@@ -31,6 +31,7 @@ class MyAccount extends Component {
         projects: [],
         showProjects : [],
         accountApproved: false,
+        convertedDate: "",
 
         accountAlerts : [],
         showAlerts : [],
@@ -71,6 +72,15 @@ class MyAccount extends Component {
     );
   }
 
+  convertDate = (date) => ({
+      year : date.substr(0,4),
+      month : date.substr(5,2) ,
+      day : date.substr(8,2) ,
+      hour : date.substr(11,2) ,
+      minutes : date.substr(14,2) ,
+      seconds : date.substr(17,2)
+  })
+
   logout = () => {
       this.props.isTheUserSignedIn(false,"noUser");
       localStorage.removeItem('api_token');
@@ -107,6 +117,7 @@ class MyAccount extends Component {
      //call our axios promise, then retrieve the token from axios
      getAccountByApiToken(API_token)
          .then( (account) => {
+           const convertedCreated = this.convertDate(account.createdDate);
            this.setState({
              api_token : localStorage.getItem('api_token'),
              firstName : account.name.first ,
@@ -133,7 +144,8 @@ class MyAccount extends Component {
              funds : account.funds,
              tags : account.tags,
              accountAlerts : account.accountAlerts.map( messages => <AlertMessage message = {messages} />  ),
-             newFunds : 0
+             newFunds : 0,
+             convertedDate :  convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
             })
          })
          .catch( (error) => {
@@ -141,7 +153,7 @@ class MyAccount extends Component {
            this.setState({ api_token : ""});
          });
  }
- //      <h4> Alerts : {this.state.accountAlerts}</h4>
+ //      <h4> Alerts : {this.state.accountAlerts}</AttributeHeader>
 
  validateForm() {
     return this.state.newFunds > 0;
@@ -196,14 +208,14 @@ class MyAccount extends Component {
 
            <Tab.Content animation>
              <Tab.Pane eventKey="first">
-                 <h4> first name :{this.state.firstName } </h4>
-                 <h4> last name : {this.state.lastName } </h4>
-                 <h4> created date : {this.state.createdDate } </h4>
-                 <h4> email  : {this.state.email} </h4>
-                 <h4> userdID : {this.state.userId}</h4>
-                 <h4> interest : {this.state.interests}</h4>
-                 <h4> funds : {this.state.funds }</h4>
-                 <h4> blacklist :{this.state.blacklist ? "blacklisted"  : "not black listed"}</h4>
+                 <AttributeHeader> First Name : {this.state.firstName } </AttributeHeader>
+                 <AttributeHeader> Last Name : {this.state.lastName } </AttributeHeader>
+                 <AttributeHeader> Created Date : {this.state.convertedDate } </AttributeHeader>
+                 <AttributeHeader> Email  : {this.state.email} </AttributeHeader>
+                 <AttributeHeader> Userd ID : {this.state.userId}</AttributeHeader>
+                 <AttributeHeader> Interests : {this.state.interests}</AttributeHeader>
+                 <AttributeHeader> Curent Funds : {this.state.funds }</AttributeHeader>
+                 <AttributeHeader> Blacklist : {this.state.blacklist ? "blacklisted"  : "not black listed"}</AttributeHeader>
                  {this.state.warningCount>0 && alert("You have one warning !")}
 
                  {this.state.warningCount>0 && <Button onClick = {event => {this.sendProtestWarning()}}> Protest Warning ! </Button>}
@@ -217,13 +229,13 @@ class MyAccount extends Component {
              </Tab.Pane>
 
              <Tab.Pane eventKey="fourth">
-             <h4> rating : {this.state.rating}</h4>
-             <h4> rating count : {this.state.ratingCount}</h4>
+             <AttributeHeader> rating : {this.state.rating}</AttributeHeader>
+             <AttributeHeader> rating count : {this.state.ratingCount}</AttributeHeader>
              </Tab.Pane>
 
              <Tab.Pane eventKey="fifth">
-             <h4> Funds : {this.state.funds}</h4>
-             <h4> Add Funds :
+             <AttributeHeader> Funds : {this.state.funds}</AttributeHeader>
+             <AttributeHeader> Add Funds :
 
              <form onSubmit={this.handleSubmit}>
                <FormGroup controlId="newFunds" bsSize = "large">
@@ -244,7 +256,7 @@ class MyAccount extends Component {
                  </Button>
                   </FormGroup>
                 </form>
-                </h4>
+                </AttributeHeader>
 
              </Tab.Pane>
              <Tab.Pane eventKey="sixth" onEnter = {(evt) => this.logout()}/>
