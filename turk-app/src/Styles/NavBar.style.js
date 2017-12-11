@@ -31,8 +31,8 @@ export const OurNavBar = styled(Navbar)`
 `;
 
 export const Dropdown = styled(NavDropdown)`
-    margin : 0;
-    padding : 10px;
-    &:active{ color : gray;
-              text-decoration: none;}
+  margin : 0;
+  padding : 10px;
+  &:active{ color : gray;
+            text-decoration: none;}
 `;

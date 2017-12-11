@@ -23,7 +23,7 @@ class UserPanel extends Component {
         rating : "",
         devId : this.props.user._id,
         name : "",
-        tags : [],
+        interests : [],
         ratingCount : "",
         userType : "",
         createdDate : "",
@@ -53,7 +53,7 @@ class UserPanel extends Component {
           this.setState({
             rating : user.rating,
             name : user.name.first + " " + user.name.last,
-            tags : user.tags,
+            interests : user.interests,
             ratingCount : user.ratingCount,
             userType :  user.userType,
             createdDate :  user.createdDate,
@@ -79,11 +79,11 @@ class UserPanel extends Component {
       <Panel collapsible header={ <DemandHeading>{this.state.name}</DemandHeading> } eventKey="1">
 
         <SectionHeadings> Joined on : {createdDate} </SectionHeadings>
-          <Description>{this.state.content}</Description>
 
         <SectionHeadings> Rating :  {this.state.rating}</SectionHeadings>
 
-        <SectionHeadings> Interests: {this.state.tags}</SectionHeadings>
+        <SectionHeadings> Interests:</SectionHeadings>
+          <Description>{this.state.interests}</Description>
 
         <SectionHeadings> Newest Project:  </SectionHeadings>
           <Description>{this.state.mostRecentProject}</Description>

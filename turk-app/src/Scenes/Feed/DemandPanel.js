@@ -63,13 +63,13 @@ class DemandPanel extends Component {
     return (
       <Panel collapsible header={ <DemandHeading>{this.state.title}</DemandHeading> } eventKey="1">
       <SectionHeadings> Created by : </SectionHeadings>
-        <Organization>  <Link to = {`/user/userId=${this.state.ownerID}`}>{this.state.ownerName + " on " +  createdDate} </Link></Organization>
+        <Link to = {`/user/userId=${this.state.ownerID}`}><Organization>  {this.state.ownerName + " on " +  createdDate} </Organization> </Link>
 
       <SectionHeadings> Description : </SectionHeadings>
         <Description>{this.state.content}</Description>
 
       <SectionHeadings> Is Active: </SectionHeadings>
-      <Description>{ this.state.isActive ? "is active" : "is not active"}</Description>
+        <Description>{ this.state.isActive ? "is active" : "is not active"}</Description>
 
 
       <Link to = {`/demands/${this.state.demandID}`}><MoreDetails> More details </MoreDetails> </Link>

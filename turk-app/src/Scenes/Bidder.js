@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import '../Styles/App.css';
-import {getAccountByID} from '../Utils/User.js';
 import {chooseBidder} from '../Utils/Demand.js';
+import {getAccountByID} from '../Utils/User.js';
 import {
-   DemandHeading,
+         DemandHeading,
          FeedContainer,
          Organization,
          DatePosted,
          Description,
-         SectionHeadings,
-         MoreDetails,ChooseBidder
+         MoreDetails
       } from '../Styles/feed.style';
+import {
+      ChooseBidder,
+      ButtonText,
+      HeadingText,
+      BidderPanel
+    } from '../Styles/Bidder.style';
 import {PanelGroup ,Panel, FormGroup, FormControl, ControlLabel,Modal,Button} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
@@ -97,37 +102,37 @@ class Bidder extends Component {
     const deadlineDateTranslated = deadlineDate.month + "/" + deadlineDate.day + "/" + deadlineDate.year
     return (
 
-      <Panel>
-      <SectionHeadings>
-        <Link to = {`/user/userId=${this.state.devId}`}>
-          {this.state.name + " placed a bid of $" + this.state.bidAmount + " due on " + deadlineDateTranslated }
-        </Link>
-        <Panel collapsible expanded={this.state.showReason}>
+      <BidderPanel>
+          <Link to = {`/user/userId=${this.state.devId}`}>
+            <HeadingText>
+              {this.state.name + " placed a bid of $" + this.state.bidAmount + " due on " + deadlineDateTranslated }
+            </HeadingText>
+          </Link>
+          <Panel collapsible expanded={this.state.showReason}>
 
-          <form onSubmit = {this.confirmBidder}>
-            <FormGroup controlId="reason" bsSize = "large">
-              <ControlLabel>Your Reasoning For choosing this bidder</ControlLabel>
-              <FormControl
-                    componentClass="textarea"
-                    value={this.state.reason}
-                    onChange={this.handleChange}
-                  />
-            </FormGroup>
+            <form onSubmit = {this.confirmBidder}>
+              <FormGroup controlId="reason" bsSize = "large">
+                <ControlLabel>Your Reasoning For choosing this bidder</ControlLabel>
+                <FormControl
+                      componentClass="textarea"
+                      value={this.state.reason}
+                      onChange={this.handleChange}
+                    />
+              </FormGroup>
 
-            <Button
-              block
-              bsSize="large"
-              disabled={!this.validateForm()}
-              type="submit"
-            >
-              Confirm Selection
-            </Button>
-        </form>
-        </Panel>
-        { localStorage.getItem('userType') == "Client" && (<ChooseBidder onClick = { event => this.selectBidder()}> { !this.state.showReason ? "Choose Bidder" : "cancel"} </ChooseBidder>) }
-      </SectionHeadings>
+              <Button
+                block
+                bsSize="large"
+                disabled={!this.validateForm()}
+                type="submit"
+              >
+                Confirm Selection
+              </Button>
+          </form>
+          </Panel>
+          { localStorage.getItem('userType') == "Client" && !this.props.isChosen && (<ChooseBidder onClick = { event => this.selectBidder()}> { !this.state.showReason ? <ButtonText>Choose Bidder</ButtonText> : <ButtonText>cancel</ButtonText>} </ChooseBidder>) }
 
-      </Panel>
+      </BidderPanel>
     );
   }
 }
