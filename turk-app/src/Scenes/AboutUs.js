@@ -53,8 +53,7 @@ class AboutUs extends Component {
         <h1> Welcome To AMM </h1>
         <h2>A system that connects individuals with Big ideas with experts to help
         them make their ideas a reality</h2>
-        <h3> We have {this.state.devCount} Developers</h3>
-        <h3> We have {this.state.clientCount} Customers</h3>
+        <h3> Some Stats</h3>
         <BarChart
           width={700}
           height={500}
@@ -62,6 +61,7 @@ class AboutUs extends Component {
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
           <XAxis dataKey="name" />
+          <YAxis dataKey="value"/>
           <Tooltip />
           <CartesianGrid stroke="#f5f5f5" />
           <Bar fill="#004d40" dataKey="value"  yAxisId={0} />

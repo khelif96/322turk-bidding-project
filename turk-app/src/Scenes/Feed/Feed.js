@@ -19,9 +19,9 @@ class Feed extends Component {
       }
 
       this.getDemands = this.getDemands.bind(this)
-      this.retrieveDemands = retrieveDemands.bind(this);
-      this.getTopClients = getTopClients.bind(this);
-      this.getTopDevs = getTopDevs.bind(this);
+      // this.retrieveDemands = retrieveDemands.bind(this);
+      // this.getTopClients = getTopClients.bind(this);
+      // this.getTopDevs = getTopDevs.bind(this);
 
       this.getDemands();
 
@@ -36,7 +36,7 @@ class Feed extends Component {
   }
 
   getDemands(){
-    this.retrieveDemands()
+    retrieveDemands()
         .then( arrayOfdemands => {
           let tempArray = []
           for(var i = 0; i < arrayOfdemands.length; i++) if(arrayOfdemands[i].isActive && !arrayOfdemands[i].devChosen) tempArray.push(this.createPanel(arrayOfdemands[i]));
@@ -45,7 +45,7 @@ class Feed extends Component {
         .catch( (error) => {  alert("Error " + error);
         });
 
-    this.getTopClients()
+    getTopClients()
         .then( arrayOfClients => {
           let tempArray = []
           for(var i = 0; i < 3; i++)  tempArray.push(this.createUserPanel(arrayOfClients[i]));
@@ -53,7 +53,7 @@ class Feed extends Component {
         })
         .catch( (error) => {  alert("Error " + error);
         });
-    this.getTopDevs()
+    getTopDevs()
         .then( arrayOfDevs => {
           let tempArray = []
           for(var i = 0; i < 3; i++)  tempArray.push(this.createUserPanel(arrayOfDevs[i]));
