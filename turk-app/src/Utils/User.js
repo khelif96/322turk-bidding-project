@@ -41,6 +41,15 @@ function getClientCount(){
   });
 }
 
+export {getSiteStats};
+function getSiteStats(){
+  return axios.get(baseUrl + "/getSiteStats")
+  .then( response => response.data )
+  .catch((error) => {
+    alert(error + " Site Stats")
+    console.log(error)
+  });
+}
 export {addFunds};
 function addFunds(Amount, API_token){
     return axios.post(baseUrl + "/addFunds", {
