@@ -93,26 +93,6 @@ exports.updateUser = (req, res) => {
           res.status(401).json({error: "Invalid api_token"});
        }
        else{
-           if(req.body.userName != ""){
-               User.findOne({userName: req.body.userName}, function(err, tempDoc){
-                   if(!tempDoc || err){
-                       userDoc.userName = req.body.userName;
-                   }
-                   else{
-                       res.status(401).json({error: "User name is unavaible"});
-                   }
-               });
-           }
-           if(req.body.email != ""){
-               User.findOne({email: req.body.email}, function(err, tempDoc){
-                   if(!tempDoc || err){
-                       userDoc.email = req.body.email;
-                   }
-                   else{
-                       res.status(401).json({error: ""});
-                   }
-               });
-           }
            if(req.body.interests != ""){
                userDoc.interests = req.body.interests;
                userDoc.tags = (req.body.interests).split(/\s* \s*/);
