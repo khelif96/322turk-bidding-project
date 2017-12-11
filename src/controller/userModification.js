@@ -45,8 +45,7 @@ exports.protest = (req, res) =>{
             tempTransaction.origin_id = userDoc._id;
             tempTransaction.complete = false;
             tempTransaction.transactionType = "Protest";
-            if(req.body.message !== undefined || req.body.message != "") tempTransaction.message = req.body.message;
-            else tempTransaction.message = "Please remove warning.";
+            tempTransaction.message = "Please remove warning.";
             tempTransaction.save(function(err){
               if(err){
                 res.send(err);
