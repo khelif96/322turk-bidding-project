@@ -6,7 +6,7 @@ import {getAccountByApiToken} from '../../Utils/User.js';
 import {protestWarning,addFunds} from '../../Utils/auth.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
 import { FeedContainer } from '../../Styles/feed.style';
-import { Page,PageContainer} from '../../Styles/myAccount.style';
+import { AttributeHeader,Attribute} from '../../Styles/myAccount.style';
 
 
 import '../../Styles/App.css';
@@ -31,6 +31,7 @@ class MyAccount extends Component {
         projects: [],
         showProjects : [],
         accountApproved: false,
+        convertedDate: "",
 
         accountAlerts : [],
         showAlerts : [],
@@ -71,6 +72,15 @@ class MyAccount extends Component {
     );
   }
 
+  convertDate = (date) => ({
+      year : date.substr(0,4),
+      month : date.substr(5,2) ,
+      day : date.substr(8,2) ,
+      hour : date.substr(11,2) ,
+      minutes : date.substr(14,2) ,
+      seconds : date.substr(17,2)
+  })
+
   logout = () => {
       this.props.isTheUserSignedIn(false,"noUser");
       localStorage.removeItem('api_token');
@@ -107,6 +117,7 @@ class MyAccount extends Component {
      //call our axios promise, then retrieve the token from axios
      getAccountByApiToken(API_token)
          .then( (account) => {
+           const convertedCreated = this.convertDate(account.createdDate);
            this.setState({
              api_token : localStorage.getItem('api_token'),
              firstName : account.name.first ,
@@ -133,7 +144,8 @@ class MyAccount extends Component {
              funds : account.funds,
              tags : account.tags,
              accountAlerts : account.accountAlerts.map( messages => <AlertMessage message = {messages} />  ),
-             newFunds : 0
+             newFunds : 0,
+             convertedDate :  convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
             })
          })
          .catch( (error) => {
@@ -141,7 +153,7 @@ class MyAccount extends Component {
            this.setState({ api_token : ""});
          });
  }
- //      <h4> Alerts : {this.state.accountAlerts}</h4>
+ //      <h4> Alerts : {this.state.accountAlerts}</AttributeHeader>
 
  validateForm() {
     return this.state.newFunds > 0;
@@ -202,8 +214,9 @@ class MyAccount extends Component {
                  <h4> <b>Email  </b>: {this.state.email} </h4>
                  <h4> <b>userID </b>: <Link to = {`/user/userId=${this.state.userId}`}>{this.state.userId}</Link></h4>
                  <h4> <b>Interests </b>: {this.state.interests}</h4>
-                 <h4> <b>Funds </b>: ${this.state.funds }</h4>
+                 <h4> <b>Funds </b>: $ {this.state.funds }</h4>
                  <h4> <b>Account Status </b>:{this.state.blacklist ? "Blacklisted"  : "OK"}</h4>
+
                  {this.state.warningCount>0 && alert("You have one warning !")}
 
                  {this.state.warningCount>0 && <Button onClick = {event => {this.sendProtestWarning()}}> Protest Warning ! </Button>}
@@ -225,6 +238,7 @@ class MyAccount extends Component {
              <h4> <b>Current Account Balance</b> : $ {this.state.funds}</h4>
              <h4> <b>Add Funds</b> :
 
+
              <form onSubmit={this.handleSubmit}>
                <FormGroup controlId="newFunds" bsSize = "large">
                <FormControl
@@ -244,7 +258,7 @@ class MyAccount extends Component {
                  </Button>
                   </FormGroup>
                 </form>
-                </h4>
+                </AttributeHeader>
 
              </Tab.Pane>
              <Tab.Pane eventKey="sixth" onEnter = {(evt) => this.logout()}/>

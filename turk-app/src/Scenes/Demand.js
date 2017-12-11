@@ -3,6 +3,9 @@ import {getDemandbyID,placeBid,submitProduct} from '../Utils/Demand.js';
 import {getAccountByID,getAccountByApiToken,rateUser} from '../Utils/User.js';
 import {Button,Grid,Form, FormGroup, FormControl, ControlLabel,Modal,Radio,ToggleButtonGroup,ToggleButton,ButtonToolbar} from 'react-bootstrap';
 import {FormContainer,DatePicker} from '../Styles/form.style'
+import { FeedContainer } from '../Styles/feed.style';
+import { BidLayout,WinningBidLayout } from '../Styles/Bidder.style';
+
 import Bidder from "./Bidder"
 
 import {
@@ -192,9 +195,9 @@ class Demand extends Component {
             devChosen : response.devChosen,
             isActive :  response.isActive,
             totalBids :  response.totalBids.length > 0 ? response.totalBids.map( JSONObject => (
-                   <Bidder devId = {JSONObject.devId} bidAmount = {JSONObject.bidAmount} deadline = {JSONObject.deadline} demandID = {this.state.demandID} lowestBidderID = {response.totalBids[0].devId}/>
+                   <Bidder devId = {JSONObject.devId} isChosen = {response.devChosen} bidAmount = {JSONObject.bidAmount} deadline = {JSONObject.deadline} demandID = {this.state.demandID} lowestBidderID = {response.totalBids[0].devId}/>
               )) : "there are currently no bidders, be the first ! ",
-            winningBid :  response.winningBid != null  ? <Bidder devId = { response.winningBid.devId} bidAmount = { response.winningBid.bidAmount} deadline = { response.winningBid.deadline}/> : null,
+            winningBid :  response.winningBid != null  ? <Bidder isChosen = {response.devChosen}  devId = { response.winningBid.devId} bidAmount = { response.winningBid.bidAmount} deadline = { response.winningBid.deadline} /> : null,
             winningBidID : response.winningBid != null  ? response.winningBid.devId : null,
             createdDate : convertedCreated.month + "/" + convertedCreated.day + "/" + convertedCreated.year  ,
             tags : response.tags,
@@ -243,9 +246,10 @@ class Demand extends Component {
           <DemandBodyHeaders>
             Bidders:
           </DemandBodyHeaders>
-          <DemandBodyP>
-            { this.state.totalBids }
-          </DemandBodyP>
+
+            <BidLayout>
+              { this.state.totalBids }
+            </BidLayout>
 
           <DemandBodyHeaders>
             Demand ID:
@@ -258,111 +262,119 @@ class Demand extends Component {
             Tags :
           </DemandBodyHeaders>
           <DemandBodyP>
-            {this.state.tags}
+            {this.state.tags.map( tag => tag + " ")}
           </DemandBodyP>
 
           { this.state.devChosen &&
               ( <div>
-                <DemandBodyHeaders>
-                  Chosen Developer :
-                </DemandBodyHeaders>
+                  <DemandBodyHeaders>
+                    Chosen Developer :
+                  </DemandBodyHeaders>
 
-                <DemandBodyP>
-                  {this.state.winningBid}
-                </DemandBodyP>
+                  <WinningBidLayout>
+                    {this.state.winningBid}
+                  </WinningBidLayout>
                 </div>
               )
           }
 
 
 
-      <FormContainer>
-              <form onSubmit = {this.submitBid}>
-                <FormGroup controlId="bidValue">
-                   <FormControl
-                       type="bidValue"
-                       placeholder="Bid Amount"
-                       value ={this.state.bidValue}
-                       onChange = {this.handleChange}
-                    />
-                </FormGroup>
-
-
-                <FormGroup controlId="bidDeadLine">
-                   <FormControl
-                       componentClass = "input"
-                       type="date"
-                       value ={this.state.bidDeadLine}
-                       onChange = {this.handleChange}
-                    />
-                </FormGroup>
-                    <Button block type="submit" disabled={!this.validateBid()} >
-                       bid
-                    </Button>
-
-                <Modal show={this.state.showBidError} onHide={this.closeBidError}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Bidding Message</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <p> {this.state.bidMessage} </p>
-                  </Modal.Body>
-                </Modal>
-              </form>
-
-
-        </FormContainer>
-
         <FormContainer>
-            <form onSubmit = {this.SubmitCurrentProduct}>
-              <FormGroup controlId="product">
-                 <FormControl
-                     componentClass="textarea"
-                     placeholder="Product"
-                     value ={this.state.product}
-                     onChange = {this.handleChange}
-                  />
-              </FormGroup>
-                  <Button block type="submit" disabled={!this.validateProduct()} >
-                     Submit Product
-                  </Button>
 
-              <Modal show={this.state.showProductError} onHide={this.closeProductError}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Submit Product Message</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <p> {this.state.productMessage}</p>
-                  { this.state.isActive && this.state.winningBidID === this.state.currentViewerId &&
-                    <div>
-                    <ButtonToolbar>
-                       <ToggleButtonGroup type="radio" name="options"  onChange = { (event) => {this.setState({ rating : event}) } }>
-                         <ToggleButton value={1}> 1 </ToggleButton>
-                         <ToggleButton value={2}> 2 </ToggleButton>
-                         <ToggleButton value={3}> 3 </ToggleButton>
-                         <ToggleButton value={4}> 4 </ToggleButton>
-                         <ToggleButton value={5}> 5 </ToggleButton>
-                       </ToggleButtonGroup>
-                    </ButtonToolbar>
-
-                    <FormGroup controlId="ratingReason" bsSize = "large">
-                      <ControlLabel>Create your message for your rating </ControlLabel>
-                      <FormControl
-                            componentClass="textarea"
-                            value={this.state.ratingReason}
-                            onChange={this.handleChange}
-                          />
-
-                      <Button onClick = { event => {this.SubmitRating()}} >Submit Rating</Button>
+              { !this.state.devChosen && this.state.userType == "Developer" &&
+                <div>
+                  <form onSubmit = {this.submitBid}>
+                    <FormGroup controlId="bidValue">
+                       <FormControl
+                           type="bidValue"
+                           placeholder="Bid Amount"
+                           value ={this.state.bidValue}
+                           onChange = {this.handleChange}
+                        />
                     </FormGroup>
-                    </div>
-                   }
 
-                </Modal.Body>
-              </Modal>
-            </form>
+
+                    <FormGroup controlId="bidDeadLine">
+                       <FormControl
+                           componentClass = "input"
+                           type="date"
+                           value ={this.state.bidDeadLine}
+                           onChange = {this.handleChange}
+                        />
+                    </FormGroup>
+                        <Button block type="submit" disabled={!this.validateBid()} >
+                           bid
+                        </Button>
+
+                    <Modal show={this.state.showBidError} onHide={this.closeBidError}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>Bidding Message</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <p> {this.state.bidMessage} </p>
+                      </Modal.Body>
+                    </Modal>
+                  </form>
+                  </div>
+              }
+
 
         </FormContainer>
+
+        { this.state.isActive  && this.state.winningBidID === this.state.currentViewerId &&
+          <div>
+            <FormContainer>
+                <form onSubmit = {this.SubmitCurrentProduct}>
+                  <FormGroup controlId="product">
+                     <FormControl
+                         componentClass="textarea"
+                         placeholder="Product"
+                         value ={this.state.product}
+                         onChange = {this.handleChange}
+                      />
+                  </FormGroup>
+                      <Button block type="submit" disabled={!this.validateProduct()} >
+                         Submit Product
+                      </Button>
+
+                  <Modal show={this.state.showProductError} onHide={this.closeProductError}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Submit Product Message</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <p> {this.state.productMessage}</p>
+                      { this.state.isActive && this.state.winningBidID === this.state.currentViewerId &&
+                        <div>
+                        <ButtonToolbar>
+                           <ToggleButtonGroup type="radio" name="options"  onChange = { (event) => {this.setState({ rating : event}) } }>
+                             <ToggleButton value={1}> 1 </ToggleButton>
+                             <ToggleButton value={2}> 2 </ToggleButton>
+                             <ToggleButton value={3}> 3 </ToggleButton>
+                             <ToggleButton value={4}> 4 </ToggleButton>
+                             <ToggleButton value={5}> 5 </ToggleButton>
+                           </ToggleButtonGroup>
+                        </ButtonToolbar>
+
+                        <FormGroup controlId="ratingReason" bsSize = "large">
+                          <ControlLabel>Create your message for your rating </ControlLabel>
+                          <FormControl
+                                componentClass="textarea"
+                                value={this.state.ratingReason}
+                                onChange={this.handleChange}
+                              />
+
+                          <Button onClick = { event => {this.SubmitRating()}} >Submit Rating</Button>
+                        </FormGroup>
+                        </div>
+                       }
+
+                    </Modal.Body>
+                  </Modal>
+                </form>
+              </FormContainer>
+            </div>
+          }
 
 
               <BackButton onClick = { (event) => this.props.history.goBack()}>

@@ -45,18 +45,6 @@ export const DemandBodyP = styled.p`
     text-align : left;
     padding : 5px 20px 20px 20px;
 `;
-export const BidButton = styled(Button)`
-  background-color: orange;
-  color: white;
-
-  display : block;
-  width : 100px;
-  height : 50px;
-  margin : 0 auto;
-  border: 0px;
-  box-shadow: 2px 2px 2px 2px gray;
-  border-radius: 4px;
-`;
 export const BackButton = styled.button`
   background-color: gray;
   color: white;
@@ -66,4 +54,8 @@ export const BackButton = styled.button`
   border: 0px;
   box-shadow: 2px 2px 2px gray;
   border-radius: 4px;
+`;
+
+export const Description = styled.div`
+     text-indent: 50px;
 `;
