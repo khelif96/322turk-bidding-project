@@ -93,7 +93,7 @@ function approveTransactionFunds(transactionId,API_token) {
 }
 
 export {approveTransactionPayment};
-function approveTransactionPayment(transactionId,API_token,reason,amount) {
+function approveTransactionPayment(transactionId,API_token,reason,amount,rating) {
   // console.log("Logging in");
   // alert("Making request");
   // alert("logging in ");
@@ -102,7 +102,7 @@ function approveTransactionPayment(transactionId,API_token,reason,amount) {
       "transactionId": transactionId,
       "amount" : amount,
       "message" : reason,
-      "rating" : 5
+      "rating" : rating
     })
     .then((response) => response.data)
     .catch( (error) => {

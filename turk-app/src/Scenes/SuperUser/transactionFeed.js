@@ -25,13 +25,18 @@ class TransactionFeed extends Component {
       return  (<TransactionPanel user = {user} />);
   }
 
+  componentDidMount(){
+   var intervalId = setInterval(this.getTransactions, 10000);
+   // store intervalId in the state so it can be accessed later:
+   this.setState({intervalId: intervalId});
+}
   getTransactions(){
     getTransactions(localStorage.getItem('api_token'))
         .then( arrayOfUsers => {
           // alert("Overhe")
           // alert("test" + arrayOfUsers);
           // this.setState({allTransactions:arrayOfUsers})
-          // alert(arrayOfUsers.length)
+          // alert(JSON.stringify(arrayOfUsers));
           let tempArray = []
           for(var i = 0; i < arrayOfUsers.length; i++)  tempArray.push(this.createPanel(arrayOfUsers[i]));
           this.setState({allTransactions : tempArray})
@@ -69,6 +74,9 @@ class TransactionFeed extends Component {
                 </th>
                 <th>
                   Reason For Decline
+                </th>
+                <th>
+                  Extra Info
                 </th>
               </tr>
               </thead>

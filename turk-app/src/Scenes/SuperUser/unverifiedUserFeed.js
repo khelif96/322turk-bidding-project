@@ -22,7 +22,7 @@ class UnverifiedUserFeed extends Component {
   }
 
   componentDidMount(){
-   var intervalId = setInterval(this.getUnverifiedUsers, 1000);
+   var intervalId = setInterval(this.getUnverifiedUsers, 10000);
    // store intervalId in the state so it can be accessed later:
    this.setState({intervalId: intervalId});
 }
