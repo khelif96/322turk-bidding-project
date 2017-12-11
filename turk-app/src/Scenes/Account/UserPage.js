@@ -1,5 +1,7 @@
 import React, { Component} from 'react';
-import { Button, Row,Col,Tab} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
+import { Button, Row,Col,Nav,NavItem,Tab} from 'react-bootstrap';
+
 import {getAccountByApiToken,getAccountByID} from '../../Utils/User.js';
 import {getDemandbyID} from '../../Utils/Demand.js';
 import { FeedContainer } from '../../Styles/feed.style';
@@ -136,14 +138,14 @@ class UserPage extends Component {
 
              <Tab.Content animation>
                <Tab.Pane eventKey="first">
-                   <AttributeHeader> First Name :{this.state.firstName } </AttributeHeader>
-                   <AttributeHeader> Last Name : {this.state.lastName } </AttributeHeader>
-                   <AttributeHeader> Created Date : {this.state.convertedDate } </AttributeHeader>
-                   <AttributeHeader> Email  : {this.state.email} </AttributeHeader>
-                   <AttributeHeader> Userd ID : {this.state.userId}</AttributeHeader>
-                   <AttributeHeader> Interest : {this.state.interests}</AttributeHeader>
-                   <AttributeHeader> Funds : {this.state.funds }</AttributeHeader>
-                   <AttributeHeader> Blacklist :{this.state.blacklist ? " blacklisted"  : " not black listed"}</AttributeHeader>
+               <h4> <b>First name </b>:{this.state.firstName } </h4>
+               <h4> <b>Last name </b>: {this.state.lastName } </h4>
+               <h4> <b>Member Since </b>: {this.state.createdDate } </h4>
+               <h4> <b>Email  </b>: {this.state.email} </h4>
+               <h4> <b>userID </b>: <Link to = {`/user/userId=${this.state.userId}`}>{this.state.userId}</Link></h4>
+               <h4> <b>Interests </b>: {this.state.interests}</h4>
+               <h4> <b>Funds </b>: ${this.state.funds }</h4>
+               <h4> <b>Account Status </b>:{this.state.blacklist ? "Blacklisted"  : "OK"}</h4>
 
                </Tab.Pane>
                <Tab.Pane eventKey="second">
@@ -151,8 +153,9 @@ class UserPage extends Component {
                </Tab.Pane>
 
                <Tab.Pane eventKey="fourth">
-               <AttributeHeader> rating : {this.state.rating}</AttributeHeader>
-               <AttributeHeader> rating count : {this.state.ratingCount}</AttributeHeader>
+               <h4> <b>Rating</b> : {this.state.rating ? this.state.rating : "Not Rated"}</h4>
+               <h4> <b>Rating Count</b> : {this.state.ratingCount}</h4>
+
                </Tab.Pane>
 
              </Tab.Content>

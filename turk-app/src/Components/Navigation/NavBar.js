@@ -54,13 +54,21 @@ class NavBar extends Component {
 
             </MenuItem>
 
+            <MenuItem eventKey="1.7">
+            {
+              (localStorage.getItem('userType') == "Super_User") &&
+              <NavBarLink to = "/superUserHome">
+                Super User Panel
+              </NavBarLink>
+            }
+            </MenuItem>
             { this.props.enableLogout && <MenuItem divider />}
             <MenuItem eventKey="1.4">
 
               <NavBarLink to = "/MoreDemands">
                 More Demands
               </NavBarLink>
-            
+
             </MenuItem>
 
             <MenuItem eventKey="1.5">
@@ -78,7 +86,8 @@ class NavBar extends Component {
               </NavBarLink>
             }
             </MenuItem>
-            <MenuItem eventKey= "1.7">
+
+            <MenuItem eventKey= "1.8">
               <NavBarLink to = "/aboutUs">
                 About Us
               </NavBarLink>
