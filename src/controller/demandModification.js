@@ -115,30 +115,56 @@ exports.bidOnDemand = (req, res) => {
                       }
                       else{
                           if(new Date() > demand.expDate && demand.totalBids.length == 0){
-                              demand.isActive = false;
-                              demandOwner.funds = demandOwner.funds - 10;
-                              var i = 0;
-                              for(i = 0; i < demandOwner.projects.length; i++){
-                                  if(demandOwner.projects[i] == demand._id){
-                                      demandOwner.projects.splice(i, 1);
-                                      break;
+                              User.findOne({userType: "Super_User"}, function(err, superUser){
+                                  if(!superUser || err){
+                                      res.status(401).json({error: "There is a major problem. No super user"});
                                   }
-                              }
-                              demand.title = "Nullified" + demand.title;
-                              demand.save(function(err){
-                                 if(err){
-                                    res.status(500).json({error: "Error saving demand"});
-                                 }
-                                 else{
-                                     demandOwner.save(function(err){
-                                        if(err){
-                                           res.status(500).json({error: "Error saving client"});
-                                        }
-                                        else{
-                                            res.status(201).json({message: "Demand removed due to no bidders"});
-                                        }
-                                    });
-                                 }
+                                  else{
+                                      demand.isActive = false;
+                                      if(demandOwner.funds >= 10){
+                                          superUser.funds = superUser.funds + 10;
+                                          demandOwner.funds = demandOwner.funds - 10;
+                                      }
+                                      else{
+                                          superUser.funds = superUser.funds + demandOwner.funds;
+                                          demandOwner.funds = 0;
+                                      }
+                                      demandOwner.warningCount = demandOwner.warningCount + 1;
+                                      if(demandOwner.warningCount == 2){
+                                         demandOwner.warningCount = 0;
+                                         demandOwner.blacklist = true;
+                                      }
+                                      var i = 0;
+                                      for(i = 0; i < demandOwner.projects.length; i++){
+                                          if(demandOwner.projects[i] == demand._id){
+                                              demandOwner.projects.splice(i, 1);
+                                              break;
+                                          }
+                                      }
+                                      demand.title = "Nullified " + demand.title;
+                                      demand.save(function(err){
+                                         if(err){
+                                            res.status(500).json({error: "Error saving demand"});
+                                         }
+                                         else{
+                                             demandOwner.save(function(err){
+                                                if(err){
+                                                   res.status(500).json({error: "Error saving client"});
+                                                }
+                                                else{
+                                                    superUser.save(function(err){
+                                                       if(err){
+                                                          res.status(500).json({error: "Error saving client"});
+                                                       }
+                                                       else{
+                                                           res.status(201).json({message: "Demand removed due to no bidders"});
+                                                       }
+                                                   });
+                                                }
+                                            });
+                                         }
+                                      });
+                                  }
                               });
                           }
                           else{
