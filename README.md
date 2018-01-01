@@ -14,5 +14,4 @@ A browser automatically opens up with a local version of the website.
 
 By Matthew Jacome, Mohamed Khelif, and Abraham Villaroman.
 
-An online version with our database will temporarily be available at 
-http://52.23.176.109:3000/
+
