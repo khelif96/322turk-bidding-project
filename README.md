@@ -1,7 +1,7 @@
 # AMM Turk App
 A Turk style bidding app
 
-Ensure node and npm (node pacakage manager) are isntalled.
+Ensure node and npm (node pacakage manager) are installed.
 
 Create a `.env` file inside the `322turk-bidding-project/src` directory and enter `DB_URL=` followed by a url to your mongodb database.
 
